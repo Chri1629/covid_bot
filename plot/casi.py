@@ -15,7 +15,7 @@ def casi():
     plt.ylabel("Nuovi casi", size = 12)
     plt.xticks(size = 10)
     plt.yticks(size = 10)
-    plt.title("New cases per day", size = 15)
+    plt.title("Nuovi casi al giorno", size = 15)
     plt.grid()
     fig.savefig("pics/nuovi_casi.png", dpi = 100)
 

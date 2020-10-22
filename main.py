@@ -2,6 +2,7 @@ from preprocessing.scraper import scrape
 from preprocessing.fixer_data import fix_datasets
 from plot.casi import casi
 from plot.morti import morti
+from plot.tamponi import tamponi
 
 if __name__ == "__main__":
     print("SCRAPING UPDATED DATASETS ...")
@@ -12,4 +13,5 @@ if __name__ == "__main__":
     print("All done!")
     #casi()
     morti()
+    #tamponi()
     

@@ -9,7 +9,7 @@ def morti():
     date = np.linspace(0,len(raggruppati['data'].unique()), len(raggruppati))
 
     plt.figure(figsize = (6,4))
-    plt.plot(date, raggruppati['deceduti'], color = "skyblue", alpha = 1)
+    plt.plot(date, raggruppati['deceduti'].diff(), color = "skyblue", alpha = 1)
     plt.xlim(left = 0)
     plt.ylim(bottom = 0)
     plt.xlabel("Data", size = 12)
@@ -23,7 +23,7 @@ def morti():
     for regione in dati_regione['denominazione_regione'].unique():
         per_regioni = dati_regione.loc[dati_regione['denominazione_regione'] == regione]['deceduti']
         fig = plt.figure(figsize = (6,4))
-        plt.plot(date, per_regioni, color = "skyblue", alpha = 1)
+        plt.plot(date, per_regioni.diff(), color = "skyblue", alpha = 1)
         plt.xlim(left = 0)
         plt.ylim(bottom = 0)
         plt.xlabel("Data", size = 12)
