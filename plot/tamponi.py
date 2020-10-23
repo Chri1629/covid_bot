@@ -21,6 +21,7 @@ def tamponi():
     plt.legend()
     plt.grid()
     fig.savefig("pics/tamponi/tamponi.png", dpi = 100)
+    plt.clf()
 
     ## Provo a raggruppare per regione e a stamprarli anche per regione quindi vanno messi dentro un for e bisogna fare un ciclo
 
@@ -40,3 +41,4 @@ def tamponi():
         plt.legend()
         plt.grid()
         fig.savefig("pics/tamponi/tamponi_{}.png".format(regione), dpi = 100)
+        plt.clf()

@@ -22,6 +22,7 @@ def morti():
     plt.legend()
     plt.grid()
     plt.savefig("pics/morti/nuovi_morti.png", dpi = 100)
+    plt.clf()
 
     for regione in dati_regione['denominazione_regione'].unique():
         per_regioni = dati_regione.loc[dati_regione['denominazione_regione'] == regione]['deceduti']
@@ -39,3 +40,4 @@ def morti():
         plt.grid()
         plt.legend()
         fig.savefig("pics/morti/nuovi_morti_{}.png".format(regione), dpi = 100)
+        plt.clf()

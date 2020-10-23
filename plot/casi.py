@@ -21,6 +21,7 @@ def casi():
     plt.legend()
     plt.grid()
     fig.savefig("pics/nuovi_positivi/nuovi_casi.png", dpi = 100)
+    plt.clf()
 
     ## Provo a raggruppare per regione e a stamprarli anche per regione quindi vanno messi dentro un for e bisogna fare un ciclo
 
@@ -39,5 +40,5 @@ def casi():
         plt.title("Nuovi casi al giorno in {}".format(regione), size = 15)
         plt.grid()
         plt.legend()
-        plt.show()
         fig.savefig("pics/nuovi_positivi/nuovi_casi_{}.png".format(regione), dpi = 100)
+        plt.clf()
