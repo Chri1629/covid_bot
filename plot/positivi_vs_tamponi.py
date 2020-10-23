@@ -23,7 +23,7 @@ def positivi_tamponi():
     plt.grid()
     plt.legend()
     fig.savefig("pics/rapporto_tamponi/rapporto_italia.png", dpi = 100)
-    plt.clf()
+    plt.close(fig)
 
     ## Provo a raggruppare per regione e a stamprarli anche per regione quindi vanno messi dentro un for e bisogna fare un ciclo
     for regione in dati_regione['denominazione_regione'].unique():
@@ -45,5 +45,5 @@ def positivi_tamponi():
         plt.grid()
         plt.legend()
         fig.savefig("pics/rapporto_tamponi/rapporto_{}.png".format(regione), dpi = 100)
-        plt.clf()
+        plt.close(fig)
         

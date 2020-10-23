@@ -17,11 +17,11 @@ def tamponi():
     plt.ylabel("Nuovi tamponi", size = 12)
     plt.xticks(size = 10)
     plt.yticks(size = 10)
-    plt.title("Nuovi tamponi al giorno", size = 15)
+    plt.title("Nuovi tamponi al giorno in Italia", size = 15)
     plt.legend()
     plt.grid()
     fig.savefig("pics/tamponi/tamponi.png", dpi = 100)
-    plt.clf()
+    plt.close(fig)
 
     ## Provo a raggruppare per regione e a stamprarli anche per regione quindi vanno messi dentro un for e bisogna fare un ciclo
 
@@ -41,4 +41,4 @@ def tamponi():
         plt.legend()
         plt.grid()
         fig.savefig("pics/tamponi/tamponi_{}.png".format(regione), dpi = 100)
-        plt.clf()
+        plt.close(fig)

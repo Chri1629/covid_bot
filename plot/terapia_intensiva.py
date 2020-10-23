@@ -22,12 +22,12 @@ def terapia_intensiva():
     plt.ylabel("Terapia intensiva", size = 12)
     plt.xticks(size = 10)
     plt.yticks(size = 10)
-    plt.title("Attualmente in terapia intensiva: {}%".format(round(raggruppati['terapia_intensiva'].tail(1).values[0]/posti_letto_totali*100),2), 
+    plt.title("Attualmente in terapia intensiva in Italia: {}%".format(round(raggruppati['terapia_intensiva'].tail(1).values[0]/posti_letto_totali*100),2), 
     size = 15)
     plt.legend()
     plt.grid()
     fig.savefig("pics/terapia/terapia_intensiva.png", dpi = 100)
-    plt.clf()
+    plt.close(fig)
 
     ## Provo a raggruppare per regione e a stamprarli anche per regione quindi vanno messi dentro un for e bisogna fare un ciclo
 
@@ -49,5 +49,5 @@ def terapia_intensiva():
         plt.legend()
         plt.grid()
         fig.savefig("pics/terapia/terapia_{}.png".format(regione), dpi = 100)
-        plt.clf()
+        plt.close(fig)
     
