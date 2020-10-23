@@ -10,8 +10,8 @@ def positivi_tamponi():
     date = np.linspace(0,len(raggruppati['data'].unique()), len(raggruppati))
 
     fig = plt.figure(figsize = (6,4))
-    plt.plot(date, raggruppati['rapporto_totale'], color = "skyblue", alpha = 1)
-    plt.scatter(x = max(date), y = raggruppati['rapporto_totale'].tail(1), 
+    plt.plot(date, raggruppati['rapporto_totale'], color = "black", alpha = 0.7)
+    plt.scatter(x = max(date), y = raggruppati['rapporto_totale'].tail(1), color = "black",
     label = "Ultimo valore: {}%".format(raggruppati['rapporto_totale'].tail(1).values[0]))
     plt.xlim(left = 0)
     plt.ylim(bottom = 0)
@@ -32,8 +32,8 @@ def positivi_tamponi():
         per_regioni['rapporto'] = round(per_regioni['nuovi_positivi']/per_regioni['tamponi']*100,1)
     
         fig = plt.figure(figsize = (6,4))
-        plt.plot(date, per_regioni['rapporto'], color = "skyblue", alpha = 1)
-        plt.scatter(x = max(date), y = per_regioni['rapporto'].tail(1), 
+        plt.plot(date, per_regioni['rapporto'], color = "black", alpha = 0.7)
+        plt.scatter(x = max(date), y = per_regioni['rapporto'].tail(1), color = "black",
         label = "Ultimo valore: {}%".format(per_regioni['rapporto'].tail(1).values[0]))
         plt.xlim(left = 0)
         plt.ylim(bottom = 0)

@@ -22,7 +22,7 @@ def terapia_intensiva():
     plt.ylabel("Terapia intensiva", size = 12)
     plt.xticks(size = 10)
     plt.yticks(size = 10)
-    plt.title("Attualmente in terapia intensiva in Italia: {}%".format(round(raggruppati['terapia_intensiva'].tail(1).values[0]/posti_letto_totali*100),2), 
+    plt.title("Attualmente in terapia intensiva in Italia\n{}% occupati".format(round(raggruppati['terapia_intensiva'].tail(1).values[0]/posti_letto_totali*100),2), 
     size = 15)
     plt.legend()
     plt.grid()
@@ -37,14 +37,15 @@ def terapia_intensiva():
         fig = plt.figure(figsize = (6,4))
         plt.plot(date, per_regioni, color = "skyblue", alpha = 1)
         plt.scatter(x = max(date), y = per_regioni.tail(1), label = "Ultimo valore: {}".format(int(per_regioni.tail(1).values[0])))
-        plt.hlines(y = numero_posti_letto, xmin = 0, xmax=max(date), label = "Posti disponibili: {}".format(numero_posti_letto.values[0]))
+        plt.hlines(y = numero_posti_letto, xmin = 0, xmax=max(date), color="red", alpha = 0.7,
+        label = "Posti disponibili: {}".format(numero_posti_letto.values[0]))
         plt.xlim(left = 0)
         plt.ylim(bottom = 0)
         plt.xlabel("Data", size = 12)
         plt.ylabel("Terapia intensiva", size = 12)
         plt.xticks(size = 10)
         plt.yticks(size = 10)
-        plt.title("Attualmente in terapia intensiva in {} : {}%".format(regione,
+        plt.title("Attualmente in terapia intensiva in {}\n{}% occupati".format(regione,
         round(numero_posti_letto.values[0]/posti_letto_totali*100,2)), size = 15)
         plt.legend()
         plt.grid()

@@ -9,8 +9,8 @@ def morti():
     date = np.linspace(0,len(raggruppati['data'].unique()), len(raggruppati))
 
     fig = plt.figure(figsize = (6,4))
-    plt.plot(date, raggruppati['deceduti'].diff(), color = "skyblue", alpha = 1)
-    plt.scatter(x = max(date), y = raggruppati['deceduti'].diff().tail(1), 
+    plt.plot(date, raggruppati['deceduti'].diff(), color = "red", alpha = 0.4)
+    plt.scatter(x = max(date), y = raggruppati['deceduti'].diff().tail(1), color = "red", 
         label = "Ultimo valore {}".format(int(raggruppati['deceduti'].diff().tail(1).values[0])))
     plt.hlines(y = raggruppati['deceduti'].diff().max(), xmin=0,xmax=max(date), label="Picco massimo")
     plt.xlim(left = 0)
@@ -28,9 +28,10 @@ def morti():
     for regione in dati_regione['denominazione_regione'].unique():
         per_regioni = dati_regione.loc[dati_regione['denominazione_regione'] == regione]['deceduti']
         fig = plt.figure(figsize = (6,4))
-        plt.plot(date, per_regioni.diff(), color = "skyblue", alpha = 1)
-        plt.scatter(x = max(date), y = per_regioni.diff().tail(1), 
+        plt.plot(date, per_regioni.diff(), color = "red", alpha = 0.4)
+        plt.scatter(x = max(date), y = per_regioni.diff().tail(1), color = "red",
         label = "Ultimo valore {}".format(int(per_regioni.diff().tail(1).values[0])))
+        plt.hlines(y = per_regioni.diff().max(), xmin=0,xmax=max(date), label="Picco massimo")
         plt.xlim(left = 0)
         plt.ylim(bottom = 0)
         plt.xlabel("Data", size = 12)
