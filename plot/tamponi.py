@@ -9,6 +9,8 @@ def tamponi():
 
     fig = plt.figure(figsize = (6,4))
     plt.plot(date, raggruppati['tamponi'].diff(), color = "skyblue", alpha = 1)
+    plt.scatter(x = max(date), y = raggruppati['tamponi'].diff().tail(1), 
+        label = "Ultimo valore: {}".format(int(raggruppati['tamponi'].diff().tail(1).values[0])))
     plt.xlim(left = 0)
     plt.ylim(bottom = 0)
     plt.xlabel("Data", size = 12)
@@ -16,8 +18,9 @@ def tamponi():
     plt.xticks(size = 10)
     plt.yticks(size = 10)
     plt.title("Nuovi tamponi al giorno", size = 15)
+    plt.legend()
     plt.grid()
-    fig.savefig("pics/tamponi.png", dpi = 100)
+    fig.savefig("pics/tamponi/tamponi.png", dpi = 100)
 
     ## Provo a raggruppare per regione e a stamprarli anche per regione quindi vanno messi dentro un for e bisogna fare un ciclo
 
@@ -25,6 +28,8 @@ def tamponi():
         per_regioni = dati_regione.loc[dati_regione['denominazione_regione'] == regione]['tamponi']
         fig = plt.figure(figsize = (6,4))
         plt.plot(date, per_regioni.diff(), color = "skyblue", alpha = 1)
+        plt.scatter(x = max(date), y = per_regioni.diff().tail(1), 
+        label = "Ultimo valore: {}".format(int(per_regioni.diff().tail(1).values[0])))
         plt.xlim(left = 0)
         plt.ylim(bottom = 0)
         plt.xlabel("Data", size = 12)
@@ -32,6 +37,6 @@ def tamponi():
         plt.xticks(size = 10)
         plt.yticks(size = 10)
         plt.title("Nuovi tamponi al giorno in {}".format(regione), size = 15)
+        plt.legend()
         plt.grid()
-        plt.show()
-        fig.savefig("pics/tamponi_{}.png".format(regione), dpi = 100)
+        fig.savefig("pics/tamponi/tamponi_{}.png".format(regione), dpi = 100)

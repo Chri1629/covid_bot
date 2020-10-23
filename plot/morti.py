@@ -10,6 +10,8 @@ def morti():
 
     plt.figure(figsize = (6,4))
     plt.plot(date, raggruppati['deceduti'].diff(), color = "skyblue", alpha = 1)
+    plt.scatter(x = max(date), y = raggruppati['deceduti'].diff().tail(1), 
+        label = "Ultimo valore {}".format(int(raggruppati['deceduti'].diff().tail(1).values[0])))
     plt.xlim(left = 0)
     plt.ylim(bottom = 0)
     plt.xlabel("Data", size = 12)
@@ -17,13 +19,16 @@ def morti():
     plt.xticks(size = 10)
     plt.yticks(size = 10)
     plt.title("Nuove morti per giorno", size = 15)
+    plt.legend()
     plt.grid()
-    plt.savefig("pics/nuovi_morti.png", dpi = 100)
+    plt.savefig("pics/morti/nuovi_morti.png", dpi = 100)
 
     for regione in dati_regione['denominazione_regione'].unique():
         per_regioni = dati_regione.loc[dati_regione['denominazione_regione'] == regione]['deceduti']
         fig = plt.figure(figsize = (6,4))
         plt.plot(date, per_regioni.diff(), color = "skyblue", alpha = 1)
+        plt.scatter(x = max(date), y = per_regioni.diff().tail(1), 
+        label = "Ultimo valore {}".format(int(per_regioni.diff().tail(1).values[0])))
         plt.xlim(left = 0)
         plt.ylim(bottom = 0)
         plt.xlabel("Data", size = 12)
@@ -32,5 +37,5 @@ def morti():
         plt.yticks(size = 10)
         plt.title("Nuovi morti al giorno in {}".format(regione), size = 15)
         plt.grid()
-        plt.show()
-        fig.savefig("pics/nuovi_morti_{}.png".format(regione), dpi = 100)
+        plt.legend()
+        fig.savefig("pics/morti/nuovi_morti_{}.png".format(regione), dpi = 100)

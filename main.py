@@ -4,6 +4,7 @@ from plot.casi import casi
 from plot.morti import morti
 from plot.tamponi import tamponi
 from plot.positivi_vs_tamponi import positivi_tamponi
+from plot.terapia_intensiva import terapia_intensiva
 
 if __name__ == "__main__":
     print("SCRAPING UPDATED DATASETS ...")
@@ -15,5 +16,6 @@ if __name__ == "__main__":
     #casi()
     #morti()
     #tamponi()
-    positivi_tamponi()
+    #positivi_tamponi()
+    terapia_intensiva()
     
