@@ -44,6 +44,6 @@ def positivi_tamponi():
         plt.title("Nuovo rapporto al giorno in {}".format(regione), size = 15)
         plt.grid()
         plt.legend()
-        fig.savefig("pics/rapporto_tamponi/rapporto_{}.png".format(regione), dpi = 100)
+        fig.savefig("pics/rapporto_tamponi/rapporto_{}.png".format(regione.lower()), dpi = 100)
         plt.close(fig)
         

@@ -1,6 +1,6 @@
 abruzzo
 basilicata
-bolzano
+p.a. bolzano
 calabria
 campania
 emilia-romagna
@@ -15,7 +15,7 @@ puglia
 sardegna
 sicilia
 toscana
-trento
+p.a. trento
 umbria
 valle d'aosta
 veneto

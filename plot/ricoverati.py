@@ -40,6 +40,6 @@ def ricoverati():
         plt.title("Attualmente ricoverati in {}".format(regione), size = 15)
         plt.legend()
         plt.grid()
-        fig.savefig("pics/ricoverati/ricoverati_{}.png".format(regione), dpi = 100)
+        fig.savefig("pics/ricoverati/ricoverati_{}.png".format(regione.lower()), dpi = 100)
         plt.close(fig)
     

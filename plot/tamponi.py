@@ -40,5 +40,5 @@ def tamponi():
         plt.title("Nuovi tamponi al giorno in {}".format(regione), size = 15)
         plt.legend()
         plt.grid()
-        fig.savefig("pics/tamponi/tamponi_{}.png".format(regione), dpi = 100)
+        fig.savefig("pics/tamponi/tamponi_{}.png".format(regione.lower()), dpi = 100)
         plt.close(fig)

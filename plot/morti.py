@@ -41,5 +41,5 @@ def morti():
         plt.title("Nuovi morti al giorno in {}".format(regione), size = 15)
         plt.grid()
         plt.legend()
-        fig.savefig("pics/morti/nuovi_morti_{}.png".format(regione), dpi = 100)
+        fig.savefig("pics/morti/nuovi_morti_{}.png".format(regione.lower()), dpi = 100)
         plt.close(fig)

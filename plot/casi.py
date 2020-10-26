@@ -40,5 +40,5 @@ def casi():
         plt.title("Nuovi casi al giorno in {}".format(regione), size = 15)
         plt.grid()
         plt.legend()
-        fig.savefig("pics/nuovi_positivi/nuovi_casi_{}.png".format(regione), dpi = 100)
+        fig.savefig("pics/nuovi_positivi/nuovi_casi_{}.png".format(regione.lower()), dpi = 100)
         plt.close(fig)
