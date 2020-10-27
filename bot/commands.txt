@@ -1,0 +1,16 @@
+Hey! Allora per capire bene cosa chiedermi ti daro' l'elenco delle cose che so:
+
+- positivi <regione>
+- deceduti <regione>
+- tamponi <regione>
+- ricoverati <regione>
+- rapporto tamponi <regione>
+- terapia intensiva <regione>
+
+Puoi anche non specificare la regione, in quel caso ti daro' i dati a livello nazionale.
+
+!!! Mi raccomando scrivi ESATTAMENTE come ti ho elencato sopra, anche se puoi sbizzarrirti che le MAIUSCOLE o minuscole, e ovviamente senza il '-' sciocco. 
+
+Altrimenti io non capisco, sono ancora scemo ... la vita e' dura ...
+
+Daje!

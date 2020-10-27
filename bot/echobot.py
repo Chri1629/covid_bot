@@ -49,12 +49,16 @@ def start(update, context):
     """Send a message when the command /start is issued."""
     update.message.reply_text('Ciao! Sono CovidItaliaNews_bot, spero di darti buone notizie oggi!' +
     '\nSono un grande esperto dei dati della pandemia che stiamo vivendo.\n' +
-    'Chiedimi pure quello che vuoi :)')
+    'Chiedimi pure quello che vuoi :)\n\n' +
+    'Se sei in difficoltà usa il comando /help')
 
 
 def help_command(update, context):
     """Send a message when the command /help is issued."""
-    update.message.reply_text('Help!')
+    help_text = ""
+    with open("commands.txt", "r") as file:
+        help_text = file.read()
+    update.message.reply_text(help_text)
 
 def preprocess_text(text):
     text = text.lower()
@@ -85,6 +89,41 @@ def terapia_intensiva_regions(text_token):
     else:
         return None
 
+def deceduti_regions(text_token):
+    region = untokenize(text_token[1:])
+    if region in regions: #if region is correct
+        return open(f"pics/morti/nuovi_morti_{region}.png", "rb")
+    else:
+        return None
+
+def positivi_regions(text_token):
+    region = untokenize(text_token[1:])
+    if region in regions: #if region is correct
+        return open(f"pics/nuovi_positivi/nuovi_casi_{region}.png", "rb")
+    else:
+        return None
+
+def rapporto_tamponi_regions(text_token):
+    region = untokenize(text_token[2:])
+    if region in regions: #if region is correct
+        return open(f"pics/rapporto_tamponi/rapporto_{region}.png", "rb")
+    else:
+        return None
+
+def tamponi_regions(text_token):
+    region = untokenize(text_token[1:])
+    if region in regions: #if region is correct
+        return open(f"pics/tamponi/tamponi_{region}.png", "rb")
+    else:
+        return None
+
+def ricoverati_regions(text_token):
+    region = untokenize(text_token[1:])
+    if region in regions: #if region is correct
+        return open(f"pics/ricoverati/ricoverati_{region}.png", "rb")
+    else:
+        return None
+
 def echo(update, context):
     """Echo the user message."""
     #update.message.reply_text(update.message.text)
@@ -103,6 +142,7 @@ def echo(update, context):
     elif text == "immagine prova":
         update.message.reply_text("Ora ti mando una bella foto del diesel!")
         update.message.reply_photo(open("pics/prova.jpg", "rb"))
+    
     # terapia intensiva
     elif text_token[0] == "terapia" and text_token[1] == "intensiva":
         if len(text_token) == 2: #se non ha aggiunto nulla
@@ -113,7 +153,63 @@ def echo(update, context):
                 update.message.reply_photo(region)
             else:
                 update.message.reply_text("!! Attenzione !! - Nome regione non corretto")
-        
+    
+    # deceduti
+    elif text_token[0] == "deceduti":
+        if len(text_token) == 1: #se non ha aggiunto nulla
+            update.message.reply_photo(open("pics/morti/nuovi_morti.png", "rb"))
+        else:
+            region = deceduti_regions(text_token)
+            if region:
+                update.message.reply_photo(region)
+            else:
+                update.message.reply_text("!! Attenzione !! - Nome regione non corretto")
+    
+    # nuovi_positivi
+    elif text_token[0] == "positivi":
+        if len(text_token) == 1: #se non ha aggiunto nulla
+            update.message.reply_photo(open("pics/nuovi_positivi/nuovi_casi.png", "rb"))
+        else:
+            region = positivi_regions(text_token)
+            if region:
+                update.message.reply_photo(region)
+            else:
+                update.message.reply_text("!! Attenzione !! - Nome regione non corretto")
+    
+    # rapporto tamponi
+    elif text_token[0] == "rapporto" and text_token[1] == "tamponi":
+        if len(text_token) == 2: #se non ha aggiunto nulla
+            update.message.reply_photo(open("pics/rapporto_tamponi/rapporto_italia.png", "rb"))
+        else:
+            region = rapporto_tamponi_regions(text_token)
+            if region:
+                update.message.reply_photo(region)
+            else:
+                update.message.reply_text("!! Attenzione !! - Nome regione non corretto")
+    
+    # tamponi
+    elif text_token[0] == "tamponi":
+        if len(text_token) == 1: #se non ha aggiunto nulla
+            update.message.reply_photo(open("pics/tamponi/tamponi.png", "rb"))
+        else:
+            region = tamponi_regions(text_token)
+            if region:
+                update.message.reply_photo(region)
+            else:
+                update.message.reply_text("!! Attenzione !! - Nome regione non corretto")
+
+    # ricoverati
+    elif text_token[0] == "ricoverati":
+        if len(text_token) == 1: #se non ha aggiunto nulla
+            update.message.reply_photo(open("pics/ricoverati/ricoverati.png", "rb"))
+        else:
+            region = ricoverati_regions(text_token)
+            if region:
+                update.message.reply_photo(region)
+            else:
+                update.message.reply_text("!! Attenzione !! - Nome regione non corretto")
+
+    # se non è stato compreso il messsaggio    
     else:
         update.message.reply_text("Mi spiace non sono ancora in grado di capire quello che mi hai scritto. Imparo pian piano!")
     
