@@ -8,10 +8,10 @@ from plot.ricoverati import ricoverati
 
 def plot_producer():
     print("PRODUCING PLOTS")
-    #positivi_tamponi()
-    #tamponi()
-    #terapia_intensiva()
+    positivi_tamponi()
+    tamponi()
+    terapia_intensiva()
     casi()
-    #morti()
-    #ricoverati()
+    morti()
+    ricoverati()
     print("PLOT PRODUCED")

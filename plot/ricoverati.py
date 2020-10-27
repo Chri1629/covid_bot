@@ -1,18 +1,25 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
+import matplotlib.dates as mdates
+import datetime as dt
+
+
 
 def ricoverati():
+    base = dt.datetime(2020, 2, 25)
     dati_regione = pd.read_csv("data/dati_regioni.csv", sep = ",")
     raggruppati = dati_regione.groupby('data').sum().reset_index()
     date = np.linspace(0,len(raggruppati['data'].unique()), len(raggruppati))
+    date = np.array([base + dt.timedelta(days = i) for i in range(len(date))]) 
 
-    fig = plt.figure(figsize = (6,4))
+    fig, ax = plt.subplots()
     plt.plot(date, raggruppati['ricoverati_con_sintomi'], color = "skyblue", alpha = 1)
     plt.scatter(x = max(date), y = raggruppati['ricoverati_con_sintomi'].tail(1), 
         label = "Ultimo valore: {}".format(int(raggruppati['ricoverati_con_sintomi'].tail(1).values[0])))
 
-    plt.xlim(left = 0)
+    ax.xaxis.set_major_locator(mdates.MonthLocator())
+    ax.xaxis.set_major_formatter(mdates.DateFormatter('%b'))
     plt.ylim(bottom = 0)
     plt.xlabel("Data", size = 12)
     plt.ylabel("Terapia intensiva", size = 12)
@@ -28,10 +35,11 @@ def ricoverati():
 
     for regione in dati_regione['denominazione_regione'].unique():
         per_regioni = dati_regione.loc[dati_regione['denominazione_regione'] == regione]['ricoverati_con_sintomi']
-        fig = plt.figure(figsize = (6,4))
+        fig, ax = plt.subplots()
         plt.plot(date, per_regioni, color = "skyblue", alpha = 1)
         plt.scatter(x = max(date), y = per_regioni.tail(1), label = "Ultimo valore: {}".format(int(per_regioni.tail(1).values[0])))
-        plt.xlim(left = 0)
+        ax.xaxis.set_major_locator(mdates.MonthLocator())
+        ax.xaxis.set_major_formatter(mdates.DateFormatter('%b'))
         plt.ylim(bottom = 0)
         plt.xlabel("Data", size = 12)
         plt.ylabel("Ricoverati", size = 12)
