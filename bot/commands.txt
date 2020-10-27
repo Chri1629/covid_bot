@@ -1,5 +1,6 @@
 Hey! Allora per capire bene cosa chiedermi ti daro' l'elenco delle cose che so:
 
+- news <regione>
 - positivi <regione>
 - deceduti <regione>
 - tamponi <regione>

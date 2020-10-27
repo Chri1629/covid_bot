@@ -1,17 +1,20 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
+import datetime as dt
 
 def casi():
+    base = dt.datetime(2020, 2, 24)
     dati_regione = pd.read_csv("data/dati_regioni.csv", sep = ",")
     raggruppati = dati_regione.groupby('data').sum().reset_index()
     date = np.linspace(0,len(raggruppati['data'].unique()), len(raggruppati))
-
+    date = np.array([base + dt.timedelta(days = i) for i in range(len(date))]) 
+    
     fig = plt.figure(figsize = (6,4))
     plt.plot(date, raggruppati['nuovi_positivi'], color = "skyblue", alpha = 1)
     plt.scatter(x = max(date), y = raggruppati['nuovi_positivi'].tail(1), 
         label = "Ultimo valore: {}".format(int(raggruppati['nuovi_positivi'].tail(1).values[0])))
-    plt.xlim(left = 0)
+    #plt.xlim(left = 0)
     plt.ylim(bottom = 0)
     plt.xlabel("Data", size = 12)
     plt.ylabel("Nuovi casi", size = 12)
@@ -31,7 +34,7 @@ def casi():
         plt.plot(date, per_regioni, color = "skyblue", alpha = 1)
         plt.scatter(x = max(date), y = per_regioni.tail(1), 
         label = "Ultimo valore: {}".format(int(per_regioni.tail(1).values[0])))
-        plt.xlim(left = 0)
+        #plt.xlim(left = 0)
         plt.ylim(bottom = 0)
         plt.xlabel("Data", size = 12)
         plt.ylabel("Nuovi casi", size = 12)

@@ -23,6 +23,7 @@ def set_up():
     global token
     global logger
     global regions
+    global dir_pics
     # To plot console log file
     # Enable logging
     logging.basicConfig(
@@ -41,6 +42,8 @@ def set_up():
             l = line.rstrip() #remove '\n'
             regions.append(l)
             line = file.readline()
+    
+    dir_pics = "../pics"
 
 
 # Define a few command handlers. These usually take the two arguments update and
@@ -85,42 +88,55 @@ def untokenize(words):
 def terapia_intensiva_regions(text_token):
     region = untokenize(text_token[2:])
     if region in regions: #if region is correct
-        return open(f"pics/terapia/terapia_{region}.png", "rb")
+        return open(f"{dir_pics}/terapia/terapia_{region}.png", "rb")
     else:
         return None
 
 def deceduti_regions(text_token):
     region = untokenize(text_token[1:])
     if region in regions: #if region is correct
-        return open(f"pics/morti/nuovi_morti_{region}.png", "rb")
+        return open(f"{dir_pics}/morti/nuovi_morti_{region}.png", "rb")
     else:
         return None
 
 def positivi_regions(text_token):
     region = untokenize(text_token[1:])
     if region in regions: #if region is correct
-        return open(f"pics/nuovi_positivi/nuovi_casi_{region}.png", "rb")
+        return open(f"{dir_pics}/nuovi_positivi/nuovi_casi_{region}.png", "rb")
     else:
         return None
 
 def rapporto_tamponi_regions(text_token):
     region = untokenize(text_token[2:])
     if region in regions: #if region is correct
-        return open(f"pics/rapporto_tamponi/rapporto_{region}.png", "rb")
+        return open(f"{dir_pics}/rapporto_tamponi/rapporto_{region}.png", "rb")
     else:
         return None
 
 def tamponi_regions(text_token):
     region = untokenize(text_token[1:])
     if region in regions: #if region is correct
-        return open(f"pics/tamponi/tamponi_{region}.png", "rb")
+        return open(f"{dir_pics}/tamponi/tamponi_{region}.png", "rb")
     else:
         return None
 
 def ricoverati_regions(text_token):
     region = untokenize(text_token[1:])
     if region in regions: #if region is correct
-        return open(f"pics/ricoverati/ricoverati_{region}.png", "rb")
+        return open(f"{dir_pics}/ricoverati/ricoverati_{region}.png", "rb")
+    else:
+        return None
+
+def news_regions(text_token):
+    region = untokenize(text_token[1:])
+    if region in regions: #if region is correct
+        l = [open(f"{dir_pics}/nuovi_positivi/nuovi_casi_{region}.png", "rb"),
+            open(f"{dir_pics}/morti/nuovi_morti_{region}.png", "rb"),
+            open(f"{dir_pics}/tamponi/tamponi_{region}.png", "rb"),
+            open(f"{dir_pics}/rapporto_tamponi/rapporto_{region}.png", "rb"),
+            open(f"{dir_pics}/ricoverati/ricoverati_{region}.png", "rb"),
+            open(f"{dir_pics}/terapia/terapia_{region}.png", "rb")]
+        return l
     else:
         return None
 
@@ -143,6 +159,22 @@ def echo(update, context):
         update.message.reply_text("Ora ti mando una bella foto del diesel!")
         update.message.reply_photo(open("pics/prova.jpg", "rb"))
     
+    # news
+    elif text_token[0] == "news":
+        if len(text_token) == 1:
+            update.message.reply_text("Ecco la panoramica sui dati d'Italia del Covid-19 più recente")
+            update.message.reply_photo(open(f"{dir_pics}/nuovi_positivi/nuovi_casi.png", "rb"))
+            update.message.reply_photo(open(f"{dir_pics}/morti/nuovi_morti.png", "rb"))
+            update.message.reply_photo(open(f"{dir_pics}/tamponi/tamponi.png", "rb"))
+            update.message.reply_photo(open(f"{dir_pics}/rapporto_tamponi/rapporto_italia.png", "rb"))
+        else:
+            region = news_regions(text_token)
+            if region:
+                for photo in region:
+                    update.message.reply_photo(photo)
+            else:
+                update.message.reply_text("!! Attenzione !! - Nome regione non corretto")
+
     # terapia intensiva
     elif text_token[0] == "terapia" and text_token[1] == "intensiva":
         if len(text_token) == 2: #se non ha aggiunto nulla
@@ -157,7 +189,7 @@ def echo(update, context):
     # deceduti
     elif text_token[0] == "deceduti":
         if len(text_token) == 1: #se non ha aggiunto nulla
-            update.message.reply_photo(open("pics/morti/nuovi_morti.png", "rb"))
+            update.message.reply_photo(open(f"{dir_pics}/morti/nuovi_morti.png", "rb"))
         else:
             region = deceduti_regions(text_token)
             if region:
@@ -168,7 +200,7 @@ def echo(update, context):
     # nuovi_positivi
     elif text_token[0] == "positivi":
         if len(text_token) == 1: #se non ha aggiunto nulla
-            update.message.reply_photo(open("pics/nuovi_positivi/nuovi_casi.png", "rb"))
+            update.message.reply_photo(open(f"{dir_pics}/nuovi_positivi/nuovi_casi.png", "rb"))
         else:
             region = positivi_regions(text_token)
             if region:
@@ -179,7 +211,7 @@ def echo(update, context):
     # rapporto tamponi
     elif text_token[0] == "rapporto" and text_token[1] == "tamponi":
         if len(text_token) == 2: #se non ha aggiunto nulla
-            update.message.reply_photo(open("pics/rapporto_tamponi/rapporto_italia.png", "rb"))
+            update.message.reply_photo(open(f"{dir_pics}/rapporto_tamponi/rapporto_italia.png", "rb"))
         else:
             region = rapporto_tamponi_regions(text_token)
             if region:
@@ -190,7 +222,7 @@ def echo(update, context):
     # tamponi
     elif text_token[0] == "tamponi":
         if len(text_token) == 1: #se non ha aggiunto nulla
-            update.message.reply_photo(open("pics/tamponi/tamponi.png", "rb"))
+            update.message.reply_photo(open(f"{dir_pics}/tamponi/tamponi.png", "rb"))
         else:
             region = tamponi_regions(text_token)
             if region:
@@ -201,7 +233,7 @@ def echo(update, context):
     # ricoverati
     elif text_token[0] == "ricoverati":
         if len(text_token) == 1: #se non ha aggiunto nulla
-            update.message.reply_photo(open("pics/ricoverati/ricoverati.png", "rb"))
+            update.message.reply_photo(open(f"{dir_pics}/ricoverati/ricoverati.png", "rb"))
         else:
             region = ricoverati_regions(text_token)
             if region:
