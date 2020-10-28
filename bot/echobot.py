@@ -127,6 +127,13 @@ def ricoverati_regions(text_token):
     else:
         return None
 
+def guariti_regions(text_token):
+    region = untokenize(text_token[1:])
+    if region in regions: #if region is correct
+        return open(f"{dir_pics}/guariti/guariti_{region}.png", "rb")
+    else:
+        return None
+
 def news_regions(text_token):
     region = untokenize(text_token[1:])
     if region in regions: #if region is correct
@@ -240,10 +247,24 @@ def echo(update, context):
                 update.message.reply_photo(region)
             else:
                 update.message.reply_text("!! Attenzione !! - Nome regione non corretto")
+    
+    # guariti
+    elif text_token[0] == "guariti":
+        if len(text_token) == 1: #se non ha aggiunto nulla
+            update.message.reply_photo(open(f"{dir_pics}/guariti/guariti.png", "rb"))
+        else:
+            region = guariti_regions(text_token)
+            if region:
+                update.message.reply_photo(region)
+            else:
+                update.message.reply_text("!! Attenzione !! - Nome regione non corretto")
 
     # se non è stato compreso il messsaggio    
     else:
-        update.message.reply_text("Mi spiace non sono ancora in grado di capire quello che mi hai scritto. Imparo pian piano!")
+        update.message.reply_text("Mi spiace non sono ancora \
+            in grado di capire quello che mi hai scritto.\n\
+                Imparo pian piano!\n\nSe non sai cosa posso\
+                     capire apri la guida con\n /help.")
     
     logger.info("Replyed to: " + str(text))
 
