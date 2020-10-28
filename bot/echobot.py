@@ -174,7 +174,9 @@ def echo(update, context):
             update.message.reply_photo(open(f"{dir_pics}/nuovi_positivi/nuovi_casi.png", "rb"))
             update.message.reply_photo(open(f"{dir_pics}/morti/nuovi_morti.png", "rb"))
             update.message.reply_photo(open(f"{dir_pics}/tamponi/tamponi.png", "rb"))
+            update.message.reply_photo(open(f"{dir_pics}/terapia/terapia_intensiva.png", "rb"))
             update.message.reply_photo(open(f"{dir_pics}/guariti/guariti.png", "rb"))
+            update.message.reply_photo(open(f"{dir_pics}/ricoverati/ricoverati.png", "rb"))
             update.message.reply_photo(open(f"{dir_pics}/rapporto_tamponi/rapporto_italia.png", "rb"))
         else:
             region = news_regions(text_token)
