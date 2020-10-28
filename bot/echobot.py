@@ -142,6 +142,7 @@ def news_regions(text_token):
             open(f"{dir_pics}/tamponi/tamponi_{region}.png", "rb"),
             open(f"{dir_pics}/rapporto_tamponi/rapporto_{region}.png", "rb"),
             open(f"{dir_pics}/ricoverati/ricoverati_{region}.png", "rb"),
+            open(f"{dir_pics}/guariti/guariti_{region}.png", "rb"),
             open(f"{dir_pics}/terapia/terapia_{region}.png", "rb")]
         return l
     else:
@@ -173,6 +174,7 @@ def echo(update, context):
             update.message.reply_photo(open(f"{dir_pics}/nuovi_positivi/nuovi_casi.png", "rb"))
             update.message.reply_photo(open(f"{dir_pics}/morti/nuovi_morti.png", "rb"))
             update.message.reply_photo(open(f"{dir_pics}/tamponi/tamponi.png", "rb"))
+            update.message.reply_photo(open(f"{dir_pics}/guariti/guariti.png", "rb"))
             update.message.reply_photo(open(f"{dir_pics}/rapporto_tamponi/rapporto_italia.png", "rb"))
         else:
             region = news_regions(text_token)
