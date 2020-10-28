@@ -7,6 +7,7 @@ Hey! Allora per capire bene cosa chiedermi ti daro' l'elenco delle cose che so:
 - ricoverati <regione>
 - rapporto tamponi <regione>
 - terapia intensiva <regione>
+- guariti <regione>
 
 Puoi anche non specificare la regione, in quel caso ti daro' i dati a livello nazionale.
 
