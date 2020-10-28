@@ -17,7 +17,7 @@ def guariti():
     fig, ax = plt.subplots()
     plt.plot(date, raggruppati['dimessi_guariti'], color = "black", alpha = 0.7)
     plt.scatter(x = max(date), y = raggruppati['dimessi_guariti'].tail(1), color = "black",
-    label = "Ultimo valore: {}%".format(raggruppati['dimessi_guariti'].tail(1).values[0]))
+    label = "Ultimo valore: {}".format(int(raggruppati['dimessi_guariti'].tail(1).values[0])))
     ax.xaxis.set_major_locator(mdates.MonthLocator())
     ax.xaxis.set_major_formatter(mdates.DateFormatter('%b'))
     plt.ylim(bottom = 0)
@@ -38,7 +38,7 @@ def guariti():
         fig, ax = plt.subplots()
         plt.plot(date, per_regioni, color = "black", alpha = 0.7)
         plt.scatter(x = max(date), y = per_regioni.tail(1), color = "black",
-        label = "Ultimo valore: {}".format(per_regioni.tail(1).values[0]))
+        label = "Ultimo valore: {}".format(int(per_regioni.tail(1).values[0])))
         ax.xaxis.set_major_locator(mdates.MonthLocator())
         ax.xaxis.set_major_formatter(mdates.DateFormatter('%b'))
         plt.ylim(bottom = 0)
