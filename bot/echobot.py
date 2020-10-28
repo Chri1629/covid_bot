@@ -263,10 +263,7 @@ def echo(update, context):
 
     # se non è stato compreso il messsaggio    
     else:
-        update.message.reply_text("Mi spiace non sono ancora \
-            in grado di capire quello che mi hai scritto.\n\
-                Imparo pian piano!\n\nSe non sai cosa posso\
-                     capire apri la guida con\n /help.")
+        update.message.reply_text("Mi spiace non sono ancora in grado di capire quello che mi hai scritto.\nImparo pian piano!\n\nSe non sai cosa posso capire apri la guida con /help.")
     
     logger.info("Replyed to: " + str(text))
 
