@@ -4,6 +4,8 @@ from plot.terapia_intensiva import terapia_intensiva
 from plot.casi import casi
 from plot.morti import morti
 from plot.ricoverati import ricoverati
+from plot.guariti import guariti
+
 
 
 def plot_producer():
@@ -13,5 +15,6 @@ def plot_producer():
     terapia_intensiva()
     casi()
     morti()
+    guariti()
     ricoverati()
     print("PLOT PRODUCED")
