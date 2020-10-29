@@ -22,7 +22,7 @@ def ricoverati():
     ax.xaxis.set_major_formatter(mdates.DateFormatter('%b'))
     plt.ylim(bottom = 0)
     plt.xlabel("Data", size = 12)
-    plt.ylabel("Terapia intensiva", size = 12)
+    plt.ylabel("Ricoverati", size = 12)
     plt.xticks(size = 10)
     plt.yticks(size = 10)
     plt.title("Attualmente ricoverati in Italia")
