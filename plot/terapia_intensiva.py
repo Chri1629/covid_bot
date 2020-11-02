@@ -54,7 +54,7 @@ def terapia_intensiva():
         plt.xticks(size = 10)
         plt.yticks(size = 10)
         plt.title("Attualmente in terapia intensiva in {}\n{}% occupati".format(regione,
-        round(numero_posti_letto.values[0]/posti_letto_totali*100,2)), size = 15)
+        round(per_regioni.tail(1).values[0]/numero_posti_letto.values[0]*100,2)), size = 15)
         plt.legend()
         plt.grid()
         fig.savefig("pics/terapia/terapia_{}.png".format(regione.lower()), dpi = 100)
