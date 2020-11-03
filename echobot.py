@@ -14,9 +14,16 @@ bot.
 """
 
 import logging
-import telegram
 import nltk, re
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
+from preprocessing.preprocessing import preprocess_data
+from plot.plot_producer import plot_producer
+# per thread e scheduler
+from threading import Thread
+import schedule
+from time import sleep
+
+
 
 def set_up():
     # global variables
@@ -24,27 +31,48 @@ def set_up():
     global logger
     global regions
     global dir_pics
+    
     # To plot console log file
     # Enable logging
     logging.basicConfig(
         format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO
     )
     logger = logging.getLogger(__name__)
-
+    dir_pics = "pics"
     # read token_key and start bot
-    with open("token_key.txt", "r") as file:
+    with open("bot/token_key.txt", "r") as file:
         token = file.read()
     assert(token)
+    # read regions file
     regions = []
-    with open("regioni.txt", "r") as file:
+    with open("bot/regioni.txt", "r") as file:
         line = file.readline()
         while line:
             l = line.rstrip() #remove '\n'
             regions.append(l)
             line = file.readline()
     
-    dir_pics = "../pics"
+    # set and start schedule - everyday at 17.15
+    # schedule.every().day.at('17:15').do(update, )
+    # start update thread 
+    t_sched = Thread(target = schedule_checker, args = [])
+    t_sched.start()
 
+# controllore se attivare o meno il thread
+def schedule_checker():
+    schedule.every().day.at('17:15').do(update_data, )
+    while(True):
+        schedule.run_pending()
+        sleep(1)
+
+# funzione update dei dati
+def update_data():
+    logging.info("Updating data ... ")
+    preprocess_data()
+    logging.info("Updating plots ... ")
+    plot_producer()
+    logging.info("Plots successfully updated!")
+    return
 
 # Define a few command handlers. These usually take the two arguments update and
 # context. Error handlers also receive the raised TelegramError object in error.
@@ -59,7 +87,7 @@ def start(update, context):
 def help_command(update, context):
     """Send a message when the command /help is issued."""
     help_text = ""
-    with open("commands.txt", "r") as file:
+    with open("bot/commands.txt", "r") as file:
         help_text = file.read()
     update.message.reply_text(help_text)
 
@@ -148,6 +176,17 @@ def news_regions(text_token):
     else:
         return None
 
+def news(update):
+    update.message.reply_text("Ecco la panoramica sui dati d'Italia del Covid-19 più recente")
+    update.message.reply_photo(open(f"{dir_pics}/nuovi_positivi/nuovi_casi.png", "rb"))
+    update.message.reply_photo(open(f"{dir_pics}/morti/nuovi_morti.png", "rb"))
+    update.message.reply_photo(open(f"{dir_pics}/tamponi/tamponi.png", "rb"))
+    update.message.reply_photo(open(f"{dir_pics}/terapia/terapia_intensiva.png", "rb"))
+    update.message.reply_photo(open(f"{dir_pics}/guariti/guariti.png", "rb"))
+    update.message.reply_photo(open(f"{dir_pics}/ricoverati/ricoverati.png", "rb"))
+    update.message.reply_photo(open(f"{dir_pics}/rapporto_tamponi/rapporto_italia.png", "rb"))
+
+
 def echo(update, context):
     """Echo the user message."""
     #update.message.reply_text(update.message.text)
@@ -167,17 +206,20 @@ def echo(update, context):
         update.message.reply_text("Ora ti mando una bella foto del diesel!")
         update.message.reply_photo(open("pics/prova.jpg", "rb"))
     
+    # update
+    elif text == "chri e fede ti ordinano di aggiornarti":
+        update.message.reply_text("Zi padrone!") 
+        update.message.reply_text("Mi lasci il tempo di far lavorare gli schiavi e faccio tutto padrone.") 
+        update.message.reply_text("...")
+        update_data()
+        update.message.reply_text("Finito padrone!\nQuesta volta sono morti solo in 3 schiavi padrone!") 
+        update.message.reply_text("Mando gli ultimi dati aggiornati padrone <3")
+        news(update)
+
     # news
     elif text_token[0] == "news":
         if len(text_token) == 1:
-            update.message.reply_text("Ecco la panoramica sui dati d'Italia del Covid-19 più recente")
-            update.message.reply_photo(open(f"{dir_pics}/nuovi_positivi/nuovi_casi.png", "rb"))
-            update.message.reply_photo(open(f"{dir_pics}/morti/nuovi_morti.png", "rb"))
-            update.message.reply_photo(open(f"{dir_pics}/tamponi/tamponi.png", "rb"))
-            update.message.reply_photo(open(f"{dir_pics}/terapia/terapia_intensiva.png", "rb"))
-            update.message.reply_photo(open(f"{dir_pics}/guariti/guariti.png", "rb"))
-            update.message.reply_photo(open(f"{dir_pics}/ricoverati/ricoverati.png", "rb"))
-            update.message.reply_photo(open(f"{dir_pics}/rapporto_tamponi/rapporto_italia.png", "rb"))
+            news(update)
         else:
             region = news_regions(text_token)
             if region:
