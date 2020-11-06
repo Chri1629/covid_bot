@@ -15,9 +15,9 @@ def guariti():
     date = np.array([base + dt.timedelta(days = i) for i in range(len(date))]) 
 
     fig, ax = plt.subplots()
-    plt.plot(date, raggruppati['dimessi_guariti'], color = "black", alpha = 0.7)
-    plt.scatter(x = max(date), y = raggruppati['dimessi_guariti'].tail(1), color = "black",
-    label = "Ultimo valore: {}".format(int(raggruppati['dimessi_guariti'].tail(1).values[0])))
+    plt.plot(date, raggruppati['dimessi_guariti'], color = "#006600", alpha = 0.8, linewidth =2)
+    plt.scatter(x = max(date), y = raggruppati['dimessi_guariti'].tail(1), color = "#006600", alpha = 1,
+    label = "{}: {}".format(date[-1].strftime("%d-%h"),int(raggruppati['dimessi_guariti'].tail(1).values[0])))
     ax.xaxis.set_major_locator(mdates.MonthLocator())
     ax.xaxis.set_major_formatter(mdates.DateFormatter('%b'))
     plt.ylim(bottom = 0)
@@ -25,10 +25,10 @@ def guariti():
     plt.ylabel("Guariti", size = 12)
     plt.xticks(size = 10)
     plt.yticks(size = 10)
-    plt.title("Guariti in Italia", size = 15)
-    plt.grid()
-    plt.legend()
-    fig.savefig("pics/guariti/italia.png", dpi = 100)
+    plt.title("Guariti - Italia", size = 15)
+    plt.grid(alpha = 0.5)
+    lg = plt.legend(bbox_to_anchor=(1.01, 0.6, 1.1, 0.2), loc='upper left')
+    fig.savefig("pics/guariti/italia.png", dpi = 100, bbox_extra_artists=(lg,), bbox_inches='tight')
     plt.close(fig)
 
     ## Provo a raggruppare per regione e a stamprarli anche per regione quindi vanno messi dentro un for e bisogna fare un ciclo
@@ -36,9 +36,9 @@ def guariti():
         per_regioni = dati_regione.loc[dati_regione['denominazione_regione'] == regione]['dimessi_guariti']
         per_regioni = per_regioni.diff()
         fig, ax = plt.subplots()
-        plt.plot(date, per_regioni, color = "black", alpha = 0.7)
-        plt.scatter(x = max(date), y = per_regioni.tail(1), color = "black",
-        label = "Ultimo valore: {}".format(int(per_regioni.tail(1).values[0])))
+        plt.plot(date, per_regioni, color = "#006600", alpha = 0.8, linewidth =2)
+        plt.scatter(x = max(date), y = per_regioni.tail(1), color = "#006600", alpha = 1,
+        label = "{}: {}".format(date[-1].strftime("%d-%h"),int(per_regioni.tail(1).values[0])))
         ax.xaxis.set_major_locator(mdates.MonthLocator())
         ax.xaxis.set_major_formatter(mdates.DateFormatter('%b'))
         plt.ylim(bottom = 0)
@@ -46,8 +46,46 @@ def guariti():
         plt.ylabel("Guariti", size = 12)
         plt.xticks(size = 10)
         plt.yticks(size = 10)
-        plt.title("Guariti in {}".format(regione), size = 15)
-        plt.grid()
-        plt.legend()
-        fig.savefig("pics/guariti/{}.png".format(regione.lower()), dpi = 100)
+        plt.title("Guariti - {}".format(regione), size = 15)
+        plt.grid(alpha = 0.5)
+        lg = plt.legend(bbox_to_anchor=(1.01, 0.6, 1.1, 0.2), loc='upper left')
+        fig.savefig("pics/guariti/{}.png".format(regione.lower()), dpi = 100, bbox_extra_artists=(lg,), bbox_inches='tight')
+        plt.close(fig)
+
+    fig, ax = plt.subplots()
+    plt.plot(date[-14:], raggruppati['dimessi_guariti'][-14:], color = "#006600", alpha = 0.8, linewidth =2)
+    plt.scatter(x = max(date), y = raggruppati['dimessi_guariti'].tail(1), color = "#006600", alpha = 1,
+    label = "{}: {}".format(date[-1].strftime("%d-%h"),int(raggruppati['dimessi_guariti'].tail(1).values[0])))
+    ax.xaxis.set_major_locator(mdates.DayLocator())
+    ax.xaxis.set_major_formatter(mdates.DateFormatter('%d-%h'))
+    plt.ylim(bottom = 0)
+    plt.xlabel("Data", size = 12)
+    plt.ylabel("Guariti", size = 12)
+    plt.xticks(size = 10, rotation = 35)
+    plt.yticks(size = 10)
+    plt.title("Guariti - Italia", size = 15)
+    plt.grid(alpha = 0.5)
+    lg = plt.legend(bbox_to_anchor=(1.01, 0.6, 1.1, 0.2), loc='upper left')
+    fig.savefig("pics/guariti_news/italia.png", dpi = 100, bbox_extra_artists=(lg,), bbox_inches='tight')
+    plt.close(fig)
+
+    ## Provo a raggruppare per regione e a stamprarli anche per regione quindi vanno messi dentro un for e bisogna fare un ciclo
+    for regione in dati_regione['denominazione_regione'].unique():
+        per_regioni = dati_regione.loc[dati_regione['denominazione_regione'] == regione]['dimessi_guariti']
+        per_regioni = per_regioni.diff()
+        fig, ax = plt.subplots()
+        plt.plot(date[-14:], per_regioni[-14:], color = "#006600", alpha = 0.8, linewidth =2)
+        plt.scatter(x = max(date), y = per_regioni.tail(1), color = "#006600", alpha = 1,
+        label = "{}: {}".format(date[-1].strftime("%d-%h"),int(per_regioni.tail(1).values[0])))
+        ax.xaxis.set_major_locator(mdates.DayLocator())
+        ax.xaxis.set_major_formatter(mdates.DateFormatter('%d-%h'))
+        plt.ylim(bottom = 0)
+        plt.xlabel("Data", size = 12)
+        plt.ylabel("Guariti", size = 12)
+        plt.xticks(size = 10, rotation = 35)
+        plt.yticks(size = 10)
+        plt.title("Guariti - {}".format(regione), size = 15)
+        plt.grid(alpha = 0.5)
+        lg = plt.legend(bbox_to_anchor=(1.01, 0.6, 1.1, 0.2), loc='upper left')
+        fig.savefig("pics/guariti_news/{}.png".format(regione.lower()), dpi = 100, bbox_extra_artists=(lg,), bbox_inches='tight')
         plt.close(fig)
