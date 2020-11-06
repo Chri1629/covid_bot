@@ -29,7 +29,7 @@ def positivi_tamponi():
     plt.title("Tasso di positivi su tamponi in Italia", size = 15)
     plt.grid()
     plt.legend()
-    fig.savefig("pics/rapporto_tamponi/rapporto_italia.png", dpi = 100)
+    fig.savefig("pics/rapporto_tamponi/italia.png", dpi = 100)
     plt.close(fig)
 
     ## Provo a raggruppare per regione e a stamprarli anche per regione quindi vanno messi dentro un for e bisogna fare un ciclo
@@ -52,6 +52,6 @@ def positivi_tamponi():
         plt.title("Tasso di positivi su tamponi in {}".format(regione), size = 15)
         plt.grid()
         plt.legend()
-        fig.savefig("pics/rapporto_tamponi/rapporto_{}.png".format(regione.lower()), dpi = 100)
+        fig.savefig("pics/rapporto_tamponi/{}.png".format(regione.lower()), dpi = 100)
         plt.close(fig)
         

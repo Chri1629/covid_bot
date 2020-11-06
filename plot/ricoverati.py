@@ -28,7 +28,7 @@ def ricoverati():
     plt.title("Attualmente ricoverati in Italia")
     plt.legend()
     plt.grid()
-    fig.savefig("pics/ricoverati/ricoverati.png", dpi = 100)
+    fig.savefig("pics/ricoverati/italia.png", dpi = 100)
     plt.close(fig)
 
     ## Provo a raggruppare per regione e a stamprarli anche per regione quindi vanno messi dentro un for e bisogna fare un ciclo
@@ -48,6 +48,6 @@ def ricoverati():
         plt.title("Attualmente ricoverati in {}".format(regione), size = 15)
         plt.legend()
         plt.grid()
-        fig.savefig("pics/ricoverati/ricoverati_{}.png".format(regione.lower()), dpi = 100)
+        fig.savefig("pics/ricoverati/{}.png".format(regione.lower()), dpi = 100)
         plt.close(fig)
     

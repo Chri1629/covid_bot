@@ -28,7 +28,7 @@ def morti():
     plt.title("Deceduti per giorno in Italia", size = 15)
     plt.legend()
     plt.grid()
-    plt.savefig("pics/morti/nuovi_morti.png", dpi = 100)
+    plt.savefig("pics/morti/italia.png", dpi = 100)
     plt.close(fig)
 
     for regione in dati_regione['denominazione_regione'].unique():
@@ -48,5 +48,5 @@ def morti():
         plt.title("Deceduti al giorno in {}".format(regione), size = 15)
         plt.grid()
         plt.legend()
-        fig.savefig("pics/morti/nuovi_morti_{}.png".format(regione.lower()), dpi = 100)
+        fig.savefig("pics/morti/{}.png".format(regione.lower()), dpi = 100)
         plt.close(fig)

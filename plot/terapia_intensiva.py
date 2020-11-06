@@ -33,7 +33,7 @@ def terapia_intensiva():
     size = 15)
     plt.legend()
     plt.grid()
-    fig.savefig("pics/terapia/terapia_intensiva.png", dpi = 100)
+    fig.savefig("pics/terapia/italia.png", dpi = 100)
     plt.close(fig)
 
     ## Provo a raggruppare per regione e a stamprarli anche per regione quindi vanno messi dentro un for e bisogna fare un ciclo
@@ -57,6 +57,6 @@ def terapia_intensiva():
         round(per_regioni.tail(1).values[0]/numero_posti_letto.values[0]*100,2)), size = 15)
         plt.legend()
         plt.grid()
-        fig.savefig("pics/terapia/terapia_{}.png".format(regione.lower()), dpi = 100)
+        fig.savefig("pics/terapia/{}.png".format(regione.lower()), dpi = 100)
         plt.close(fig)
     

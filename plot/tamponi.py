@@ -27,7 +27,7 @@ def tamponi():
     plt.title("Tamponi effettuati in Italia", size = 15)
     plt.legend()
     plt.grid()
-    fig.savefig("pics/tamponi/tamponi.png", dpi = 100)
+    fig.savefig("pics/tamponi/italia.png", dpi = 100)
     plt.close(fig)
 
     ## Provo a raggruppare per regione e a stamprarli anche per regione quindi vanno messi dentro un for e bisogna fare un ciclo
@@ -48,5 +48,5 @@ def tamponi():
         plt.title("Tamponi effettuati in {}".format(regione), size = 15)
         plt.legend()
         plt.grid()
-        fig.savefig("pics/tamponi/tamponi_{}.png".format(regione.lower()), dpi = 100)
+        fig.savefig("pics/tamponi/{}.png".format(regione.lower()), dpi = 100)
         plt.close(fig)
