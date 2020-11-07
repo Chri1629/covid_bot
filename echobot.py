@@ -235,8 +235,11 @@ def echo(update, context):
         if len(text_token) == 2: #se non ha aggiunto nulla
             update.message.reply_photo(open("pics/terapia/italia.png", "rb"))
         elif text_token[2] == "recenti":
-            region = check_region(text_token[3:])
-            send_region(update, "terapia_news", region)
+            if len(text_token) == 2: #se non ha aggiunto nulla
+                update.message.reply_photo(open("pics/terapia_news/italia.png", "rb"))
+            else:
+                region = check_region(text_token[3:])
+                send_region(update, "terapia_news", region)
         else:
             region = check_region(text_token[2:])
             send_region(update, "terapia", region)
@@ -245,8 +248,11 @@ def echo(update, context):
         if len(text_token) == 1: #se non ha aggiunto nulla
             update.message.reply_photo(open(f"{dir_pics}/morti/italia.png", "rb"))
         elif text_token[1] == "recenti":
-            region = check_region(text_token[2:])
-            send_region(update, "deceduti_news", region)
+            if len(text_token) == 2: #se non ha aggiunto nulla
+                update.message.reply_photo(open("pics/morti_news/italia.png", "rb"))
+            else:
+                region = check_region(text_token[2:])
+                send_region(update, "morti_news", region)
         else:
             region = check_region(text_token[1:])
             send_region(update, "morti", region)
@@ -256,8 +262,11 @@ def echo(update, context):
         if len(text_token) == 1: #se non ha aggiunto nulla
             update.message.reply_photo(open(f"{dir_pics}/nuovi_positivi/italia.png", "rb"))
         elif text_token[1] == "recenti":
-            region = check_region(text_token[2:])
-            send_region(update, "positivi_news", region)
+            if len(text_token) == 2: #se non ha aggiunto nulla
+                update.message.reply_photo(open("pics/nuovi_positivi_news/italia.png", "rb"))
+            else:
+                region = check_region(text_token[2:])
+                send_region(update, "nuovi_positivi_news", region)
         else:
             region = check_region(text_token[1:])
             send_region(update, "nuovi_positivi", region)
@@ -267,8 +276,11 @@ def echo(update, context):
         if len(text_token) == 2: #se non ha aggiunto nulla
             update.message.reply_photo(open(f"{dir_pics}/rapporto_tamponi/italia.png", "rb"))
         elif text_token[2] == "recenti":
-            region = check_region(text_token[3:])
-            send_region(update, "rapporto_tamponi_news", region)
+            if len(text_token) == 3: #se non ha aggiunto nulla
+                update.message.reply_photo(open("pics/rapporto_tamponi_news/italia.png", "rb"))
+            else:
+                region = check_region(text_token[3:])
+                send_region(update, "rapporto_tamponi_news", region)
         else:
             region = check_region(text_token[2:])
             send_region(update, "rapporto_tamponi", region)
@@ -278,8 +290,11 @@ def echo(update, context):
         if len(text_token) == 1: #se non ha aggiunto nulla
             update.message.reply_photo(open(f"{dir_pics}/tamponi/italia.png", "rb"))
         elif text_token[1] == "recenti":
-            region = check_region(text_token[2:])
-            send_region(update, "tamponi_news", region)
+            if len(text_token) == 2: #se non ha aggiunto nulla
+                update.message.reply_photo(open("pics/tamponi_news/italia.png", "rb"))
+            else:
+                region = check_region(text_token[2:])
+                send_region(update, "tamponi_news", region)
         else:
             region = check_region(text_token[1:])
             send_region(update, "tamponi", region)
@@ -289,8 +304,11 @@ def echo(update, context):
         if len(text_token) == 1: #se non ha aggiunto nulla
             update.message.reply_photo(open(f"{dir_pics}/ricoverati/italia.png", "rb"))
         elif text_token[1] == "recenti":
-            region = check_region(text_token[2:])
-            send_region(update, "ricoverati_news", region)
+            if len(text_token) == 2: #se non ha aggiunto nulla
+                update.message.reply_photo(open("pics/ricoverati_news/italia.png", "rb"))
+            else:
+                region = check_region(text_token[2:])
+                send_region(update, "ricoverati_news", region)
         else:
             region = check_region(text_token[1:])
             send_region(update, "ricoverati", region)
@@ -300,8 +318,11 @@ def echo(update, context):
         if len(text_token) == 1: #se non ha aggiunto nulla
             update.message.reply_photo(open(f"{dir_pics}/guariti/italia.png", "rb"))
         elif text_token[1] == "recenti":
-            region = check_region(text_token[2:])
-            send_region(update, "guariti_news", region)
+            if len(text_token) == 2: #se non ha aggiunto nulla
+                update.message.reply_photo(open("pics/guariti_news/italia.png", "rb"))
+            else:
+                region = check_region(text_token[2:])
+                send_region(update, "guariti_news", region)
         else:
             region = check_region(text_token[1:])
             send_region(update, "guariti", region)
