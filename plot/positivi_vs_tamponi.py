@@ -57,15 +57,15 @@ def positivi_tamponi():
 
 
     fig, ax = plt.subplots()
-    plt.plot(date[-14:], raggruppati['rapporto_totale'][-14:], color = "#da7400", alpha = 0.8, linewidth =2)
+    plt.plot(date[-30:], raggruppati['rapporto_totale'][-30:], color = "#da7400", alpha = 0.8, linewidth =2)
     plt.scatter(x = max(date), y = raggruppati['rapporto_totale'].tail(1), color = "#da7400", alpha = 1,
     label = "{}: {}%".format(date[-1].strftime("%d-%h"), raggruppati['rapporto_totale'].tail(1).values[0]))
-    ax.xaxis.set_major_locator(mdates.DayLocator())
+    ax.xaxis.set_major_locator(mdates.DayLocator(interval = 4))
     ax.xaxis.set_major_formatter(mdates.DateFormatter('%d-%h'))
     plt.ylim(bottom = 0)
     plt.xlabel("Data", size = 12)
     plt.ylabel("Rapporto (%)", size = 12)
-    plt.xticks(size = 10, rotation=35)
+    plt.xticks(size = 10, rotation=0)
     plt.yticks(size = 10)
     plt.title("% Tamponi positivi - Italia", size = 15)
     plt.grid(alpha = 0.5)
@@ -80,15 +80,15 @@ def positivi_tamponi():
         per_regioni['rapporto'] = round(per_regioni['nuovi_positivi']/per_regioni['tamponi']*100,1)
     
         fig, ax = plt.subplots()
-        plt.plot(date[-14:], per_regioni['rapporto'][-14:], color = "#da7400", alpha = 0.8, linewidth =2)
+        plt.plot(date[-30:], per_regioni['rapporto'][-30:], color = "#da7400", alpha = 0.8, linewidth =2)
         plt.scatter(x = max(date), y = per_regioni['rapporto'].tail(1), color = "#da7400", alpha = 1,
         label = "{}: {}%".format(date[-1].strftime("%d-%h"),per_regioni['rapporto'].tail(1).values[0]))
-        ax.xaxis.set_major_locator(mdates.DayLocator())
+        ax.xaxis.set_major_locator(mdates.DayLocator(interval = 4))
         ax.xaxis.set_major_formatter(mdates.DateFormatter('%d-%h'))
         plt.ylim(bottom = 0)
         plt.xlabel("Data", size = 12)
         plt.ylabel("Rapporto (%)", size = 12)
-        plt.xticks(size = 10, rotation=35)
+        plt.xticks(size = 10, rotation=0)
         plt.yticks(size = 10)
         plt.title("% Tamponi positivi - {}".format(regione), size = 15)
         plt.grid(alpha = 0.5)

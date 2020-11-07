@@ -52,15 +52,15 @@ def tamponi():
         plt.close(fig)
     
     fig, ax = plt.subplots()
-    plt.plot(date[-14:], raggruppati['tamponi'].diff()[-14:], color = "#e5e500", alpha = 0.8, linewidth =2)
+    plt.plot(date[-30:], raggruppati['tamponi'].diff()[-30:], color = "#e5e500", alpha = 0.8, linewidth =2)
     plt.scatter(x = max(date), y = raggruppati['tamponi'].diff().tail(1), color = "#e5e500", alpha = 1,
         label = "{}: {}".format(date[-1].strftime("%d-%h"),int(raggruppati['tamponi'].diff().tail(1).values[0])))
-    ax.xaxis.set_major_locator(mdates.DayLocator())
+    ax.xaxis.set_major_locator(mdates.DayLocator(interval = 4))
     ax.xaxis.set_major_formatter(mdates.DateFormatter('%d-%h'))
     plt.ylim(bottom = 0)
     plt.xlabel("Data", size = 12)
     plt.ylabel("Nuovi tamponi", size = 12)
-    plt.xticks(size = 10, rotation = 35)
+    plt.xticks(size = 10, rotation = 0)
     plt.yticks(size = 10)
     plt.title("Tamponi - Italia", size = 15)
     lg = plt.legend(bbox_to_anchor=(1.01, 0.6, 1.1, 0.2), loc='upper left')
@@ -73,15 +73,15 @@ def tamponi():
     for regione in dati_regione['denominazione_regione'].unique():
         per_regioni = dati_regione.loc[dati_regione['denominazione_regione'] == regione]['tamponi']
         fig, ax = plt.subplots()
-        plt.plot(date[-14:], per_regioni.diff()[-14:], color = "#e5e500", alpha = 0.8, linewidth =2)
+        plt.plot(date[-30:], per_regioni.diff()[-30:], color = "#e5e500", alpha = 0.8, linewidth =2)
         plt.scatter(x = max(date), y = per_regioni.diff().tail(1), color = "#e5e500", alpha = 1,
         label = "{}: {}".format(date[-1].strftime("%d-%h"),int(per_regioni.diff().tail(1).values[0])))
-        ax.xaxis.set_major_locator(mdates.DayLocator())
+        ax.xaxis.set_major_locator(mdates.DayLocator(interval = 4))
         ax.xaxis.set_major_formatter(mdates.DateFormatter('%d-%h'))
         plt.ylim(bottom = 0)
         plt.xlabel("Data", size = 12)
         plt.ylabel("Nuovi tamponi", size = 12)
-        plt.xticks(size = 10, rotation = 35)
+        plt.xticks(size = 10, rotation = 0)
         plt.yticks(size = 10)
         plt.title("Tamponi - {}".format(regione), size = 15)
         lg = plt.legend(bbox_to_anchor=(1.01, 0.6, 1.1, 0.2), loc='upper left')

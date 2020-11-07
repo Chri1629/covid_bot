@@ -54,16 +54,16 @@ def ricoverati():
 
 
     fig, ax = plt.subplots()
-    plt.plot(date[-14:], raggruppati['ricoverati_con_sintomi'][-14:], color = "#0047c3", alpha = 0.8, linewidth =2)
+    plt.plot(date[-30:], raggruppati['ricoverati_con_sintomi'][-30:], color = "#0047c3", alpha = 0.8, linewidth =2)
     plt.scatter(x = date[-1], y = raggruppati['ricoverati_con_sintomi'].tail(1), color = "#0047c3", alpha = 1,
         label = "{}: {}".format(date[-2].strftime("%d-%h"),int(raggruppati['ricoverati_con_sintomi'].tail(1).values[0])))
 
-    ax.xaxis.set_major_locator(mdates.DayLocator())
+    ax.xaxis.set_major_locator(mdates.DayLocator(interval = 4))
     ax.xaxis.set_major_formatter(mdates.DateFormatter('%d-%h'))
     plt.ylim(bottom = 0)
     plt.xlabel("Data", size = 12)
     plt.ylabel("Ricoverati", size = 12)
-    plt.xticks(size = 10, rotation=35)
+    plt.xticks(size = 10, rotation=0)
     plt.yticks(size = 10)
     plt.title("Ricoverati - Italia")
     lg = plt.legend(bbox_to_anchor=(1.01, 0.6, 1.1, 0.2), loc='upper left')
@@ -76,15 +76,15 @@ def ricoverati():
     for regione in dati_regione['denominazione_regione'].unique():
         per_regioni = dati_regione.loc[dati_regione['denominazione_regione'] == regione]['ricoverati_con_sintomi']
         fig, ax = plt.subplots()
-        plt.plot(date[-14:], per_regioni[-14:], color = "#0047c3", alpha = 0.8, linewidth =2)
+        plt.plot(date[-30:], per_regioni[-30:], color = "#0047c3", alpha = 0.8, linewidth =2)
         plt.scatter(x = date[-1], y = per_regioni.tail(1), color = "#0047c3", alpha = 1,
         label = "{}: {}".format(date[-2].strftime("%d-%h"),int(per_regioni.tail(1).values[0])))
-        ax.xaxis.set_major_locator(mdates.DayLocator())
+        ax.xaxis.set_major_locator(mdates.DayLocator(interval = 4))
         ax.xaxis.set_major_formatter(mdates.DateFormatter('%d-%h'))
         plt.ylim(bottom = 0)
         plt.xlabel("Data", size = 12)
         plt.ylabel("Ricoverati", size = 12)
-        plt.xticks(size = 10, rotation=35)
+        plt.xticks(size = 10, rotation=0)
         plt.yticks(size = 10)
         plt.title("Ricoverati - {}".format(regione), size = 15)
         lg = plt.legend(bbox_to_anchor=(1.01, 0.6, 1.1, 0.2), loc='upper left')
