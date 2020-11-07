@@ -160,24 +160,24 @@ def news_regions_recent(text_token):
         return None
 
 def news(update):
-    update.message.reply_text("Ecco la panoramica sui dati d'Italia del Covid-19 aggiornata al " + s_date) #### 
-    update.message.reply_photo(open(f"{dir_pics}/nuovi_positivi/italia.png", "rb"))
-    update.message.reply_photo(open(f"{dir_pics}/morti/italia.png", "rb"))
-    update.message.reply_photo(open(f"{dir_pics}/tamponi/italia.png", "rb"))
-    update.message.reply_photo(open(f"{dir_pics}/terapia/italia.png", "rb"))
+    update.message.reply_text("Ecco la panoramica sui dati d'Italia del Covid-19 aggiornata al " + s_date) ####         
     update.message.reply_photo(open(f"{dir_pics}/guariti/italia.png", "rb"))
     update.message.reply_photo(open(f"{dir_pics}/ricoverati/italia.png", "rb"))
+    update.message.reply_photo(open(f"{dir_pics}/morti/italia.png", "rb"))  
+    update.message.reply_photo(open(f"{dir_pics}/terapia/italia.png", "rb"))
     update.message.reply_photo(open(f"{dir_pics}/rapporto_tamponi/italia.png", "rb"))
+    update.message.reply_photo(open(f"{dir_pics}/tamponi/italia.png", "rb"))
+    update.message.reply_photo(open(f"{dir_pics}/nuovi_positivi/italia.png", "rb"))
 
 def news_recent(update):
-    update.message.reply_text("Ecco la panoramica sui dati d'Italia del Covid-19 aggiornata al " + s_date) #### 
-    update.message.reply_photo(open(f"{dir_pics}/nuovi_positivi_news/italia.png", "rb"))
-    update.message.reply_photo(open(f"{dir_pics}/morti_news/italia.png", "rb"))
-    update.message.reply_photo(open(f"{dir_pics}/tamponi_news/italia.png", "rb"))
-    update.message.reply_photo(open(f"{dir_pics}/terapia_news/italia.png", "rb"))
+    update.message.reply_text("Ecco la panoramica sui dati d'Italia del Covid-19 aggiornata al " + s_date) ####        
     update.message.reply_photo(open(f"{dir_pics}/guariti_news/italia.png", "rb"))
     update.message.reply_photo(open(f"{dir_pics}/ricoverati_news/italia.png", "rb"))
+    update.message.reply_photo(open(f"{dir_pics}/morti_news/italia.png", "rb"))
+    update.message.reply_photo(open(f"{dir_pics}/terapia_news/italia.png", "rb"))
     update.message.reply_photo(open(f"{dir_pics}/rapporto_tamponi_news/italia.png", "rb"))
+    update.message.reply_photo(open(f"{dir_pics}/tamponi_news/italia.png", "rb"))
+    update.message.reply_photo(open(f"{dir_pics}/nuovi_positivi_news/italia.png", "rb"))
     
 def echo(update, context):
     """Echo the user message."""
@@ -196,15 +196,13 @@ def echo(update, context):
         update.message.reply_text("Ciao padron Chri, lo sai che oggi hai proprio un bel aspetto. Salutami Buddy e Zoe <3")
     
     # update
-    elif text == "chri e fede ti ordinano di aggiornarti":
-        update.message.reply_text("Zi padrone!") 
-        update.message.reply_text("Mi lasci il tempo di far lavorare gli schiavi e faccio tutto padrone.") 
+    elif text == "chri, fede e marco ti ordinano di aggiornarti":
+        update.message.reply_text("Mi lasci il tempo di scaricare i dati e di disegnare.") 
         update.message.reply_text("...")
         update_data()
         # update timedata
         s_date = dt.strftime(dt.today(), "%d %h %Y %H:%M")
-        update.message.reply_text("Finito padrone!\nQuesta volta sono morti solo in 3 schiavi padrone!") 
-        update.message.reply_text("Mando gli ultimi dati aggiornati padrone <3")
+        update.message.reply_text("Questi sono gli ultimi dati aggiornati")
         news(update)
 
     # news
