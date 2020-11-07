@@ -37,7 +37,7 @@ def morti():
         plt.plot(date, per_regioni.diff(), color = "#464646", alpha = 0.8, linewidth =2)
         plt.scatter(x = date[-1], y = per_regioni.diff().tail(1), color = "#464646", alpha = 1,
         label = "{}: {}".format(date[-1].strftime("%d-%h"),int(per_regioni.diff().tail(1).values[0])))
-        plt.hlines(y = per_regioni.diff().max(), xmin=date[-14],xmax=date[-1], linestyles="--")
+        plt.hlines(y = per_regioni.diff().max(), xmin=date,xmax=date[-1], linestyles="--")
         ax.xaxis.set_major_locator(mdates.MonthLocator())
         ax.xaxis.set_major_formatter(mdates.DateFormatter('%b'))
         plt.ylim(bottom = 0)
@@ -75,7 +75,7 @@ def morti():
         plt.plot(date[-14:], per_regioni.diff()[-14:], color = "#464646", alpha = 0.8, linewidth =2)
         plt.scatter(x = date[-1], y = per_regioni.diff().tail(1), color = "#464646", alpha = 1,
         label = "{}: {}".format(date[-1].strftime("%d-%h"),int(per_regioni.diff().tail(1).values[0])))
-        plt.hlines(y = per_regioni.diff().max(), xmin=base,xmax=date[-1], linestyles="--")
+        plt.hlines(y = per_regioni.diff().max(), xmin=date[-14],xmax=date[-1], linestyles="--")
         ax.xaxis.set_major_locator(mdates.DayLocator())
         ax.xaxis.set_major_formatter(mdates.DateFormatter('%d-%h'))
         plt.ylim(bottom = 0)
