@@ -6,7 +6,7 @@ def fix_datasets():
 
     ## Devo mergiare i dati del trentino
     dati.drop(columns = ["casi_da_sospetto_diagnostico", "casi_da_screening"], axis = 1, inplace = True)
-    dati.dropna(thresh = 3, inplace = True)
+    #dati.dropna(thresh = 2, inplace = True)
 
     df_r = dati.loc[(dati['denominazione_regione'] == "P.A. Bolzano") | (dati['denominazione_regione'] == "P.A. Trento")]
     df_trentino = df_r.groupby("data").sum()
@@ -24,7 +24,7 @@ def fix_datasets():
     dati_correct = pd.merge(dati_fix, regioni, left_on = 'denominazione_regione', right_on = 'regione')
     dati_correct = dati_correct.drop('denominazione_regione', axis = 1)
 
-    dati.to_csv("data/dati_regioni.csv")
+    #dati.to_csv("data/dati_regioni.csv")
     dati_correct.to_csv("data/dati.csv")
     print("Dataset Regioni fixed")
     # ***
