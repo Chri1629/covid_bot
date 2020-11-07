@@ -1,13 +1,13 @@
 Hey! Allora per capire bene cosa chiedermi ti daro' l'elenco delle cose che so:
 
-- news <regione>
-- positivi <regione>
-- deceduti <regione>
-- tamponi <regione>
-- ricoverati <regione>
-- rapporto tamponi <regione>
-- terapia intensiva <regione>
-- guariti <regione>
+- news [recenti] <regione>
+- positivi [recenti] <regione>
+- deceduti [recenti] <regione> 
+- tamponi [recenti] <regione>
+- ricoverati [recenti] <regione>
+- rapporto tamponi [recenti] <regione>
+- terapia intensiva [recenti] <regione>
+- guariti [recenti] <regione>
 
 Puoi anche non specificare la regione, in quel caso ti daro' i dati a livello nazionale.
 
