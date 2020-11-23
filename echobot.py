@@ -42,7 +42,7 @@ def set_up():
     logger = logging.getLogger(__name__)
     dir_pics = "pics"
     # read token_key and start bot
-    with open("bot/token_key_prova.txt", "r") as file:
+    with open("bot/token_key.txt", "r") as file:
         token = file.read()
     assert(token)
     # read regions file
