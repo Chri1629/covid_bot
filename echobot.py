@@ -42,7 +42,7 @@ def set_up():
     logger = logging.getLogger(__name__)
     dir_pics = "pics"
     # read token_key and start bot
-    with open("bot/token_key.txt", "r") as file:
+    with open("bot/token_key_prova.txt", "r") as file:
         token = file.read()
     assert(token)
     # read regions file
@@ -136,11 +136,12 @@ def news_regions(text_token):
     if region in regions: #if region is correct
         l = [open(f"{dir_pics}/nuovi_positivi/{region}.png", "rb"),
             open(f"{dir_pics}/morti/{region}.png", "rb"),
-            open(f"{dir_pics}/tamponi/{region}.png", "rb"),
-            open(f"{dir_pics}/rapporto_tamponi/{region}.png", "rb"),
-            open(f"{dir_pics}/ricoverati/{region}.png", "rb"),
             open(f"{dir_pics}/guariti/{region}.png", "rb"),
-            open(f"{dir_pics}/terapia/{region}.png", "rb")]
+            open(f"{dir_pics}/rapporto_tamponi/{region}.png", "rb"),
+            open(f"{dir_pics}/tamponi/{region}.png", "rb"),
+            open(f"{dir_pics}/ricoverati/{region}.png", "rb"),
+            open(f"{dir_pics}/terapia/{region}.png", "rb")
+            ]
         return l
     else:
         return None
@@ -150,36 +151,40 @@ def news_regions_recent(text_token):
     if region in regions: #if region is correct
         l = [open(f"{dir_pics}/nuovi_positivi_news/{region}.png", "rb"),
             open(f"{dir_pics}/morti_news/{region}.png", "rb"),
-            open(f"{dir_pics}/tamponi_news/{region}.png", "rb"),
-            open(f"{dir_pics}/rapporto_tamponi_news/{region}.png", "rb"),
-            open(f"{dir_pics}/ricoverati_news/{region}.png", "rb"),
             open(f"{dir_pics}/guariti_news/{region}.png", "rb"),
-            open(f"{dir_pics}/terapia_news/{region}.png", "rb")]
+            open(f"{dir_pics}/rapporto_tamponi_news/{region}.png", "rb"),
+            open(f"{dir_pics}/tamponi_news/{region}.png", "rb"),
+            open(f"{dir_pics}/ricoverati_news/{region}.png", "rb"),
+            open(f"{dir_pics}/terapia_news/{region}.png", "rb")
+            ]
         return l
     else:
         return None
 
 def news(update):
     update.message.reply_text("Ecco la panoramica sui dati d'Italia del Covid-19 aggiornata al " + s_date) ####         
-    update.message.reply_photo(open(f"{dir_pics}/guariti/italia.png", "rb"))
-    update.message.reply_photo(open(f"{dir_pics}/ricoverati/italia.png", "rb"))
+    update.message.reply_photo(open(f"{dir_pics}/nuovi_positivi/italia.png", "rb"))
     update.message.reply_photo(open(f"{dir_pics}/morti/italia.png", "rb"))  
-    update.message.reply_photo(open(f"{dir_pics}/terapia/italia.png", "rb"))
+    update.message.reply_photo(open(f"{dir_pics}/guariti/italia.png", "rb"))
     update.message.reply_photo(open(f"{dir_pics}/rapporto_tamponi/italia.png", "rb"))
     update.message.reply_photo(open(f"{dir_pics}/tamponi/italia.png", "rb"))
-    update.message.reply_photo(open(f"{dir_pics}/nuovi_positivi/italia.png", "rb"))
+    update.message.reply_photo(open(f"{dir_pics}/ricoverati/italia.png", "rb"))
+    update.message.reply_photo(open(f"{dir_pics}/terapia/italia.png", "rb"))
+    
 
 def news_recent(update):
-    update.message.reply_text("Ecco la panoramica sui dati d'Italia del Covid-19 aggiornata al " + s_date) ####        
+    update.message.reply_text("Ecco la panoramica sui dati d'Italia del Covid-19 aggiornata al " + s_date) #### 
+    update.message.reply_photo(open(f"{dir_pics}/nuovi_positivi_news/italia.png", "rb"))  
+    update.message.reply_photo(open(f"{dir_pics}/morti_news/italia.png", "rb"))     
     update.message.reply_photo(open(f"{dir_pics}/guariti_news/italia.png", "rb"))
-    update.message.reply_photo(open(f"{dir_pics}/ricoverati_news/italia.png", "rb"))
-    update.message.reply_photo(open(f"{dir_pics}/morti_news/italia.png", "rb"))
-    update.message.reply_photo(open(f"{dir_pics}/terapia_news/italia.png", "rb"))
     update.message.reply_photo(open(f"{dir_pics}/rapporto_tamponi_news/italia.png", "rb"))
     update.message.reply_photo(open(f"{dir_pics}/tamponi_news/italia.png", "rb"))
-    update.message.reply_photo(open(f"{dir_pics}/nuovi_positivi_news/italia.png", "rb"))
+    update.message.reply_photo(open(f"{dir_pics}/ricoverati_news/italia.png", "rb"))
+    update.message.reply_photo(open(f"{dir_pics}/terapia_news/italia.png", "rb"))
     
 def echo(update, context):
+
+    global s_date
     """Echo the user message."""
     #update.message.reply_text(update.message.text)
     text = update.message.text
