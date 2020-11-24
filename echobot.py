@@ -13,6 +13,15 @@ Press Ctrl-C on the command line or send a signal to the process to stop the
 bot.
 """
 
+################################################################################
+# update.message.chat_id # per avere la chat id
+# per mandare messaggi mirati
+#    context.bot.send_message(chat_id='172982427', 
+#                             text='Christian io ti vedo')
+#    context.bot.send_message(chat_id='210362159', 
+#                             text='Fedous io ti vedo')
+################################################################################
+
 import logging
 import nltk, re
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
@@ -23,8 +32,11 @@ from threading import Thread
 import schedule
 from time import sleep
 from datetime import datetime as dt
+from datetime import time
 
-
+# PROVA CHAT_ID
+chat_ids = ['172982427', 
+            '210362159']
 
 def set_up():
     # global variables
@@ -33,6 +45,7 @@ def set_up():
     global regions
     global dir_pics
     global s_date
+    global t_sched
     
     # To plot console log file
     # Enable logging
@@ -55,25 +68,41 @@ def set_up():
             line = file.readline()
     # start str date
     s_date = dt.strftime(dt.today(), "%d %h %Y %H:%M")
-    # start update thread 
+    # start update scraping thread 
     t_sched = Thread(target = schedule_checker, args = [])
     t_sched.start()
+    
 
 # controllore se attivare o meno il thread
 def schedule_checker():
-    schedule.every().day.at('17:15').do(update_data, )
+    schedule.every().day.at('16:50').do(update_data, )
     while(True):
         schedule.run_pending()
         sleep(1)
 
 # funzione update dei dati
 def update_data():
+    global s_date
+    
     logging.info("Updating data ... ")
-    preprocess_data()
+    flag = preprocess_data()
+    # if data not updated
+    while flag == False:
+       logging.warning("Data not update yet - waiting ...")
+       sleep(100)
+       flag = preprocess_data()
+   
     logging.info("Updating plots ... ")
     plot_producer()
+    s_date = dt.strftime(dt.today(), "%d %h %Y %H:%M")
     logging.info("Plots successfully updated!")
-    return
+
+# send to chat_ids updates
+def update_callback(context):
+    print("UPDATE CALLBACK")
+    for chat_id in chat_ids:
+        news_auto(context, chat_id)        
+    logger.info("Send updates and everyone!")
 
 # Define a few command handlers. These usually take the two arguments update and
 # context. Error handlers also receive the raised TelegramError object in error.
@@ -161,6 +190,24 @@ def news_regions_recent(text_token):
     else:
         return None
 
+def news_auto(context, chat_id):
+    context.bot.send_message(chat_id = chat_id,
+                text = "Ecco la panoramica sui dati d'Italia del Covid-19 aggiornata al " + s_date) ####         
+    context.bot.sendPhoto(chat_id = chat_id, 
+                photo = open(f"{dir_pics}/nuovi_positivi/italia.png", "rb"))
+    context.bot.sendPhoto(chat_id = chat_id,
+                photo = open(f"{dir_pics}/morti/italia.png", "rb"))  
+    context.bot.sendPhoto(chat_id = chat_id,
+                photo = open(f"{dir_pics}/guariti/italia.png", "rb"))
+    context.bot.sendPhoto(chat_id = chat_id,
+                photo = open(f"{dir_pics}/rapporto_tamponi/italia.png", "rb"))
+    context.bot.sendPhoto(chat_id = chat_id,
+                photo = open(f"{dir_pics}/tamponi/italia.png", "rb"))
+    context.bot.sendPhoto(chat_id = chat_id,
+                photo = open(f"{dir_pics}/ricoverati/italia.png", "rb"))
+    context.bot.sendPhoto(chat_id = chat_id,
+                photo = open(f"{dir_pics}/terapia/italia.png", "rb")) 
+
 def news(update):
     update.message.reply_text("Ecco la panoramica sui dati d'Italia del Covid-19 aggiornata al " + s_date) ####         
     update.message.reply_photo(open(f"{dir_pics}/nuovi_positivi/italia.png", "rb"))
@@ -169,10 +216,9 @@ def news(update):
     update.message.reply_photo(open(f"{dir_pics}/rapporto_tamponi/italia.png", "rb"))
     update.message.reply_photo(open(f"{dir_pics}/tamponi/italia.png", "rb"))
     update.message.reply_photo(open(f"{dir_pics}/ricoverati/italia.png", "rb"))
-    update.message.reply_photo(open(f"{dir_pics}/terapia/italia.png", "rb"))
-    
+    update.message.reply_photo(open(f"{dir_pics}/terapia/italia.png", "rb"))    
 
-def news_recent(update):
+def news_recent(update, context):
     update.message.reply_text("Ecco la panoramica sui dati d'Italia del Covid-19 aggiornata al " + s_date) #### 
     update.message.reply_photo(open(f"{dir_pics}/nuovi_positivi_news/italia.png", "rb"))  
     update.message.reply_photo(open(f"{dir_pics}/morti_news/italia.png", "rb"))     
@@ -181,10 +227,11 @@ def news_recent(update):
     update.message.reply_photo(open(f"{dir_pics}/tamponi_news/italia.png", "rb"))
     update.message.reply_photo(open(f"{dir_pics}/ricoverati_news/italia.png", "rb"))
     update.message.reply_photo(open(f"{dir_pics}/terapia_news/italia.png", "rb"))
-    
+       
 def echo(update, context):
 
     global s_date
+    
     """Echo the user message."""
     #update.message.reply_text(update.message.text)
     text = update.message.text
@@ -195,6 +242,8 @@ def echo(update, context):
 
     if text == "ciao":
         update.message.reply_text("Ciao bello! Niente sintomi oggi?")
+    elif text == "prova auto":
+        update_callback(context)
     elif text == "ciao sono fede":
         update.message.reply_text("Ciao padron Fede, lo sai che sei proprio bellissimo. Accarezza Diesel per me <3")
     elif text == "ciao sono chri":
@@ -205,8 +254,6 @@ def echo(update, context):
         update.message.reply_text("Mi lasci il tempo di scaricare i dati e di disegnare.") 
         update.message.reply_text("...")
         update_data()
-        # update timedata
-        s_date = dt.strftime(dt.today(), "%d %h %Y %H:%M")
         update.message.reply_text("Questi sono gli ultimi dati aggiornati")
         news(update)
 
@@ -216,7 +263,7 @@ def echo(update, context):
             news(update)
         elif text_token[1] == "recenti":
             if len(text_token) == 2:
-                news_recent(update)
+                news_recent(update, context)
             else:
                 region = news_regions_recent(text_token[2:])
                 if region:
@@ -351,10 +398,17 @@ def main():
     # on different commands - answer in Telegram
     dp.add_handler(CommandHandler("start", start))
     dp.add_handler(CommandHandler("help", help_command))
-
+    
+    # daily update handler
+    #j = updater.job_queue
+    #job.run_daily(update_data, time(hour=12, minute=12))
+ 
     # on noncommand i.e message - echo the message on Telegram
     dp.add_handler(MessageHandler(Filters.text & ~Filters.command, echo))
-
+    
+    
+    #j.run_daily(update_data, time(hour=12, minute=12))
+    
     # Start the Bot
     updater.start_polling()
 

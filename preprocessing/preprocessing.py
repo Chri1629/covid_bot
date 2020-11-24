@@ -3,7 +3,12 @@ from .scraper import scrape
 
 def preprocess_data():
     print("SCRAPING THE DATA")
-    scrape()
-    print("DATA DOWNLOADED")
-    fix_datasets()
-    print("DATA FIXED")
+    flag = scrape()
+    if (flag):
+       print("DATA DOWNLOADED")
+       fix_datasets()
+       print("DATA FIXED")
+       return True
+    else:
+       print("DATA NOT DOWNLOADED - no update found")
+       return False
