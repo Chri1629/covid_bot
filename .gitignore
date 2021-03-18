@@ -3,3 +3,5 @@ token_key.txt
 token_key_prova.txt
 **.pyc
 **server
+**chat_id.csv
+**history.log

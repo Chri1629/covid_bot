@@ -16,10 +16,7 @@ bot.
 ################################################################################
 # update.message.chat_id # per avere la chat id
 # per mandare messaggi mirati
-#    context.bot.send_message(chat_id='172982427', 
-#                             text='Christian io ti vedo')
-#    context.bot.send_message(chat_id='210362159', 
-#                             text='Fedous io ti vedo')
+#    context.bot.send_message(chat_id=<insert chat_id>)
 ################################################################################
 
 import logging
@@ -34,10 +31,6 @@ from time import sleep
 from datetime import datetime as dt
 from datetime import time
 
-# PROVA CHAT_ID
-chat_ids = ['172982427', 
-            '210362159']
-
 def set_up():
     # global variables
     global token
@@ -50,8 +43,10 @@ def set_up():
     # To plot console log file
     # Enable logging
     logging.basicConfig(
+        filename='history.log', 
         format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO
     )
+
     logger = logging.getLogger(__name__)
     dir_pics = "pics"
     # read token_key and start bot
