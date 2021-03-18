@@ -26,7 +26,7 @@ def fix_datasets():
 
     #dati.to_csv("data/dati_regioni.csv")
     dati_correct.to_csv("data/dati.csv")
-    print("Dataset Regioni fixed")
+    #print("Dataset Regioni fixed")
     # ***
     # Province
     dati_p = pd.read_csv("data/dati_province.csv")
@@ -47,4 +47,4 @@ def fix_datasets():
     #dati_p_fix = dati_p_fix[dati_p_fix["denominazione_provincia"] != "Fuori Regione / Provincia Autonoma"]
     
     dati_p_fix.to_csv("data/dati_p.csv")
-    print("Dataset Province fixed")
+    #print("Dataset Province fixed")

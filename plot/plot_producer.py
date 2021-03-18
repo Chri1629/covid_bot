@@ -9,7 +9,7 @@ from plot.guariti import guariti
 
 
 def plot_producer():
-    print("PRODUCING PLOTS")
+    #print("PRODUCING PLOTS")
     positivi_tamponi()
     tamponi()
     terapia_intensiva()
@@ -17,4 +17,4 @@ def plot_producer():
     morti()
     guariti()
     ricoverati()
-    print("PLOT PRODUCED")
+    #print("PLOT PRODUCED")

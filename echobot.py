@@ -95,7 +95,7 @@ def update_data(force = False):
 
 # send to chat_ids updates
 def update_callback(context):
-    print("UPDATE CALLBACK")
+    #print("UPDATE CALLBACK")
     for chat_id in chat_ids:
         news_auto(context, chat_id)        
     logger.info("Send updates and everyone!")
