@@ -2,7 +2,7 @@ import requests
 import csv, re
 #import pandas as pd
 
-def scrape():
+def scrape(force = False):
     page_prov = requests.get("https://raw.githubusercontent.com/pcm-dpc/COVID-19/master/dati-province/dpc-covid19-ita-province.csv")
     page_reg = requests.get("https://raw.githubusercontent.com/pcm-dpc/COVID-19/master/dati-regioni/dpc-covid19-ita-regioni.csv")
 
@@ -11,13 +11,14 @@ def scrape():
     data_r = page_reg.content.decode('utf-8').splitlines()
     
     # control if length of data are higher (for regions)
-    n_rows = 0
-    with open("data/dati_regioni.csv", "r", encoding = "utf-8") as csv_file:
-       n_rows = len(csv_file.readlines())
-    
-   # if length == then no update has done
-    if len(data_r)*2 == n_rows:
-       return False
+    if not force:
+        n_rows = 0
+        with open("data/dati_regioni.csv", "r", encoding = "utf-8") as csv_file:
+            n_rows = len(csv_file.readlines())
+        
+    # if length == then no update has done
+        if len(data_r)*2 == n_rows:
+            return False
        
     with open("data/dati_province.csv", "w", encoding = "utf-8") as csv_file:
         writer = csv.writer(csv_file, delimiter = ",")

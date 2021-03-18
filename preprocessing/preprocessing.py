@@ -1,9 +1,9 @@
 from .fixer_data import fix_datasets
 from .scraper import scrape
 
-def preprocess_data():
+def preprocess_data(force = False):
     print("SCRAPING THE DATA")
-    flag = scrape()
+    flag = scrape(force)
     if (flag):
        print("DATA DOWNLOADED")
        fix_datasets()

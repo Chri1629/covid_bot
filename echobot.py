@@ -76,13 +76,13 @@ def schedule_checker():
         sleep(1)
 
 # funzione update dei dati
-def update_data():
+def update_data(force = False):
     global s_date
     
     logging.info("Updating data ... ")
-    flag = preprocess_data()
+    flag = preprocess_data(force)
     # if data not updated
-    while flag == False:
+    while (not force) and (not flag):
        logging.warning("Data not update yet - waiting ...")
        sleep(100)
        flag = preprocess_data()
@@ -91,6 +91,7 @@ def update_data():
     plot_producer()
     s_date = dt.strftime(dt.today(), "%d %h %Y %H:%M")
     logging.info("Plots successfully updated!")
+
 
 # send to chat_ids updates
 def update_callback(context):
@@ -248,7 +249,7 @@ def echo(update, context):
     elif text == "chri, fede e marco ti ordinano di aggiornarti":
         update.message.reply_text("Mi lasci il tempo di scaricare i dati e di disegnare.") 
         update.message.reply_text("...")
-        update_data()
+        update_data(force = True)
         update.message.reply_text("Questi sono gli ultimi dati aggiornati")
         news(update)
 
