@@ -29,7 +29,7 @@ from threading import Thread
 import schedule
 from time import sleep
 from datetime import datetime as dt
-from datetime import time
+from datetime import time, timedelta
 
 def set_up():
     # global variables
@@ -70,7 +70,7 @@ def set_up():
 
 # controllore se attivare o meno il thread
 def schedule_checker():
-    schedule.every().day.at('16:50').do(update_data, )
+    schedule.every().day.at('15:50').do(update_data, )
     while(True):
         schedule.run_pending()
         sleep(1)
@@ -89,7 +89,7 @@ def update_data(force = False):
    
     logging.info("Updating plots ... ")
     plot_producer()
-    s_date = dt.strftime(dt.today(), "%d %h %Y %H:%M")
+    s_date = dt.strftime(dt.today()+timedelta(hours=1), "%d %h %Y %H:%M")
     logging.info("Plots successfully updated!")
 
 
