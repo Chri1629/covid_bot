@@ -62,7 +62,7 @@ def set_up():
             regions.append(l)
             line = file.readline()
     # start str date
-    s_date = dt.strftime(dt.today(), "%d %h %Y %H:%M")
+    s_date = dt.strftime(dt.today()+timedelta(hours=1), "%d %h %Y %H:%M")
     # start update scraping thread 
     t_sched = Thread(target = schedule_checker, args = [])
     t_sched.start()
@@ -70,7 +70,7 @@ def set_up():
 
 # controllore se attivare o meno il thread
 def schedule_checker():
-    schedule.every().day.at('15:50').do(update_data, )
+    schedule.every().day.at('15:20').do(update_data, )
     while(True):
         schedule.run_pending()
         sleep(1)
