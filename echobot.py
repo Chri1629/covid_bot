@@ -21,6 +21,8 @@ bot.
 
 import logging
 import nltk, re
+import requests
+import pandas as pd
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
 from preprocessing.preprocessing import preprocess_data
 from plot.plot_producer import plot_producer
@@ -50,7 +52,7 @@ def set_up():
     logger = logging.getLogger(__name__)
     dir_pics = "pics"
     # read token_key and start bot
-    with open("bot/token_key.txt", "r") as file:
+    with open("bot/token_key_prova.txt", "r") as file:
         token = file.read()
     assert(token)
     # read regions file
@@ -92,13 +94,30 @@ def update_data(force = False):
     s_date = dt.strftime(dt.today()+timedelta(hours=1), "%d %h %Y %H:%M")
     logging.info("Plots successfully updated!")
 
-
-# send to chat_ids updates
-def update_callback(context):
-    #print("UPDATE CALLBACK")
-    for chat_id in chat_ids:
-        news_auto(context, chat_id)        
-    logger.info("Send updates and everyone!")
+# send personal message
+def personal_update(chat_id, name):
+    try:
+        URL = "https://api.telegram.org/bot{}/".format(token)
+        text = f"Hey {name}! I dati sono stati aggiornati. Chiedimi quello che vuoi. \n\n Se non sai cosa puoi chiedermi /help"
+        url = URL + "sendMessage?text={}&chat_id={}&parse_mode=Markdown".format(text, chat_id)
+    
+        requests.post(url)
+    except:
+        logger.error(f'Error send personal message: chat_id: {chat_id} , name: {name}')
+    
+# user registration
+def personal_registration(chat_id, name, update):
+    df_chat_id = pd.read_csv('data/chat_id.csv', sep = ',')
+    # if user already registered
+    if (df_chat_id['chat_id'] == chat_id).any():
+        update.message.reply_text(f"Caro {name}, sei già registrato <3\n\nRiceverai la nostra notifica tutti i giorni")
+        logger.warning(f'User {name} already registered')
+    else:
+        # if no registered
+        df_chat_id = df_chat_id.append({'chat_id':chat_id, 'name':name}, ignore_index=True)
+        df_chat_id.to_csv('data/chat_id.csv', index = False)
+        update.message.reply_text(f"Caro {name}, ora sei registrato <3\n\nRiceverai la nostra notifica tutti i giorni, grazie di averci scelto!!")
+        logger.info(f'User {name} correctly registered')
 
 # Define a few command handlers. These usually take the two arguments update and
 # context. Error handlers also receive the raised TelegramError object in error.
@@ -229,8 +248,9 @@ def echo(update, context):
     global s_date
     
     """Echo the user message."""
-    #update.message.reply_text(update.message.text)
-    text = update.message.text
+    chat_id = update.message.chat.id # user chat_id
+    name = update.message.chat.first_name # user first_name
+    text = update.message.text # input text
     # preprocess del messaggio
     text = preprocess_text(text)
     # tokenize
@@ -239,7 +259,12 @@ def echo(update, context):
     if text == "ciao":
         update.message.reply_text("Ciao bello! Niente sintomi oggi?")
     elif text == "prova auto":
-        update_callback(context)
+        df_chat_id = pd.read_csv('data/chat_id.csv', sep = ',')
+        df_chat_id.apply(lambda x: personal_update(x['chat_id'], x['name']), axis = 1)
+    elif text == "prova chat_id":
+
+        personal_registration(chat_id, name, update)
+
     elif text == "ciao sono fede":
         update.message.reply_text("Ciao padron Fede, lo sai che sei proprio bellissimo. Accarezza Diesel per me <3")
     elif text == "ciao sono chri":
@@ -377,7 +402,7 @@ def echo(update, context):
     else:
         update.message.reply_text("Mi spiace non sono ancora in grado di capire quello che mi hai scritto.\nImparo pian piano!\n\nSe non sai cosa posso capire apri la guida con /help.")
     
-    logger.info("Replyed to: " + str(text))
+    logger.info(f"{name} - Ask: " + str(text))
 
 
 def main():
