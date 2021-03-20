@@ -45,7 +45,7 @@ def set_up():
     # To plot console log file
     # Enable logging
     logging.basicConfig(
-        filename='history.log', 
+        #filename='history.log', 
         format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO
     )
 
@@ -96,7 +96,7 @@ def update_data(force = False):
 
 # schedule function
 def shedule_update():
-    update_data()
+    update_data(force = False)
     personal_updates()
 
 # send personal message
@@ -282,7 +282,7 @@ def echo(update, context):
     elif text == "schiavo aggiornati":
         update.message.reply_text("Mi lasci il tempo di scaricare i dati e di disegnare.") 
         update.message.reply_text("...")
-        update_data(force = True)
+        update_data(force = False)
         update.message.reply_text("Questi sono gli ultimi dati aggiornati")
         news(update)
     # update to everyone
