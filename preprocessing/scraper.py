@@ -3,6 +3,7 @@ import csv, re
 #import pandas as pd
 
 def scrape(force = False):
+
     page_prov = requests.get("https://raw.githubusercontent.com/pcm-dpc/COVID-19/master/dati-province/dpc-covid19-ita-province.csv")
     page_reg = requests.get("https://raw.githubusercontent.com/pcm-dpc/COVID-19/master/dati-regioni/dpc-covid19-ita-regioni.csv")
 
@@ -16,6 +17,8 @@ def scrape(force = False):
         with open("data/dati_regioni.csv", "r", encoding = "utf-8") as csv_file:
             n_rows = len(csv_file.readlines())
         
+        print(f"Controllo righe nuove {n_rows}")
+        print(f"Controllo righe vecchie {len(data_r)*2}")
     # if length == then no update has done
         if len(data_r)*2 == n_rows:
             return False
