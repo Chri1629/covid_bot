@@ -7,7 +7,7 @@ import datetime as dt
 
 
 def ricoverati():
-    base = dt.datetime(2020, 2, 25)
+    base = dt.datetime(2020, 2, 24)
     dati_regione = pd.read_csv("data/dati_regioni.csv", sep = ",")
     raggruppati = dati_regione.groupby('data').sum().reset_index()
     date = np.linspace(0,len(raggruppati['data'].unique()), len(raggruppati))
