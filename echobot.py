@@ -45,7 +45,7 @@ def set_up():
     # To plot console log file
     # Enable logging
     logging.basicConfig(
-        #filename='history.log', 
+        filename='history.log', 
         format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO
     )
 

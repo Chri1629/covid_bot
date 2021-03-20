@@ -16,9 +16,7 @@ def scrape(force = False):
         n_rows = 0
         with open("data/dati_regioni.csv", "r", encoding = "utf-8") as csv_file:
             n_rows = len(csv_file.readlines())
-        
-        print(f"Controllo righe nuove {n_rows}")
-        print(f"Controllo righe vecchie {len(data_r)}")
+            
     # if length == then no update has done
         if len(data_r) == n_rows:
             return False
