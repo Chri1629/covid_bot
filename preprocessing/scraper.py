@@ -18,9 +18,9 @@ def scrape(force = False):
             n_rows = len(csv_file.readlines())
         
         print(f"Controllo righe nuove {n_rows}")
-        print(f"Controllo righe vecchie {len(data_r)*2}")
+        print(f"Controllo righe vecchie {len(data_r)}")
     # if length == then no update has done
-        if len(data_r)*2 == n_rows:
+        if len(data_r) == n_rows:
             return False
        
     with open("data/dati_province.csv", "w", encoding = "utf-8") as csv_file:
