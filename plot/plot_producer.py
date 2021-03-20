@@ -10,11 +10,11 @@ from plot.guariti import guariti
 
 def plot_producer():
     #print("PRODUCING PLOTS")
-    #positivi_tamponi()
-    #tamponi()
-    #terapia_intensiva()
-    #casi()
-    #morti()
-    #guariti()
+    positivi_tamponi()
+    tamponi()
+    terapia_intensiva()
+    casi()
+    morti()
+    guariti()
     ricoverati()
     #print("PLOT PRODUCED")
