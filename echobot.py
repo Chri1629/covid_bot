@@ -72,7 +72,7 @@ def set_up():
 
 # controllore se attivare o meno il thread
 def schedule_checker():
-    schedule.every().day.at('15:20').do(update_data, )
+    schedule.every().day.at('15:20').do(shedule_update, )
     while(True):
         schedule.run_pending()
         sleep(1)
@@ -94,6 +94,11 @@ def update_data(force = False):
     s_date = dt.strftime(dt.today()+timedelta(hours=1), "%d %h %Y %H:%M")
     logging.info("Plots successfully updated!")
 
+# schedule function
+def shedule_update():
+    update_data()
+    personal_updates()
+
 # send personal message
 def personal_update(chat_id, name):
     try:
@@ -104,7 +109,13 @@ def personal_update(chat_id, name):
         requests.post(url)
     except:
         logger.error(f'Error send personal message: chat_id: {chat_id} , name: {name}')
-    
+
+# send personal message to everyone
+def personal_updates():
+    df_chat_id = pd.read_csv('data/chat_id.csv', sep = ',')
+    df_chat_id.apply(lambda x: personal_update(x['chat_id'], x['name']), axis = 1) 
+    logger.info('Send updates to everyone')
+
 # user registration
 def personal_registration(chat_id, name, update):
     df_chat_id = pd.read_csv('data/chat_id.csv', sep = ',')
@@ -258,25 +269,25 @@ def echo(update, context):
 
     if text == "ciao":
         update.message.reply_text("Ciao bello! Niente sintomi oggi?")
-    elif text == "prova auto":
-        df_chat_id = pd.read_csv('data/chat_id.csv', sep = ',')
-        df_chat_id.apply(lambda x: personal_update(x['chat_id'], x['name']), axis = 1)
-    elif text == "prova chat_id":
-
+    
+    elif text == "registrami":
         personal_registration(chat_id, name, update)
 
-    elif text == "ciao sono fede":
-        update.message.reply_text("Ciao padron Fede, lo sai che sei proprio bellissimo. Accarezza Diesel per me <3")
-    elif text == "ciao sono chri":
-        update.message.reply_text("Ciao padron Chri, lo sai che oggi hai proprio un bel aspetto. Salutami Buddy e Zoe <3")
+    #elif text == "ciao sono fede":
+    #    update.message.reply_text("Ciao padron Fede, lo sai che sei proprio bellissimo. Accarezza Diesel per me <3")
+    #elif text == "ciao sono chri":
+    #    update.message.reply_text("Ciao padron Chri, lo sai che oggi hai proprio un bel aspetto. Salutami Buddy e Zoe <3")
     
     # update
-    elif text == "chri, fede e marco ti ordinano di aggiornarti":
+    elif text == "schiavo aggiornati":
         update.message.reply_text("Mi lasci il tempo di scaricare i dati e di disegnare.") 
         update.message.reply_text("...")
         update_data(force = True)
         update.message.reply_text("Questi sono gli ultimi dati aggiornati")
         news(update)
+    # update to everyone
+    elif text == "schiavo manda messaggi a tutti":
+        personal_updates()
 
     # news
     elif text_token[0] == "news":
