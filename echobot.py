@@ -100,35 +100,59 @@ def shedule_update():
     personal_updates()
 
 # send personal message
-def personal_update(chat_id, name):
+def personal_update(chat_id, name, sub):
     try:
-        URL = "https://api.telegram.org/bot{}/".format(token)
-        text = f"Hey {name}! I dati sono stati aggiornati. Chiedimi quello che vuoi. \n\n Se non sai cosa puoi chiedermi /help"
-        url = URL + "sendMessage?text={}&chat_id={}&parse_mode=Markdown".format(text, chat_id)
-    
-        requests.post(url)
+        if sub == 1:
+            URL = "https://api.telegram.org/bot{}/".format(token)
+            text = f"Hey {name}! I dati sono stati aggiornati. Chiedimi quello che vuoi. \n\n Se non sai cosa puoi chiedermi /help"
+            url = URL + "sendMessage?text={}&chat_id={}&parse_mode=Markdown".format(text, chat_id)
+        
+            requests.post(url)
     except:
         logger.error(f'Error send personal message: chat_id: {chat_id} , name: {name}')
 
 # send personal message to everyone
 def personal_updates():
     df_chat_id = pd.read_csv('data/chat_id.csv', sep = ',')
-    df_chat_id.apply(lambda x: personal_update(x['chat_id'], x['name']), axis = 1) 
+    df_chat_id.apply(lambda x: personal_update(x['chat_id'], x['name'], x['sub']), axis = 1) 
     logger.info('Send updates to everyone')
 
 # user registration
-def personal_registration(chat_id, name, update):
+def personal_registration(chat_id, name, username, update):
     df_chat_id = pd.read_csv('data/chat_id.csv', sep = ',')
     # if user already registered
-    if (df_chat_id['chat_id'] == chat_id).any():
-        update.message.reply_text(f"Caro {name}, sei già registrato <3\n\nRiceverai la nostra notifica tutti i giorni")
-        logger.warning(f'User {name} already registered')
+    if (df_chat_id['chat_id'] == chat_id).any(): # if user already registered
+        if df_chat_id[df_chat_id['chat_id'] == chat_id]['sub'].values[0] == 1 :
+            update.message.reply_text(f"Caro {name}, sei già registrato <3\n\nRiceverai la nostra notifica tutti i giorni")
+            logger.warning(f'User {name} already registered')
+        else: # if user comes back to register
+            df_chat_id.at[df_chat_id['chat_id'] == chat_id,'sub'] = 1
+            df_chat_id.to_csv('data/chat_id.csv', index = False)
+            update.message.reply_text(f"Caro {name}, grazie per essere ritornato <3\n\nRiceverai la nostra notifica tutti i giorni")
+            logger.warning(f'User {name} already registered')
     else:
         # if no registered
-        df_chat_id = df_chat_id.append({'chat_id':chat_id, 'name':name}, ignore_index=True)
+        df_chat_id = df_chat_id.append({'chat_id':chat_id, 'name':name, 'username':username, 'sub':1}, ignore_index=True)
         df_chat_id.to_csv('data/chat_id.csv', index = False)
         update.message.reply_text(f"Caro {name}, ora sei registrato <3\n\nRiceverai la nostra notifica tutti i giorni, grazie di averci scelto!!")
         logger.info(f'User {name} correctly registered')
+
+def personal_un_registration(chat_id, name, update):
+    df_chat_id = pd.read_csv('data/chat_id.csv', sep = ',')
+
+    if (df_chat_id['chat_id'] == chat_id).any(): # if user exists
+        if df_chat_id[df_chat_id['chat_id'] == chat_id]['sub'].values[0] == 1: # if user is registered
+            df_chat_id.at[df_chat_id['chat_id'] == chat_id,'sub'] = 0
+            df_chat_id.to_csv('data/chat_id.csv', index = False)
+            update.message.reply_text(f"Caro {name}, ci spiace che decidi di disiscriverti </3\n\nPuoi comunque sempre utilizzare il bot e quando vorrai tornare ti basterà chiedere \"registrami\" o /help")
+            logger.info(f'User {name} unsubscribed')
+        else: # if user already unregistered
+            update.message.reply_text(f"Caro {name}, avevi già deciso di disiscriverti </3\n\nPuoi comunque sempre utilizzare il bot e quando vorrai tornare ti basterà chiedere \"registrami\" o /help")
+            logger.warning(f'User {name} already unsubscribed')
+    else:
+        update.message.reply_text(f"Caro {name}, non ti sei mai iscritto </3\n\nIscriviti tramite il comando \"registrami\". Puoi comunque sempre utilizzare il bot")
+        logger.warning(f'User {name} never subscribed')
+
 
 # Define a few command handlers. These usually take the two arguments update and
 # context. Error handlers also receive the raised TelegramError object in error.
@@ -139,6 +163,13 @@ def start(update, context):
     'Chiedimi pure quello che vuoi :)\n\n' +
     'Se sei in difficoltà usa il comando /help')
 
+def send_report(chat_id):
+    df_chat_id = pd.read_csv('data/master_chat_id.csv', sep = ',')
+    if (df_chat_id['chat_id'] == chat_id).any(): # if user is master
+        update.message.reply_text(f"Master {name}, procedo subito alla creazione e invio dei plot")
+        # funzioni plot
+        # invio plot
+        logger.info(f'Send plot to {name}')
 
 def help_command(update, context):
     """Send a message when the command /help is issued."""
@@ -261,6 +292,7 @@ def echo(update, context):
     """Echo the user message."""
     chat_id = update.message.chat.id # user chat_id
     name = update.message.chat.first_name # user first_name
+    username = update.message.chat.username  # username
     text = update.message.text # input text
     # preprocess del messaggio
     text = preprocess_text(text)
@@ -269,20 +301,17 @@ def echo(update, context):
 
     if text == "ciao":
         update.message.reply_text("Ciao bello! Niente sintomi oggi?")
-    
-    elif text == "registrami":
-        personal_registration(chat_id, name, update)
-
-    #elif text == "ciao sono fede":
-    #    update.message.reply_text("Ciao padron Fede, lo sai che sei proprio bellissimo. Accarezza Diesel per me <3")
-    #elif text == "ciao sono chri":
-    #    update.message.reply_text("Ciao padron Chri, lo sai che oggi hai proprio un bel aspetto. Salutami Buddy e Zoe <3")
-    
+    elif text == "mandami report":
+        send_report(chat_id)
+    elif text == "iscrivimi":
+        personal_registration(chat_id, name, username, update)
+    elif text == "disiscrivimi":
+        personal_un_registration(chat_id, name, update)
     # update
     elif text == "schiavo aggiornati":
         update.message.reply_text("Mi lasci il tempo di scaricare i dati e di disegnare.") 
         update.message.reply_text("...")
-        update_data(force = False)
+        update_data(force = True)
         update.message.reply_text("Questi sono gli ultimi dati aggiornati")
         news(update)
     # update to everyone
@@ -413,7 +442,7 @@ def echo(update, context):
     else:
         update.message.reply_text("Mi spiace non sono ancora in grado di capire quello che mi hai scritto.\nImparo pian piano!\n\nSe non sai cosa posso capire apri la guida con /help.")
     
-    logger.info(f"{name} - Ask: " + str(text))
+    logger.info(f"Ask {name}: " + str(text))
 
 
 def main():
