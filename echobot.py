@@ -104,7 +104,7 @@ def personal_update(chat_id, name, sub):
     try:
         if sub == 1:
             URL = "https://api.telegram.org/bot{}/".format(token)
-            text = f"Hey {name}! I dati sono stati aggiornati. Chiedimi quello che vuoi. \n\n Se non sai cosa puoi chiedermi /help"
+            text = f"Hey {name}! I dati sono stati aggiornati. Chiedimi quello che vuoi. \n\n Se non sai cosa puoi chiedermi digita /help"
             url = URL + "sendMessage?text={}&chat_id={}&parse_mode=Markdown".format(text, chat_id)
         
             requests.post(url)
@@ -123,18 +123,18 @@ def personal_registration(chat_id, name, username, update):
     # if user already registered
     if (df_chat_id['chat_id'] == chat_id).any(): # if user already registered
         if df_chat_id[df_chat_id['chat_id'] == chat_id]['sub'].values[0] == 1 :
-            update.message.reply_text(f"Caro {name}, sei già registrato <3\n\nRiceverai la nostra notifica tutti i giorni")
+            update.message.reply_text(f"Caro/a {name}, sei già registrato/a <3\n\nRiceverai la nostra notifica tutti i giorni")
             logger.warning(f'User {name} already registered')
         else: # if user comes back to register
             df_chat_id.at[df_chat_id['chat_id'] == chat_id,'sub'] = 1
             df_chat_id.to_csv('data/chat_id.csv', index = False)
-            update.message.reply_text(f"Caro {name}, grazie per essere ritornato <3\n\nRiceverai la nostra notifica tutti i giorni")
+            update.message.reply_text(f"Caro/a {name}, grazie per essere tornato/a <3\n\nRiceverai la nostra notifica tutti i giorni")
             logger.warning(f'User {name} already registered')
     else:
         # if no registered
         df_chat_id = df_chat_id.append({'chat_id':chat_id, 'name':name, 'username':username, 'sub':1}, ignore_index=True)
         df_chat_id.to_csv('data/chat_id.csv', index = False)
-        update.message.reply_text(f"Caro {name}, ora sei registrato <3\n\nRiceverai la nostra notifica tutti i giorni, grazie di averci scelto!!")
+        update.message.reply_text(f"Caro/a {name}, ora sei registrato/a <3\n\nRiceverai la nostra notifica tutti i giorni, grazie di averci scelto!!")
         logger.info(f'User {name} correctly registered')
 
 def personal_un_registration(chat_id, name, update):
@@ -144,13 +144,13 @@ def personal_un_registration(chat_id, name, update):
         if df_chat_id[df_chat_id['chat_id'] == chat_id]['sub'].values[0] == 1: # if user is registered
             df_chat_id.at[df_chat_id['chat_id'] == chat_id,'sub'] = 0
             df_chat_id.to_csv('data/chat_id.csv', index = False)
-            update.message.reply_text(f"Caro {name}, ci spiace che decidi di disiscriverti </3\n\nPuoi comunque sempre utilizzare il bot e quando vorrai tornare ti basterà chiedere \"registrami\" o /help")
+            update.message.reply_text(f"Caro/a {name}, ci spiace che abbia deciso di disiscriverti </3\n\nPuoi comunque sempre utilizzare il bot e quando vorrai tornare ti basterà chiedere \"iscrivimi\" o /help")
             logger.info(f'User {name} unsubscribed')
         else: # if user already unregistered
-            update.message.reply_text(f"Caro {name}, avevi già deciso di disiscriverti </3\n\nPuoi comunque sempre utilizzare il bot e quando vorrai tornare ti basterà chiedere \"registrami\" o /help")
+            update.message.reply_text(f"Caro/a {name}, avevi già deciso di disiscriverti </3\n\nPuoi comunque sempre utilizzare il bot e quando vorrai tornare ti basterà chiedere \"iscrivimi\" o /help")
             logger.warning(f'User {name} already unsubscribed')
     else:
-        update.message.reply_text(f"Caro {name}, non ti sei mai iscritto </3\n\nIscriviti tramite il comando \"registrami\". Puoi comunque sempre utilizzare il bot")
+        update.message.reply_text(f"Caro/a {name}, non ti sei mai iscritto/a </3\n\nIscriviti tramite il comando \"iscrivimi\". Puoi comunque sempre utilizzare il bot")
         logger.warning(f'User {name} never subscribed')
 
 

@@ -12,7 +12,7 @@ def ricoverati():
     raggruppati = dati_regione.groupby('data').sum().reset_index()
     date = np.linspace(0,len(raggruppati['data'].unique()), len(raggruppati))
     date = np.array([base + dt.timedelta(days = i) for i in range(len(date))]) 
-
+    print(dati_regione['data'].tail(1))
     fig, ax = plt.subplots()
     plt.plot(date, raggruppati['ricoverati_con_sintomi'], color = "#0047c3", alpha = 0.8, linewidth =2)
     l1 = plt.scatter(x = date[-1], y = raggruppati['ricoverati_con_sintomi'].tail(1), color = "#0047c3", alpha = 1)
