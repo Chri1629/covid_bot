@@ -161,9 +161,10 @@ def start(update, context):
     update.message.reply_text('Ciao! Sono CovidItaliaNews_bot, spero di darti buone notizie oggi!' +
     '\nSono un grande esperto dei dati della pandemia che stiamo vivendo.\n' +
     'Chiedimi pure quello che vuoi :)\n\n' +
+    'Per ricevere la notifica giornaliera digita \"iscrivimi\"' +
     'Se sei in difficoltà usa il comando /help')
 
-def send_report(chat_id):
+def send_report(chat_id, name, update):
     df_chat_id = pd.read_csv('data/master_chat_id.csv', sep = ',')
     if (df_chat_id['chat_id'] == chat_id).any(): # if user is master
         update.message.reply_text(f"Master {name}, procedo subito alla creazione e invio dei plot")
@@ -302,7 +303,7 @@ def echo(update, context):
     if text == "ciao":
         update.message.reply_text("Ciao bello! Niente sintomi oggi?")
     elif text == "mandami report":
-        send_report(chat_id)
+        send_report(chat_id, name, update)
     elif text == "iscrivimi":
         personal_registration(chat_id, name, username, update)
     elif text == "disiscrivimi":

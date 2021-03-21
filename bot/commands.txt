@@ -9,6 +9,9 @@ Hey! Ecco qui l'elenco delle cose che puoi chiedermi:
 - terapia intensiva [recenti] <regione>
 - guariti [recenti] <regione>
 
-Puoi anche non specificare la regione, in quel caso ti daro' i dati a livello nazionale.
+Puoi anche non specificare la regione, in quel caso ti daro' i dati a livello nazionale
 
-!!! Mi raccomando scrivi ESATTAMENTE come ti ho elencato sopra, anche se puoi sbizzarrirti che le MAIUSCOLE o minuscole, e ovviamente senza il '-'. 
+Se vuoi ricevere le notifiche giornaliere chiedimi con "iscrivimi" 
+Se, invece, non vuoi (ahimè) più ricevere le mie notifiche fammelo sapere con "disiscrivimi" 
+
+!!! Mi raccomando scrivi ESATTAMENTE come ti ho elencato sopra, anche se puoi sbizzarrirti che le MAIUSCOLE o minuscole, e ovviamente senza il '-' 
