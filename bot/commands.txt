@@ -1,4 +1,4 @@
-Hey! Ecco qui l'elenco delle cose che puoi chiedermi:
+Ecco qui l'elenco delle cose che puoi chiedermi:
 
 - news [recenti] <regione>
 - positivi [recenti] <regione>
@@ -11,7 +11,7 @@ Hey! Ecco qui l'elenco delle cose che puoi chiedermi:
 
 Puoi anche non specificare la regione, in quel caso ti daro' i dati a livello nazionale
 
-Se vuoi ricevere le notifiche giornaliere chiedimi con "iscrivimi" 
+Se vuoi ricevere le notifiche giornaliere fammelo sapere con "iscrivimi" (indicativamente tra le 16.30 e le 18.00, NO SPAM)
 Se, invece, non vuoi (ahimè) più ricevere le mie notifiche fammelo sapere con "disiscrivimi" 
 
 !!! Mi raccomando scrivi ESATTAMENTE come ti ho elencato sopra, anche se puoi sbizzarrirti che le MAIUSCOLE o minuscole, e ovviamente senza il '-' 

@@ -161,8 +161,9 @@ def start(update, context):
     update.message.reply_text('Ciao! Sono CovidItaliaNews_bot, spero di darti buone notizie oggi!' +
     '\nSono un grande esperto dei dati della pandemia che stiamo vivendo.\n' +
     'Chiedimi pure quello che vuoi :)\n\n' +
-    'Per ricevere la notifica giornaliera digita \"iscrivimi\"' +
-    'Se sei in difficoltà usa il comando /help')
+    'Per ricevere la notifica giornaliera digita \"iscrivimi\"')
+    help_command(update, context)
+    update.message.reply_text("Ricordati che in ogni momento puoi vedere ciò che puoi chiedermi tramite /help")
 
 def send_report(chat_id, name, update):
     df_chat_id = pd.read_csv('data/master_chat_id.csv', sep = ',')
@@ -301,7 +302,7 @@ def echo(update, context):
     text_token = nltk.word_tokenize(text)
 
     if text == "ciao":
-        update.message.reply_text("Ciao bello! Niente sintomi oggi?")
+        update.message.reply_text(f"Ciao {name}!")
     elif text == "mandami report":
         send_report(chat_id, name, update)
     elif text == "iscrivimi":
