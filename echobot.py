@@ -80,19 +80,20 @@ def schedule_checker():
 # funzione update dei dati
 def update_data(force = False):
     global s_date
-    
+
     logging.info("Updating data ... ")
     flag = preprocess_data(force)
     # if data not updated
     while (not force) and (not flag):
-       logging.warning("Data not update yet - waiting ...")
-       sleep(100)
-       flag = preprocess_data()
-   
+        logging.warning("Data not update yet - waiting ...")
+        sleep(100)
+        flag = preprocess_data()
+
     logging.info("Updating plots ... ")
     plot_producer()
     s_date = dt.strftime(dt.today()+timedelta(hours=1), "%d %h %Y %H:%M")
     logging.info("Plots successfully updated!")
+
 
 # schedule function
 def shedule_update():
@@ -165,13 +166,24 @@ def start(update, context):
     help_command(update, context)
     update.message.reply_text("Ricordati che in ogni momento puoi vedere ciò che puoi chiedermi tramite /help")
 
-def send_report(chat_id, name, update):
+# send messages to one master
+def send_to_master(chat_id, name, message, update):
+        try:
+            URL = "https://api.telegram.org/bot{}/".format(token)
+            url = URL + "sendMessage?text={}&chat_id={}&parse_mode=Markdown".format(message, chat_id)
+        
+            requests.post(url)
+
+        except:
+            logger.error(f'Error send master message: chat_id: {chat_id} , name: {name}')
+            
+        logger.info(f'Send master message to {name}')
+
+# send message to masters
+def send_to_masters(message, update):
     df_chat_id = pd.read_csv('data/master_chat_id.csv', sep = ',')
-    if (df_chat_id['chat_id'] == chat_id).any(): # if user is master
-        update.message.reply_text(f"Master {name}, procedo subito alla creazione e invio dei plot")
-        # funzioni plot
-        # invio plot
-        logger.info(f'Send plot to {name}')
+    
+    df_chat_id.apply(lambda x: send_to_master(x['chat_id'], x['name'], message, update), axis = 1)
 
 def help_command(update, context):
     """Send a message when the command /help is issued."""
@@ -303,8 +315,6 @@ def echo(update, context):
 
     if text == "ciao":
         update.message.reply_text(f"Ciao {name}!")
-    elif text == "mandami report":
-        send_report(chat_id, name, update)
     elif text == "iscrivimi":
         personal_registration(chat_id, name, username, update)
     elif text == "disiscrivimi":
