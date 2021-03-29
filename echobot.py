@@ -64,7 +64,7 @@ def set_up():
             regions.append(l)
             line = file.readline()
     # start str date
-    s_date = dt.strftime(dt.today(), "%d %h %Y %H:%M")
+    s_date = dt.strftime(dt.today()+timedelta(hour=2), "%d %h %Y %H:%M")
     # start update scraping thread 
     t_sched = Thread(target = schedule_checker, args = [])
     t_sched.start()
@@ -91,7 +91,7 @@ def update_data(force = False):
 
     logging.info("Updating plots ... ")
     plot_producer()
-    s_date = dt.strftime(dt.today(), "%d %h %Y %H:%M")
+    s_date = dt.strftime(dt.today()+timedelta(hour=2), "%d %h %Y %H:%M")
     logging.info("Plots successfully updated!")
 
 
