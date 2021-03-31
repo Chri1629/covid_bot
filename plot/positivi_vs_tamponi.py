@@ -39,6 +39,10 @@ def positivi_tamponi():
     for regione in dati_regione['denominazione_regione'].unique():
         per_regioni = dati_regione.loc[dati_regione['denominazione_regione'] == regione][['nuovi_positivi','tamponi']]
         per_regioni['tamponi'] = per_regioni['tamponi'].diff()
+
+        if per_regioni['tamponi'].tail(1).values[0] == 0:
+            continue
+        
         per_regioni['rapporto'] = round(per_regioni['nuovi_positivi']/per_regioni['tamponi']*100,1)
     
         fig, ax = plt.subplots()
@@ -86,6 +90,10 @@ def positivi_tamponi():
     for regione in dati_regione['denominazione_regione'].unique():
         per_regioni = dati_regione.loc[dati_regione['denominazione_regione'] == regione][['nuovi_positivi','tamponi']]
         per_regioni['tamponi'] = per_regioni['tamponi'].diff()
+
+        if per_regioni['tamponi'].tail(1).values[0] == 0:
+            continue
+        
         per_regioni['rapporto'] = round(per_regioni['nuovi_positivi']/per_regioni['tamponi']*100,1)
     
         fig, ax = plt.subplots()
