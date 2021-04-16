@@ -1,6 +1,6 @@
 import requests
 import csv, re
-#import pandas as pd
+import pandas as pd
 
 def scrape(force = False):
 
@@ -39,3 +39,29 @@ def scrape(force = False):
             writer.writerow(l)
             
     return True
+
+def scrape_vaccini(force = False):
+   page = requests.get("https://raw.githubusercontent.com/italia/covid19-opendata-vaccini/master/dati/somministrazioni-vaccini-latest.csv")
+
+   data = page.content.decode('utf-8').splitlines()
+   
+   with open("data/vaccini.csv", "w", encoding = "utf-8") as csv_file:
+      writer = csv.writer(csv_file, delimiter = ",")
+      for line in data:
+          l = re.split(',', line)
+          assert(len(l) == 19) # se il numero di campi per riga è corretto
+          writer.writerow(l)
+   
+   # save raw
+   df = pd.read_csv(r"C:\Users\fede9\Documents\GitHub\covid_bot\data\vaccini.csv", sep = ',')
+   # formato data
+   df['data_somministrazione']= pd.to_datetime(df['data_somministrazione'])
+   
+   # NO Na
+   # drop useless columns
+   df['regione'] = df['nome_area'] # rename
+   df['data'] = df['data_somministrazione'] # rename
+   df = df.drop(['data_somministrazione', 'area', 'codice_NUTS1', 'nome_area', 'codice_NUTS2', 'codice_regione_ISTAT'], axis = 1)
+   
+   # save fixed
+   df.to_csv(r"C:\Users\fede9\Documents\GitHub\covid_bot\data\vaccini_fixed.csv", index = False)
