@@ -474,8 +474,10 @@ def echo(update, context):
     elif text  == "chi sei?":
        update.message.reply_photo(open(f"{dir_pics}/easter_egg/lillo.png", "rb"))
        update.message.reply_text("Sono Lillo!")
-    elif text  == "perché non capisci?":
+    elif text  == "cosa capisci?":
        update.message.reply_photo(open(f"{dir_pics}/easter_egg/elio.jpg", "rb"))
+    elif text  == "oggi sbraco":
+       update.message.reply_photo(open(f"{dir_pics}/easter_egg/sbraco.jpeg", "rb"))
     # se non è stato compreso il messsaggio    
     else:
         update.message.reply_text("Mi spiace non sono ancora in grado di capire quello che mi hai scritto.\nImparo pian piano!\n\nSe non sai cosa posso capire apri la guida con /help.")
