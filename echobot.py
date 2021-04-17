@@ -306,9 +306,9 @@ def echo(update, context):
     chat_id = update.message.chat.id # user chat_id
     name = update.message.chat.first_name # user first_name
     username = update.message.chat.username  # username
-    text = update.message.text # input text
+    text_in = update.message.text # input text
     # preprocess del messaggio
-    text = preprocess_text(text)
+    text = preprocess_text(text_in)
     # tokenize
     text_token = nltk.word_tokenize(text)
     # send logger
@@ -336,7 +336,7 @@ def echo(update, context):
     elif text == "schiavo manda aggiornamenti a tutti" and (df_masters['chat_id'] == chat_id).any():
         personal_updates()
     elif text_token[0] == "schiavoinvia" and (df_masters['chat_id'] == chat_id).any():
-        send_message_to_all(untokenize(text_token[1:]))
+        send_message_to_all(text_in[13:])
         
     elif text_token[0] == 'feedback':
        message = f"feedback from {name}:\n {untokenize(text_token[1:])}"
@@ -473,7 +473,7 @@ def echo(update, context):
     elif text  == "chi sei?":
        update.message.reply_photo(open(f"{dir_pics}/easter_egg/lillo.png", "rb"))
        update.message.reply_text("Sono Lillo!")
-    elif text  == "perchè non capisci?":
+    elif text  == "perché non capisci?":
        update.message.reply_photo(open(f"{dir_pics}/easter_egg/elio.jpg", "rb"))
     # se non è stato compreso il messsaggio    
     else:
