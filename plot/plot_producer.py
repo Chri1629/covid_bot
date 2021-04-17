@@ -5,6 +5,7 @@ from plot.casi import casi
 from plot.morti import morti
 from plot.ricoverati import ricoverati
 from plot.guariti import guariti
+from plot.vaccini import vaccini
 
 
 
@@ -17,4 +18,5 @@ def plot_producer():
     morti()
     guariti()
     ricoverati()
+    vaccini()
     #print("PLOT PRODUCED")

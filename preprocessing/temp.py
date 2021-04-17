@@ -17,7 +17,8 @@ page = requests.get("https://raw.githubusercontent.com/italia/covid19-opendata-v
 
 data = page.content.decode('utf-8').splitlines()
 
-with open(r"C:\Users\fede9\Documents\GitHub\covid_bot\data\vaccini.csv", "w", encoding = "utf-8") as csv_file:
+#with open(r"C:\Users\fede9\Documents\GitHub\covid_bot\data\vaccini.csv", "w", encoding = "utf-8") as csv_file:
+with open("../data/vaccini.csv", "w", encoding = "utf-8") as csv_file:
    writer = csv.writer(csv_file, delimiter = ",")
    for line in data:
        l = re.split(',', line)
@@ -30,7 +31,8 @@ with open(r"C:\Users\fede9\Documents\GitHub\covid_bot\data\vaccini.csv", "w", en
 ##############################################
 
 
-df = pd.read_csv(r"C:\Users\fede9\Documents\GitHub\covid_bot\data\vaccini.csv", sep = ',')
+#df = pd.read_csv(r"C:\Users\fede9\Documents\GitHub\covid_bot\data\vaccini.csv", sep = ',')
+df = pd.read_csv("../data/vaccini.csv", sep = ',')
 # formato data
 df['data_somministrazione']= pd.to_datetime(df['data_somministrazione'])
 
@@ -41,12 +43,15 @@ df['data'] = df['data_somministrazione'] # rename
 df = df.drop(['data_somministrazione', 'area', 'codice_NUTS1', 'nome_area', 'codice_NUTS2', 'codice_regione_ISTAT'], axis = 1)
 
 # save
-df.to_csv(r"C:\Users\fede9\Documents\GitHub\covid_bot\data\vaccini_fixed.csv", index = False)
+#df.to_csv(r"C:\Users\fede9\Documents\GitHub\covid_bot\data\vaccini_fixed.csv", index = False)
+df.to_csv("../data/vaccini_fixed.csv", index = False)
 
 #########################################################
 # ANDAMENTO
 ########################################################
-df = pd.read_csv(r"C:\Users\fede9\Documents\GitHub\covid_bot\data\vaccini_fixed.csv")
+#df = pd.read_csv(r"C:\Users\fede9\Documents\GitHub\covid_bot\data\vaccini_fixed.csv")
+df = pd.read_csv("../data/vaccini_fixed.csv")
+
 df['data'] = pd.to_datetime(df['data'])
 df_and = df[['data', 'prima_dose', 'seconda_dose']].copy()
 
