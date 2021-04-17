@@ -64,4 +64,4 @@ def scrape_vaccini(force = False):
    df = df.drop(['data_somministrazione', 'area', 'codice_NUTS1', 'nome_area', 'codice_NUTS2', 'codice_regione_ISTAT'], axis = 1)
    
    # save fixed
-   df.to_csv("data/dati_vaccini_fixed.csv.csv", index = False)
+   df.to_csv("data/vaccini_fixed.csv", index = False)
