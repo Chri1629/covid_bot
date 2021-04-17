@@ -1,0 +1,5 @@
+Comandi per i masters:
+
+schiavo aggiornati
+schiavo manda aggiornamenti a tutti
+schiavoinvia <messsaggio>

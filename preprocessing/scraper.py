@@ -53,18 +53,15 @@ def scrape_vaccini(force = False):
           writer.writerow(l)
    
    # save raw
-   #df = pd.read_csv(r"C:\Users\fede9\Documents\GitHub\covid_bot\data\vaccini.csv", sep = ',')
    df = pd.read_csv("data/vaccini.csv", sep = ',')
 
    # formato data
    df['data_somministrazione']= pd.to_datetime(df['data_somministrazione'])
    
    # NO Na
-   # drop useless columns
    df['regione'] = df['nome_area'] # rename
    df['data'] = df['data_somministrazione'] # rename
    df = df.drop(['data_somministrazione', 'area', 'codice_NUTS1', 'nome_area', 'codice_NUTS2', 'codice_regione_ISTAT'], axis = 1)
    
    # save fixed
-   #df.to_csv(r"C:\Users\fede9\Documents\GitHub\covid_bot\data\vaccini_fixed.csv", index = False)
    df.to_csv("data/dati_vaccini_fixed.csv.csv", index = False)

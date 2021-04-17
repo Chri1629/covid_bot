@@ -13,13 +13,8 @@ Press Ctrl-C on the command line or send a signal to the process to stop the
 bot.
 """
 
-################################################################################
-# update.message.chat_id # per avere la chat id
-# per mandare messaggi mirati
-#    context.bot.send_message(chat_id=<insert chat_id>)
-################################################################################
-
 import logging
+import os
 import nltk, re
 import requests
 import pandas as pd
@@ -31,7 +26,7 @@ from threading import Thread
 import schedule
 from time import sleep
 from datetime import datetime as dt
-from datetime import time, timedelta
+from datetime import timedelta
 
 def set_up():
     # global variables
@@ -41,6 +36,7 @@ def set_up():
     global dir_pics
     global s_date
     global t_sched
+    global df_masters
     
     # To plot console log file
     # Enable logging
@@ -55,6 +51,8 @@ def set_up():
     with open("bot/token_key.txt", "r") as file:
         token = file.read()
     assert(token)
+    # read masters chat_id
+    df_masters = pd.read_csv("bot/master_chat_id.csv")
     # read regions file
     regions = []
     with open("bot/regioni.txt", "r") as file:
@@ -100,24 +98,46 @@ def shedule_update():
     update_data(force = False)
     personal_updates()
 
-# send personal message
-def personal_update(chat_id, name, sub):
+# send a message to chat_id
+def send_message(chat_id, message):
+   try:
+      URL = "https://api.telegram.org/bot{}/".format(token)
+      url = URL + "sendMessage?text={}&chat_id={}&parse_mode=Markdown".format(message, chat_id)
+        
+      requests.post(url)
+   except:
+      logger.error(f'Error send personal message: chat_id: {chat_id}')
+
+# send personal update
+def personal_update(chat_id, name, sub, text = None):
     try:
         if sub == 1:
-            URL = "https://api.telegram.org/bot{}/".format(token)
-            text = f"Hey {name}! I dati sono stati aggiornati. Chiedimi quello che vuoi. \n\n Se non sai cosa puoi chiedermi digita /help"
-            url = URL + "sendMessage?text={}&chat_id={}&parse_mode=Markdown".format(text, chat_id)
-        
-            requests.post(url)
+            if text is None: # se non mi hanno passato testo
+               text = f"Hey {name}! I dati sono stati aggiornati. Chiedimi quello che vuoi. \n\n Se non sai cosa puoi chiedermi apri la guida con /help"
+         
+            send_message(chat_id, text)
+            
     except:
         logger.error(f'Error send personal message: chat_id: {chat_id} , name: {name}')
 
-# send personal message to everyone
+# send general message to everyone
+def send_message_to_all(message):
+   df_chat_id = pd.read_csv('data/chat_id.csv', sep = ',')
+   df_chat_id.apply(lambda x: personal_update(x['chat_id'], x['name'], x['sub'], message), axis = 1) 
+   logger.info('Send updates to everyone')
+   
+# send personal update to everyone
 def personal_updates():
     df_chat_id = pd.read_csv('data/chat_id.csv', sep = ',')
     df_chat_id.apply(lambda x: personal_update(x['chat_id'], x['name'], x['sub']), axis = 1) 
     logger.info('Send updates to everyone')
 
+# Send message to masters 
+def masters_message(message):
+   for ind, row in df_masters.T.iteritems():
+      message = f"!! Master {row['name']} !!\n{message}"
+      send_message(row['chat_id'], message)
+      
 # user registration
 def personal_registration(chat_id, name, username, update):
     df_chat_id = pd.read_csv('data/chat_id.csv', sep = ',')
@@ -154,7 +174,6 @@ def personal_un_registration(chat_id, name, update):
         update.message.reply_text(f"Caro/a {name}, non ti sei mai iscritto/a </3\n\nIscriviti tramite il comando \"iscrivimi\". Puoi comunque sempre utilizzare il bot")
         logger.warning(f'User {name} never subscribed')
 
-
 # Define a few command handlers. These usually take the two arguments update and
 # context. Error handlers also receive the raised TelegramError object in error.
 def start(update, context):
@@ -165,25 +184,6 @@ def start(update, context):
     'Per ricevere la notifica giornaliera digita \"iscrivimi\"')
     help_command(update, context)
     update.message.reply_text("Ricordati che in ogni momento puoi vedere ciò che puoi chiedermi tramite /help")
-
-# send messages to one master
-def send_to_master(chat_id, name, message, update):
-        try:
-            URL = "https://api.telegram.org/bot{}/".format(token)
-            url = URL + "sendMessage?text={}&chat_id={}&parse_mode=Markdown".format(message, chat_id)
-        
-            requests.post(url)
-
-        except:
-            logger.error(f'Error send master message: chat_id: {chat_id} , name: {name}')
-            
-        logger.info(f'Send master message to {name}')
-
-# send message to masters
-def send_to_masters(message, update):
-    df_chat_id = pd.read_csv('data/master_chat_id.csv', sep = ',')
-    
-    df_chat_id.apply(lambda x: send_to_master(x['chat_id'], x['name'], message, update), axis = 1)
 
 def help_command(update, context):
     """Send a message when the command /help is issued."""
@@ -303,7 +303,6 @@ def echo(update, context):
 
     global s_date
     
-    """Echo the user message."""
     chat_id = update.message.chat.id # user chat_id
     name = update.message.chat.first_name # user first_name
     username = update.message.chat.username  # username
@@ -312,24 +311,36 @@ def echo(update, context):
     text = preprocess_text(text)
     # tokenize
     text_token = nltk.word_tokenize(text)
-
+    # send logger
+    logger.info(f"Ask {name}: " + str(text))
+    
     if text == "ciao":
         update.message.reply_text(f"Ciao {name}!")
     elif text == "iscrivimi":
         personal_registration(chat_id, name, username, update)
     elif text == "disiscrivimi":
         personal_un_registration(chat_id, name, update)
+    # send commands to masters
+    elif text_token[0] == 'help' and (df_masters['chat_id'] == chat_id).any():
+        with open("bot/master_commands.txt", "r") as file:
+           help_text = file.read()
+        update.message.reply_text(help_text)
     # update
-    elif text == "schiavo aggiornati":
+    elif text == "schiavo aggiornati" and (df_masters['chat_id'] == chat_id).any():
         update.message.reply_text("Mi lasci il tempo di scaricare i dati e di disegnare.") 
         update.message.reply_text("...")
         update_data(force = True)
         update.message.reply_text("Questi sono gli ultimi dati aggiornati")
         news(update)
     # update to everyone
-    elif text == "schiavo manda messaggi a tutti":
+    elif text == "schiavo manda aggiornamenti a tutti" and (df_masters['chat_id'] == chat_id).any():
         personal_updates()
-
+    elif text_token[0] == "schiavoinvia" and (df_masters['chat_id'] == chat_id).any():
+        send_message_to_all(untokenize(text_token[1:]))
+        
+    elif text_token[0] == 'feedback':
+       message = f"feedback from {name}:\n {untokenize(text_token[1:])}"
+       masters_message(message)
     # news
     elif text_token[0] == "news":
         if len(text_token) == 1:
@@ -449,12 +460,25 @@ def echo(update, context):
         else:
             region = check_region(text_token[1:])
             send_region(update, "guariti", region)
-
+    
+    # vaccini
+    elif text_token[0] == 'vaccini':
+        update.message.reply_text('Ecco i dati relativi alle somministrazioni di vaccini in italia')
+        for photo in os.listdir(f"{dir_pics}/vaccini"):
+           update.message.reply_photo(open(f"{dir_pics}/vaccini/{photo}", "rb"))
+    # ester eggs
+    elif text  == "pippo baudo":
+       update.message.reply_photo(open(f"{dir_pics}/easter_egg/pippo.jpg", "rb"))
+       update.message.reply_text("Bravo! Pippo approved")
+    elif text  == "chi sei?":
+       update.message.reply_photo(open(f"{dir_pics}/easter_egg/lillo.png", "rb"))
+       update.message.reply_text("Sono Lillo!")
+    elif text  == "perchè non capisci?":
+       update.message.reply_photo(open(f"{dir_pics}/easter_egg/elio.jpg", "rb"))
     # se non è stato compreso il messsaggio    
     else:
         update.message.reply_text("Mi spiace non sono ancora in grado di capire quello che mi hai scritto.\nImparo pian piano!\n\nSe non sai cosa posso capire apri la guida con /help.")
     
-    logger.info(f"Ask {name}: " + str(text))
 
 
 def main():
@@ -472,15 +496,8 @@ def main():
     dp.add_handler(CommandHandler("start", start))
     dp.add_handler(CommandHandler("help", help_command))
     
-    # daily update handler
-    #j = updater.job_queue
-    #job.run_daily(update_data, time(hour=12, minute=12))
- 
     # on noncommand i.e message - echo the message on Telegram
     dp.add_handler(MessageHandler(Filters.text & ~Filters.command, echo))
-    
-    
-    #j.run_daily(update_data, time(hour=12, minute=12))
     
     # Start the Bot
     updater.start_polling()
