@@ -341,6 +341,7 @@ def echo(update, context):
     elif text_token[0] == 'feedback':
        message = f"feedback from {name}:\n {untokenize(text_token[1:])}"
        masters_message(message)
+       update.message.reply_text("Feedback ricevuto! Grazie <3")
     # news
     elif text_token[0] == "news":
         if len(text_token) == 1:
