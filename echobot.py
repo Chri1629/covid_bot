@@ -464,7 +464,7 @@ def echo(update, context):
     
     # vaccini
     elif text_token[0] == 'vaccini':
-        update.message.reply_text('Ecco i dati relativi alle somministrazioni di vaccini in italia')
+        update.message.reply_text(f'Ecco i dati relativi alle somministrazioni di vaccini in italia aggiornati al {s_date}')
         for photo in os.listdir(f"{dir_pics}/vaccini"):
            update.message.reply_photo(open(f"{dir_pics}/vaccini/{photo}", "rb"))
     # ester eggs
