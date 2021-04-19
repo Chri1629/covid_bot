@@ -27,7 +27,7 @@ def vaccini_categorie():
    plt.barh(df_sum.index, df_sum.values, color = ['#54C575', '#00B798', '#00A4B4', '#008EC2', '#008DD0', '#0075BB', '#4D59A0'])
    
    plt.title("Somministrazioni per categoria di soggetti", fontdict = {'size': 15})
-   plt.xlabel("num somministrazini", fontdict={'size':12})
+   plt.xlabel("num somministrazioni", fontdict={'size':12})
    #plt.ticklabel_format(axis = 'x', style='plain')
    xticks = mtick.FuncFormatter(lambda x, p: format(int(x), ','))
    ax.xaxis.set_major_formatter(xticks)
