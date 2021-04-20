@@ -41,14 +41,14 @@ def set_up():
     # To plot console log file
     # Enable logging
     logging.basicConfig(
-        #filename='history.log', 
+        filename='history.log', 
         format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO
     )
 
     logger = logging.getLogger(__name__)
     dir_pics = "pics"
     # read token_key and start bot
-    with open("bot/token_key_prova.txt", "r") as file:
+    with open("bot/token_key.txt", "r") as file:
         token = file.read()
     assert(token)
     # read masters chat_id
