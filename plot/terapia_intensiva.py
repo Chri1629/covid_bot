@@ -17,6 +17,11 @@ def terapia_intensiva():
 
     fig, ax = plt.subplots()
     plt.plot(date, raggruppati['terapia_intensiva'], color = "#00a9c3", alpha = 0.8, linewidth =2)
+    
+    x = ax.lines[-1].get_xdata()
+    y = ax.lines[-1].get_ydata()
+    ax.fill_between(x, 0, y, color='#00a9c3', alpha=0.3)
+    
     l1 = plt.scatter(x = date[-1], y = raggruppati['terapia_intensiva'].tail(1), color = "#00a9c3", alpha = 1)
     plt.hlines(y = posti_letto_totali, xmin = date[1], xmax=date[-1], color = "black", alpha = 0.7, linestyles = "--",
         label = "Posti disponibili: {}".format(posti_letto_totali))
@@ -43,6 +48,9 @@ def terapia_intensiva():
         numero_posti_letto = posti_letto.loc[posti_letto['regione'] ==  regione]['posti_letto']
         fig, ax = plt.subplots()
         plt.plot(date, per_regioni, color = "#00a9c3", alpha = 0.8, linewidth =2)
+        x = ax.lines[-1].get_xdata()
+        y = ax.lines[-1].get_ydata()
+        ax.fill_between(x, 0, y, color='#00a9c3', alpha=0.3)
         l1 = plt.scatter(x = date[-1], y = per_regioni.tail(1), color = "#00a9c3", alpha = 1)
         plt.hlines(y = numero_posti_letto, xmin = date[1], xmax=date[-1], color="black", alpha = 0.7, linestyles = "--",
         label = "Posti disponibili: {}".format(numero_posti_letto.values[0]))
@@ -65,6 +73,9 @@ def terapia_intensiva():
 
     fig, ax = plt.subplots()
     plt.plot(date[-30:], raggruppati['terapia_intensiva'][-30:], color = "#00a9c3", alpha = 0.8, linewidth =2)
+    x = ax.lines[-1].get_xdata()
+    y = ax.lines[-1].get_ydata()
+    ax.fill_between(x, 0, y, color='#00a9c3', alpha=0.3)
     l1 = plt.scatter(x = date[-1], y = raggruppati['terapia_intensiva'].tail(1), color = "#00a9c3", alpha = 1)
 
     plt.hlines(y = posti_letto_totali, xmin = date[-30], xmax=date[-1], color = "black", alpha = 0.7, linestyles = "--",
@@ -92,6 +103,9 @@ def terapia_intensiva():
         numero_posti_letto = posti_letto.loc[posti_letto['regione'] ==  regione]['posti_letto']
         fig, ax = plt.subplots()
         plt.plot(date[-30:], per_regioni[-30:], color = "#00a9c3", alpha = 0.8, linewidth =2)
+        x = ax.lines[-1].get_xdata()
+        y = ax.lines[-1].get_ydata()
+        ax.fill_between(x, 0, y, color='#00a9c3', alpha=0.3)
         l1 = plt.scatter(x = date[-1], y = per_regioni.tail(1), color = "#00a9c3", alpha = 1)
         plt.hlines(y = numero_posti_letto, xmin = date[-30], xmax=date[-1], color="black", alpha = 0.7, linestyles = "--",
         label = "Posti disponibili: {}".format(numero_posti_letto.values[0]))

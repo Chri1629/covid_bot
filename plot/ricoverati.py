@@ -15,6 +15,9 @@ def ricoverati():
     
     fig, ax = plt.subplots()
     plt.plot(date, raggruppati['ricoverati_con_sintomi'], color = "#0047c3", alpha = 0.8, linewidth =2)
+    x = ax.lines[-1].get_xdata()
+    y = ax.lines[-1].get_ydata()
+    ax.fill_between(x, 0, y, color='#0047c3', alpha=0.3)
     l1 = plt.scatter(x = date[-1], y = raggruppati['ricoverati_con_sintomi'].tail(1), color = "#0047c3", alpha = 1)
 
     ax.xaxis.set_major_locator(mdates.MonthLocator())
@@ -38,6 +41,9 @@ def ricoverati():
         per_regioni = dati_regione.loc[dati_regione['denominazione_regione'] == regione]['ricoverati_con_sintomi']
         fig, ax = plt.subplots()
         plt.plot(date, per_regioni, color = "#0047c3", alpha = 0.8, linewidth =2)
+        x = ax.lines[-1].get_xdata()
+        y = ax.lines[-1].get_ydata()
+        ax.fill_between(x, 0, y, color='#0047c3', alpha=0.3)
         l1 = plt.scatter(x = date[-1], y = per_regioni.tail(1), color = "#0047c3", alpha = 1,
         label = "{}: {}".format(date[-2].strftime("%d-%h"),int(per_regioni.tail(1).values[0])))
         ax.xaxis.set_major_locator(mdates.MonthLocator())
@@ -58,6 +64,9 @@ def ricoverati():
 
     fig, ax = plt.subplots()
     plt.plot(date[-30:], raggruppati['ricoverati_con_sintomi'][-30:], color = "#0047c3", alpha = 0.8, linewidth =2)
+    x = ax.lines[-1].get_xdata()
+    y = ax.lines[-1].get_ydata()
+    ax.fill_between(x, 0, y, color='#0047c3', alpha=0.3)
     l1 = plt.scatter(x = date[-1], y = raggruppati['ricoverati_con_sintomi'].tail(1), color = "#0047c3", alpha = 1)
 
     ax.xaxis.set_major_locator(mdates.DayLocator(interval = 4))
@@ -81,6 +90,9 @@ def ricoverati():
         per_regioni = dati_regione.loc[dati_regione['denominazione_regione'] == regione]['ricoverati_con_sintomi']
         fig, ax = plt.subplots()
         plt.plot(date[-30:], per_regioni[-30:], color = "#0047c3", alpha = 0.8, linewidth =2)
+        x = ax.lines[-1].get_xdata()
+        y = ax.lines[-1].get_ydata()
+        ax.fill_between(x, 0, y, color='#0047c3', alpha=0.3)
         l1 = plt.scatter(x = date[-1], y = per_regioni.tail(1), color = "#0047c3", alpha = 1)
         ax.xaxis.set_major_locator(mdates.DayLocator(interval = 4))
         ax.xaxis.set_major_formatter(mdates.DateFormatter('%d-%h'))

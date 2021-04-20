@@ -49,7 +49,7 @@ def scrape_vaccini(force = False):
       writer = csv.writer(csv_file, delimiter = ",")
       for line in data:
           l = re.split(',', line)
-          assert(len(l) == 19) # se il numero di campi per riga è corretto
+          assert(len(l) == 22) # se il numero di campi per riga è corretto
           writer.writerow(l)
    
    # save raw

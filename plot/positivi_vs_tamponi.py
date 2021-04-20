@@ -17,6 +17,9 @@ def positivi_tamponi():
 
     fig, ax = plt.subplots()
     plt.plot(date, raggruppati['rapporto_totale'], color = "#da7400", alpha = 0.8, linewidth =2)
+    x = ax.lines[-1].get_xdata()
+    y = ax.lines[-1].get_ydata()
+    ax.fill_between(x, 0, y, color='#da7400', alpha=0.3)
     l1 = plt.scatter(x = max(date), y = raggruppati['rapporto_totale'].tail(1), color = "#da7400", alpha = 1)
     ax.xaxis.set_major_locator(mdates.MonthLocator())
     ax.xaxis.set_major_formatter(mdates.DateFormatter('%b'))
@@ -47,6 +50,9 @@ def positivi_tamponi():
     
         fig, ax = plt.subplots()
         plt.plot(date, per_regioni['rapporto'], color = "#da7400", alpha = 0.8, linewidth =2)
+        x = ax.lines[-1].get_xdata()
+        y = ax.lines[-1].get_ydata()
+        ax.fill_between(x, 0, y, color='#da7400', alpha=0.3)
         l1 = plt.scatter(x = max(date), y = per_regioni['rapporto'].tail(1), color = "#da7400", alpha = 1)
         ax.xaxis.set_major_locator(mdates.MonthLocator())
         ax.xaxis.set_major_formatter(mdates.DateFormatter('%b'))
@@ -68,6 +74,9 @@ def positivi_tamponi():
 
     fig, ax = plt.subplots()
     plt.plot(date[-30:], raggruppati['rapporto_totale'][-30:], color = "#da7400", alpha = 0.8, linewidth =2)
+    x = ax.lines[-1].get_xdata()
+    y = ax.lines[-1].get_ydata()
+    ax.fill_between(x, 0, y, color='#da7400', alpha=0.3)
     l1 = plt.scatter(x = max(date), y = raggruppati['rapporto_totale'].tail(1), color = "#da7400", alpha = 1)
     ax.xaxis.set_major_locator(mdates.DayLocator(interval = 4))
     ax.xaxis.set_major_formatter(mdates.DateFormatter('%d-%h'))
@@ -98,6 +107,9 @@ def positivi_tamponi():
     
         fig, ax = plt.subplots()
         plt.plot(date[-30:], per_regioni['rapporto'][-30:], color = "#da7400", alpha = 0.8, linewidth =2)
+        x = ax.lines[-1].get_xdata()
+        y = ax.lines[-1].get_ydata()
+        ax.fill_between(x, 0, y, color='#da7400', alpha=0.3)
         l1 = plt.scatter(x = max(date), y = per_regioni['rapporto'].tail(1), color = "#da7400", alpha = 1)
         ax.xaxis.set_major_locator(mdates.DayLocator(interval = 4))
         ax.xaxis.set_major_formatter(mdates.DateFormatter('%d-%h'))

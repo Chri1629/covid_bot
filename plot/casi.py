@@ -13,6 +13,9 @@ def casi():
     
     fig, ax = plt.subplots()
     plt.plot(date, raggruppati['nuovi_positivi'], color = "#c90000", alpha = 0.8, linewidth =2)
+    x = ax.lines[-1].get_xdata()
+    y = ax.lines[-1].get_ydata()
+    ax.fill_between(x, 0, y, color='#c90000', alpha=0.3)
     l1 = plt.scatter(x = max(date), y = raggruppati['nuovi_positivi'].tail(1).values[0], color = "#c90000", alpha = 1)
     ax.xaxis.set_major_locator(mdates.MonthLocator())
     ax.xaxis.set_major_formatter(mdates.DateFormatter('%b'))
@@ -37,6 +40,9 @@ def casi():
         per_regioni = dati_regione.loc[dati_regione['denominazione_regione'] == regione]['nuovi_positivi']
         fig, ax = plt.subplots()
         plt.plot(date, per_regioni, color = "#c90000", alpha = 0.8, linewidth =2)
+        x = ax.lines[-1].get_xdata()
+        y = ax.lines[-1].get_ydata()
+        ax.fill_between(x, 0, y, color='#c90000', alpha=0.3)
         l1 = plt.scatter(x = max(date), y = per_regioni.tail(1), color = "#c90000", alpha = 1)
         ax.xaxis.set_major_locator(mdates.MonthLocator())
         ax.xaxis.set_major_formatter(mdates.DateFormatter('%b'))
@@ -58,6 +64,9 @@ def casi():
     
     fig, ax = plt.subplots()
     plt.plot(date[-30:], raggruppati['nuovi_positivi'][-30:], color = "#c90000", alpha = 0.8, linewidth =2)
+    x = ax.lines[-1].get_xdata()
+    y = ax.lines[-1].get_ydata()
+    ax.fill_between(x, 0, y, color='#c90000', alpha=0.3)
     l1 = plt.scatter(x = max(date), y = raggruppati['nuovi_positivi'].tail(1).values[0], color = "#c90000", alpha = 1)
     ax.xaxis.set_major_locator(mdates.DayLocator(interval = 4))
     ax.xaxis.set_major_formatter(mdates.DateFormatter('%d-%h'))
@@ -82,6 +91,9 @@ def casi():
         per_regioni = dati_regione.loc[dati_regione['denominazione_regione'] == regione]['nuovi_positivi']
         fig, ax = plt.subplots()
         plt.plot(date[-30:], per_regioni[-30:], color = "#c90000", alpha = 0.8, linewidth =2)
+        x = ax.lines[-1].get_xdata()
+        y = ax.lines[-1].get_ydata()
+        ax.fill_between(x, 0, y, color='#c90000', alpha=0.3)
         l1 = plt.scatter(x = max(date), y = per_regioni.tail(1), color = "#c90000", alpha = 1)
         ax.xaxis.set_major_locator(mdates.DayLocator(interval = 4))
         ax.xaxis.set_major_formatter(mdates.DateFormatter('%d-%h'))

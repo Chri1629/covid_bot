@@ -15,6 +15,9 @@ def tamponi():
 
     fig, ax = plt.subplots()
     plt.plot(date, raggruppati['tamponi'].diff(), color = "#e5e500", alpha = 0.8, linewidth =2)
+    x = ax.lines[-1].get_xdata()
+    y = ax.lines[-1].get_ydata()
+    ax.fill_between(x, 0, y, color='#e5e500', alpha=0.3)
     l1 = plt.scatter(x = max(date), y = raggruppati['tamponi'].diff().tail(1), color = "#e5e500", alpha = 1)
     ax.xaxis.set_major_locator(mdates.MonthLocator())
     ax.xaxis.set_major_formatter(mdates.DateFormatter('%b'))
@@ -39,6 +42,9 @@ def tamponi():
         per_regioni = dati_regione.loc[dati_regione['denominazione_regione'] == regione]['tamponi']
         fig, ax = plt.subplots()
         plt.plot(date, per_regioni.diff(), color = "#e5e500", alpha = 0.8, linewidth =2)
+        x = ax.lines[-1].get_xdata()
+        y = ax.lines[-1].get_ydata()
+        ax.fill_between(x, 0, y, color='#e5e500', alpha=0.3)
         l1 = plt.scatter(x = max(date), y = per_regioni.diff().tail(1), color = "#e5e500", alpha = 1)
         ax.xaxis.set_major_locator(mdates.MonthLocator())
         ax.xaxis.set_major_formatter(mdates.DateFormatter('%b'))
@@ -59,6 +65,9 @@ def tamponi():
     
     fig, ax = plt.subplots()
     plt.plot(date[-30:], raggruppati['tamponi'].diff()[-30:], color = "#e5e500", alpha = 0.8, linewidth =2)
+    x = ax.lines[-1].get_xdata()
+    y = ax.lines[-1].get_ydata()
+    ax.fill_between(x, 0, y, color='#e5e500', alpha=0.3)
     l1 = plt.scatter(x = max(date), y = raggruppati['tamponi'].diff().tail(1), color = "#e5e500", alpha = 1)
     ax.xaxis.set_major_locator(mdates.DayLocator(interval = 4))
     ax.xaxis.set_major_formatter(mdates.DateFormatter('%d-%h'))
@@ -83,6 +92,9 @@ def tamponi():
         per_regioni = dati_regione.loc[dati_regione['denominazione_regione'] == regione]['tamponi']
         fig, ax = plt.subplots()
         plt.plot(date[-30:], per_regioni.diff()[-30:], color = "#e5e500", alpha = 0.8, linewidth =2)
+        x = ax.lines[-1].get_xdata()
+        y = ax.lines[-1].get_ydata()
+        ax.fill_between(x, 0, y, color='#e5e500', alpha=0.3)
         l1 = plt.scatter(x = max(date), y = per_regioni.diff().tail(1), color = "#e5e500", alpha = 1)
         ax.xaxis.set_major_locator(mdates.DayLocator(interval = 4))
         ax.xaxis.set_major_formatter(mdates.DateFormatter('%d-%h'))

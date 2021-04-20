@@ -41,14 +41,14 @@ def set_up():
     # To plot console log file
     # Enable logging
     logging.basicConfig(
-        filename='history.log', 
+        #filename='history.log', 
         format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO
     )
 
     logger = logging.getLogger(__name__)
     dir_pics = "pics"
     # read token_key and start bot
-    with open("bot/token_key.txt", "r") as file:
+    with open("bot/token_key_prova.txt", "r") as file:
         token = file.read()
     assert(token)
     # read masters chat_id
@@ -80,17 +80,21 @@ def update_data(force = False):
     global s_date
 
     logging.info("Updating data ... ")
-    flag = preprocess_data(force)
-    # if data not updated
-    while (not force) and (not flag):
-        logging.warning("Data not update yet - waiting ...")
-        sleep(100)
-        flag = preprocess_data()
+    try:
+        flag = preprocess_data(force)
+        # if data not updated
+        while (not force) and (not flag):
+            logging.warning("Data not update yet - waiting ...")
+            sleep(100)
+            flag = preprocess_data()
 
-    logging.info("Updating plots ... ")
-    plot_producer()
-    s_date = dt.strftime(dt.today()+timedelta(hours=2), "%d %h %Y %H:%M")
-    logging.info("Plots successfully updated!")
+        logging.info("Updating plots ... ")
+        plot_producer()
+        s_date = dt.strftime(dt.today()+timedelta(hours=2), "%d %h %Y %H:%M")
+        logging.info("Plots successfully updated!")
+    except:
+        logger.error(f'Update FAILED')
+        masters_message('ERROR - on update new data')
 
 
 # schedule function
@@ -330,8 +334,8 @@ def echo(update, context):
         update.message.reply_text("Mi lasci il tempo di scaricare i dati e di disegnare.") 
         update.message.reply_text("...")
         update_data(force = True)
-        update.message.reply_text("Questi sono gli ultimi dati aggiornati")
-        news(update)
+        update.message.reply_text("HO FINITO MASTER")
+        
     # update to everyone
     elif text == "schiavo manda aggiornamenti a tutti" and (df_masters['chat_id'] == chat_id).any():
         personal_updates()
@@ -476,6 +480,10 @@ def echo(update, context):
        update.message.reply_text("Sono Lillo!")
     elif text  == "cosa capisci?":
        update.message.reply_photo(open(f"{dir_pics}/easter_egg/elio.jpg", "rb"))
+    elif text  == "come stai?":
+       update.message.reply_photo(open(f"{dir_pics}/easter_egg/trozki.jpg", "rb"))
+    elif text  == "hai fame?":
+       update.message.reply_photo(open(f"{dir_pics}/easter_egg/diesel.jpg", "rb"))
     elif text  == "oggi sbraco":
        update.message.reply_photo(open(f"{dir_pics}/easter_egg/sbraco.jpeg", "rb"))
     # se non è stato compreso il messsaggio    

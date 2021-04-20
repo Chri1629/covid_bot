@@ -15,6 +15,9 @@ def morti():
 
     fig, ax = plt.subplots()
     plt.plot(date, raggruppati['deceduti'].diff(), color = "#464646", alpha = 0.8, linewidth =2)
+    x = ax.lines[-1].get_xdata()
+    y = ax.lines[-1].get_ydata()
+    ax.fill_between(x, 0, y, color='#464646', alpha=0.3)
     l1 = plt.scatter(x = date[-1], y = raggruppati['deceduti'].diff().tail(1), color = "#464646", alpha = 1)
     plt.hlines(y = raggruppati['deceduti'].diff().max(), xmin=base, xmax=date[-1], linestyles="--")
     ax.xaxis.set_major_locator(mdates.MonthLocator())
@@ -38,6 +41,9 @@ def morti():
         per_regioni = dati_regione.loc[dati_regione['denominazione_regione'] == regione]['deceduti']
         fig, ax = plt.subplots()
         plt.plot(date, per_regioni.diff(), color = "#464646", alpha = 0.8, linewidth =2)
+        x = ax.lines[-1].get_xdata()
+        y = ax.lines[-1].get_ydata()
+        ax.fill_between(x, 0, y, color='#464646', alpha=0.3)
         l1 = plt.scatter(x = date[-1], y = per_regioni.diff().tail(1), color = "#464646", alpha = 1)
         plt.hlines(y = per_regioni.diff().max(), xmin=base,xmax=date[-1], linestyles="--")
         ax.xaxis.set_major_locator(mdates.MonthLocator())
@@ -59,6 +65,9 @@ def morti():
 
     fig, ax = plt.subplots()
     plt.plot(date[-30:], raggruppati['deceduti'].diff()[-30:], color = "#464646", alpha = 0.8, linewidth =2)
+    x = ax.lines[-1].get_xdata()
+    y = ax.lines[-1].get_ydata()
+    ax.fill_between(x, 0, y, color='#464646', alpha=0.3)
     l1 = plt.scatter(x = date[-1], y = raggruppati['deceduti'].diff().tail(1), color = "#464646", alpha = 1)
     plt.hlines(y = raggruppati['deceduti'].diff().max(), xmin=date[-30], xmax=date[-1], linestyles="--")
     ax.xaxis.set_major_locator(mdates.DayLocator(interval = 4))
@@ -82,6 +91,9 @@ def morti():
         per_regioni = dati_regione.loc[dati_regione['denominazione_regione'] == regione]['deceduti']
         fig, ax = plt.subplots()
         plt.plot(date[-30:], per_regioni.diff()[-30:], color = "#464646", alpha = 0.8, linewidth =2)
+        x = ax.lines[-1].get_xdata()
+        y = ax.lines[-1].get_ydata()
+        ax.fill_between(x, 0, y, color='#464646', alpha=0.3)
         l1 = plt.scatter(x = date[-1], y = per_regioni.diff().tail(1), color = "#464646", alpha = 1)
         plt.hlines(y = per_regioni.diff().max(), xmin=date[-30],xmax=date[-1], linestyles="--")
         ax.xaxis.set_major_locator(mdates.DayLocator(interval = 4))
