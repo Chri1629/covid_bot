@@ -92,9 +92,9 @@ def update_data(force = False):
         plot_producer()
         s_date = dt.strftime(dt.today()+timedelta(hours=2), "%d %h %Y %H:%M")
         logging.info("Plots successfully updated!")
-    except:
-        logger.error(f'Update FAILED')
-        masters_message('ERROR - on update new data')
+    except Exception as e:
+        logger.error(f'Update FAILED\n'+ str(e))
+        masters_message('ERROR - on update new data\n' + str(e))
 
 
 # schedule function
