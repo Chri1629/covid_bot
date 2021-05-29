@@ -21,6 +21,7 @@ def plot_producer():
     # plot vaccini
     vaccini()
     vaccini_cum()
-    vaccini_categorie()
+    #vaccini_categorie()
     vaccini_fasce()
     #print("PLOT PRODUCED")
+    pass

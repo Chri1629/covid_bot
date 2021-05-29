@@ -42,14 +42,23 @@ def scrape(force = False):
 
 def scrape_vaccini(force = False):
    page = requests.get("https://raw.githubusercontent.com/italia/covid19-opendata-vaccini/master/dati/somministrazioni-vaccini-latest.csv")
-
-   data = page.content.decode('utf-8').splitlines()
+   page_reg = requests.get("https://raw.githubusercontent.com/italia/covid19-opendata-vaccini/master/dati/somministrazioni-vaccini-summary-latest.csv")
    
+   data = page.content.decode('utf-8').splitlines()
+   data_reg = page_reg.content.decode('utf-8').splitlines()
+
    with open("data/vaccini.csv", "w", encoding = "utf-8") as csv_file:
       writer = csv.writer(csv_file, delimiter = ",")
       for line in data:
           l = re.split(',', line)
-          assert(len(l) == 22) # se il numero di campi per riga è corretto
+          assert(len(l) == 12) # se il numero di campi per riga è corretto
+          writer.writerow(l)
+   
+   with open("data/vaccini_reg.csv", "w", encoding = "utf-8") as csv_file:
+      writer = csv.writer(csv_file, delimiter = ",")
+      for line in data_reg:
+          l = re.split(',', line)
+          assert(len(l) == 11) # se il numero di campi per riga è corretto
           writer.writerow(l)
    
    # save raw
