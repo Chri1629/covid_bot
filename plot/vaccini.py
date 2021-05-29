@@ -207,51 +207,6 @@ def vaccini_reg():
        
        plt.grid(alpha = 0.5)
        plt.show()
-       fig.savefig(f"pics/vaccini/day/{regione}.png", dpi = 100, bbox_extra_artists=(lg,), bbox_inches='tight')
+       fig.savefig(f"pics/vaccini/day/{regione.lower()}.png", dpi = 100, bbox_extra_artists=(lg,), bbox_inches='tight')
        plt.close(fig)
     
-def vaccini_cum_reg():
-   base = dt.datetime(2020, 12, 27)
-   pop_ita = 59641488 # fonte istat
-   dati_regione = pd.read_csv("data/vaccini_fixed.csv", sep = ",")
-   raggruppati = dati_regione.groupby('data').sum().reset_index()
-   date = np.linspace(0,len(raggruppati['data'].unique()), len(raggruppati))
-   date = np.array([base + dt.timedelta(days = i) for i in range(len(date))]) 
-   # somme cumulate
-   raggruppati['prima_dose'] = (raggruppati['prima_dose'].cumsum()/pop_ita) * 100
-   raggruppati['seconda_dose'] = (raggruppati['seconda_dose'].cumsum()/pop_ita) * 100
-   
-   fig, ax = plt.subplots()
-
-   plt.plot(date, raggruppati['prima_dose'], color='forestgreen')
-   plt.plot(date, raggruppati['seconda_dose'], color='gray')
-
-   l1 = plt.scatter(x = date[-1], y = raggruppati['prima_dose'].tail(1), color = "forestgreen", alpha = 1)
-   l2 = plt.scatter(x = date[-1], y = raggruppati['seconda_dose'].tail(1), color = "gray", alpha = 1)
-
-   x = ax.lines[-1].get_xdata()
-   y = ax.lines[-1].get_ydata()
-   y1 = ax.lines[-2].get_ydata()
-
-   ax.fill_between(x, y, y1, color='forestgreen', alpha=0.3)
-   ax.fill_between(x, 0, y, color='gray', alpha=0.3)
-
-   ax.xaxis.set_major_locator(mdates.MonthLocator())
-   ax.xaxis.set_major_formatter(mdates.DateFormatter('%b'))
-   plt.ylim(bottom = 0)
-   plt.xlabel("Data", size = 12)
-   plt.ylabel("Popolazione vaccinata", size = 12)
-   
-   fmt = '%.0f%%' # Format you want the ticks, e.g. '40%'
-   yticks = mtick.FormatStrFormatter(fmt)
-   ax.yaxis.set_major_formatter(yticks)
-   plt.xticks(size = 10)
-   
-   plt.yticks(size = 10)
-   plt.title("Percentuale vaccini - Italia", size = 15)
-   lg = plt.legend([l1, l2], ["Prima dose: {}%".format(round(raggruppati['prima_dose'].tail(1).values[0],2)), 
-                           "Seconda dose: {}%".format(round(raggruppati['seconda_dose'].tail(1).values[0],2))])
-   plt.grid(alpha = 0.5)
-   fig.savefig("pics/vaccini/italia_cum.png", dpi = 100, bbox_extra_artists=(lg,), bbox_inches='tight')
-   plt.close(fig)
-  
