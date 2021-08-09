@@ -171,8 +171,9 @@ def vaccini_reg():
    for regione in dati_regione['nome_area'].unique():
        
        vaccini_reg_day(dati_regione, regione, base)
-       vaccini_reg_cum(dati_regione, regione, base)
-       # vaccini cumulato
+       # vaccini cumulato regione (errore di conversione)
+       # vaccini_reg_cum(dati_regione, regione, base)
+       
 
 
 def vaccini_reg_day(dati_regione, regione, base):
