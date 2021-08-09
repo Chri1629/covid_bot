@@ -476,6 +476,7 @@ def echo(update, context):
         else:
             region = check_region(text_token[1:])
             send_region(update, "vaccini/day", region)
+            send_region(update, "vaccini/cum", region)
             
 
     # ester eggs

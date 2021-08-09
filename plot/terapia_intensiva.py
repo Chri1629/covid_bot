@@ -23,8 +23,8 @@ def terapia_intensiva():
     ax.fill_between(x, 0, y, color='#00a9c3', alpha=0.3)
     
     l1 = plt.scatter(x = date[-1], y = raggruppati['terapia_intensiva'].tail(1), color = "#00a9c3", alpha = 1)
-    plt.hlines(y = posti_letto_totali, xmin = date[1], xmax=date[-1], color = "black", alpha = 0.7, linestyles = "--",
-        label = "Posti disponibili: {}".format(posti_letto_totali))
+    #plt.hlines(y = posti_letto_totali, xmin = date[1], xmax=date[-1], color = "black", alpha = 0.7, linestyles = "--",
+    #    label = "Posti disponibili: {}".format(posti_letto_totali))
     ax.xaxis.set_major_locator(mdates.MonthLocator())
     ax.xaxis.set_major_formatter(mdates.DateFormatter('%b'))
     plt.ylim(bottom = 0)
@@ -52,8 +52,8 @@ def terapia_intensiva():
         y = ax.lines[-1].get_ydata()
         ax.fill_between(x, 0, y, color='#00a9c3', alpha=0.3)
         l1 = plt.scatter(x = date[-1], y = per_regioni.tail(1), color = "#00a9c3", alpha = 1)
-        plt.hlines(y = numero_posti_letto, xmin = date[1], xmax=date[-1], color="black", alpha = 0.7, linestyles = "--",
-        label = "Posti disponibili: {}".format(numero_posti_letto.values[0]))
+        #plt.hlines(y = numero_posti_letto, xmin = date[1], xmax=date[-1], color="black", alpha = 0.7, linestyles = "--",
+        #label = "Posti disponibili: {}".format(numero_posti_letto.values[0]))
         ax.xaxis.set_major_locator(mdates.MonthLocator())
         ax.xaxis.set_major_formatter(mdates.DateFormatter('%b'))
         plt.ylim(bottom = 0)
@@ -78,8 +78,8 @@ def terapia_intensiva():
     ax.fill_between(x, 0, y, color='#00a9c3', alpha=0.3)
     l1 = plt.scatter(x = date[-1], y = raggruppati['terapia_intensiva'].tail(1), color = "#00a9c3", alpha = 1)
 
-    plt.hlines(y = posti_letto_totali, xmin = date[-30], xmax=date[-1], color = "black", alpha = 0.7, linestyles = "--",
-        label = "Posti disponibili: {}".format(posti_letto_totali))
+    #plt.hlines(y = posti_letto_totali, xmin = date[-30], xmax=date[-1], color = "black", alpha = 0.7, linestyles = "--",
+    #    label = "Posti disponibili: {}".format(posti_letto_totali))
     ax.xaxis.set_major_locator(mdates.DayLocator(interval = 4))
     ax.xaxis.set_major_formatter(mdates.DateFormatter('%d-%h'))
     plt.ylim(bottom = 0)
@@ -107,8 +107,8 @@ def terapia_intensiva():
         y = ax.lines[-1].get_ydata()
         ax.fill_between(x, 0, y, color='#00a9c3', alpha=0.3)
         l1 = plt.scatter(x = date[-1], y = per_regioni.tail(1), color = "#00a9c3", alpha = 1)
-        plt.hlines(y = numero_posti_letto, xmin = date[-30], xmax=date[-1], color="black", alpha = 0.7, linestyles = "--",
-        label = "Posti disponibili: {}".format(numero_posti_letto.values[0]))
+     #   plt.hlines(y = numero_posti_letto, xmin = date[-30], xmax=date[-1], color="black", alpha = 0.7, linestyles = "--",
+     #   label = "Posti disponibili: {}".format(numero_posti_letto.values[0]))
         ax.xaxis.set_major_locator(mdates.DayLocator(interval = 4))
         ax.xaxis.set_major_formatter(mdates.DateFormatter('%d-%h'))
         plt.ylim(bottom = 0)

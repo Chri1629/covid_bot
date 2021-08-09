@@ -10,14 +10,16 @@ def tamponi():
     base = dt.datetime(2020, 2, 24)
     dati_regione = pd.read_csv("data/dati_regioni.csv", sep = ",")
     raggruppati = dati_regione.groupby('data').sum().reset_index()
+    raggruppati['ma'] = raggruppati['tamponi'].rolling(window = 7).mean() # week moving average
     date = np.linspace(0,len(raggruppati['data'].unique()), len(raggruppati))
     date = np.array([base + dt.timedelta(days = i) for i in range(len(date))]) 
 
     fig, ax = plt.subplots()
-    plt.plot(date, raggruppati['tamponi'].diff(), color = "#e5e500", alpha = 0.8, linewidth =2)
+    plt.plot(date, raggruppati['tamponi'].diff(), color = "#e5e500", alpha = 0.5, linewidth =2)
     x = ax.lines[-1].get_xdata()
     y = ax.lines[-1].get_ydata()
-    ax.fill_between(x, 0, y, color='#e5e500', alpha=0.3)
+    ax.fill_between(x, 0, y, color='#e5e500', alpha=0.2)
+    plt.plot(date, raggruppati['ma'].diff(), color = "#e5e500", alpha = 1, linewidth =2)
     l1 = plt.scatter(x = max(date), y = raggruppati['tamponi'].diff().tail(1), color = "#e5e500", alpha = 1)
     ax.xaxis.set_major_locator(mdates.MonthLocator())
     ax.xaxis.set_major_formatter(mdates.DateFormatter('%b'))
@@ -40,11 +42,13 @@ def tamponi():
 
     for regione in dati_regione['denominazione_regione'].unique():
         per_regioni = dati_regione.loc[dati_regione['denominazione_regione'] == regione]['tamponi']
+        pos_ma_regioni = per_regioni.diff().rolling(window = 7).mean() # week moving average
         fig, ax = plt.subplots()
-        plt.plot(date, per_regioni.diff(), color = "#e5e500", alpha = 0.8, linewidth =2)
+        plt.plot(date, per_regioni.diff(), color = "#e5e500", alpha = 0.5, linewidth =2)
         x = ax.lines[-1].get_xdata()
         y = ax.lines[-1].get_ydata()
-        ax.fill_between(x, 0, y, color='#e5e500', alpha=0.3)
+        ax.fill_between(x, 0, y, color='#e5e500', alpha=0.2)
+        plt.plot(date, pos_ma_regioni, color = "#e5e500", alpha = 1, linewidth =2)
         l1 = plt.scatter(x = max(date), y = per_regioni.diff().tail(1), color = "#e5e500", alpha = 1)
         ax.xaxis.set_major_locator(mdates.MonthLocator())
         ax.xaxis.set_major_formatter(mdates.DateFormatter('%b'))
@@ -64,10 +68,11 @@ def tamponi():
         plt.close(fig)
     
     fig, ax = plt.subplots()
-    plt.plot(date[-30:], raggruppati['tamponi'].diff()[-30:], color = "#e5e500", alpha = 0.8, linewidth =2)
+    plt.plot(date[-30:], raggruppati['tamponi'].diff()[-30:], color = "#e5e500", alpha = 0.5, linewidth =2)
     x = ax.lines[-1].get_xdata()
     y = ax.lines[-1].get_ydata()
-    ax.fill_between(x, 0, y, color='#e5e500', alpha=0.3)
+    ax.fill_between(x, 0, y, color='#e5e500', alpha=0.2)
+    plt.plot(date[-30:], raggruppati['ma'].diff()[-30:], color = "#e5e500", alpha = 1, linewidth =2)
     l1 = plt.scatter(x = max(date), y = raggruppati['tamponi'].diff().tail(1), color = "#e5e500", alpha = 1)
     ax.xaxis.set_major_locator(mdates.DayLocator(interval = 4))
     ax.xaxis.set_major_formatter(mdates.DateFormatter('%d-%h'))
@@ -90,11 +95,13 @@ def tamponi():
 
     for regione in dati_regione['denominazione_regione'].unique():
         per_regioni = dati_regione.loc[dati_regione['denominazione_regione'] == regione]['tamponi']
+        pos_ma_regioni = per_regioni.diff().rolling(window = 7).mean() # week moving average
         fig, ax = plt.subplots()
-        plt.plot(date[-30:], per_regioni.diff()[-30:], color = "#e5e500", alpha = 0.8, linewidth =2)
+        plt.plot(date[-30:], per_regioni.diff()[-30:], color = "#e5e500", alpha = 0.5, linewidth =2)
         x = ax.lines[-1].get_xdata()
         y = ax.lines[-1].get_ydata()
-        ax.fill_between(x, 0, y, color='#e5e500', alpha=0.3)
+        ax.fill_between(x, 0, y, color='#e5e500', alpha=0.2)
+        plt.plot(date[-30:], pos_ma_regioni[-30:], color = "#e5e500", alpha = 1, linewidth =2)
         l1 = plt.scatter(x = max(date), y = per_regioni.diff().tail(1), color = "#e5e500", alpha = 1)
         ax.xaxis.set_major_locator(mdates.DayLocator(interval = 4))
         ax.xaxis.set_major_formatter(mdates.DateFormatter('%d-%h'))

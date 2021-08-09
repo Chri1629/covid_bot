@@ -8,3 +8,5 @@ token_key_prova.txt
 **history.log
 **history_server.log
 bot\master_chat_id.csv
+**.ipynb_checkpoints
+**__pychache__

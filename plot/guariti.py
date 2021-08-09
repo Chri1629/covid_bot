@@ -11,14 +11,16 @@ def guariti():
     dati_regione = pd.read_csv("data/dati_regioni.csv", sep = ",")
     raggruppati = dati_regione.groupby('data').sum().reset_index()
     raggruppati['dimessi_guariti'] = raggruppati['dimessi_guariti'].diff()
+    raggruppati['ma'] = raggruppati['dimessi_guariti'].rolling(window = 7).mean() # week moving average
     date = np.linspace(0,len(raggruppati['data'].unique()), len(raggruppati))
     date = np.array([base + dt.timedelta(days = i) for i in range(len(date))]) 
 
     fig, ax = plt.subplots()
-    plt.plot(date, raggruppati['dimessi_guariti'], color = "#006600", alpha = 0.8, linewidth =2)
+    plt.plot(date, raggruppati['dimessi_guariti'], color = "#006600", alpha = 0.5, linewidth =2)
     x = ax.lines[-1].get_xdata()
     y = ax.lines[-1].get_ydata()
-    ax.fill_between(x, 0, y, color='#006600', alpha=0.3)
+    ax.fill_between(x, 0, y, color='#006600', alpha=0.2)
+    plt.plot(date, raggruppati['ma'], color = "#006600", alpha = 1, linewidth =2)
     l1 = plt.scatter(x = max(date), y = raggruppati['dimessi_guariti'].tail(1), color = "#006600", alpha = 1)
     ax.xaxis.set_major_locator(mdates.MonthLocator())
     ax.xaxis.set_major_formatter(mdates.DateFormatter('%b'))
@@ -40,12 +42,14 @@ def guariti():
     ## Provo a raggruppare per regione e a stamprarli anche per regione quindi vanno messi dentro un for e bisogna fare un ciclo
     for regione in dati_regione['denominazione_regione'].unique():
         per_regioni = dati_regione.loc[dati_regione['denominazione_regione'] == regione]['dimessi_guariti']
+        pos_ma_regioni = per_regioni.diff().rolling(window = 7).mean() # week moving average
         per_regioni = per_regioni.diff()
         fig, ax = plt.subplots()
-        plt.plot(date, per_regioni, color = "#006600", alpha = 0.8, linewidth =2)
+        plt.plot(date, per_regioni, color = "#006600", alpha = 0.5, linewidth =2)
         x = ax.lines[-1].get_xdata()
         y = ax.lines[-1].get_ydata()
-        ax.fill_between(x, 0, y, color='#006600', alpha=0.3)
+        ax.fill_between(x, 0, y, color='#006600', alpha=0.2)
+        plt.plot(date, pos_ma_regioni, color = "#006600", alpha = 1, linewidth =2)
         plt.scatter(x = max(date), y = per_regioni.tail(1), color = "#006600", alpha = 1,
         label = "{}: {}".format(date[-1].strftime("%d-%h"),int(per_regioni.tail(1).values[0])))
         ax.xaxis.set_major_locator(mdates.MonthLocator())
@@ -66,10 +70,11 @@ def guariti():
         plt.close(fig)
 
     fig, ax = plt.subplots()
-    plt.plot(date[-30:], raggruppati['dimessi_guariti'][-30:], color = "#006600", alpha = 0.8, linewidth =2)
+    plt.plot(date[-30:], raggruppati['dimessi_guariti'][-30:], color = "#006600", alpha = 0.5, linewidth =2)
     x = ax.lines[-1].get_xdata()
     y = ax.lines[-1].get_ydata()
-    ax.fill_between(x, 0, y, color='#006600', alpha=0.3)
+    ax.fill_between(x, 0, y, color='#006600', alpha=0.2)
+    plt.plot(date[-30:], raggruppati['ma'][-30:], color = "#006600", alpha = 1, linewidth =2)
     l1 = plt.scatter(x = max(date), y = raggruppati['dimessi_guariti'].tail(1), color = "#006600", alpha = 1)
     ax.xaxis.set_major_locator(mdates.DayLocator(interval = 4))
     ax.xaxis.set_major_formatter(mdates.DateFormatter('%d-%h'))
@@ -91,12 +96,14 @@ def guariti():
     ## Provo a raggruppare per regione e a stamprarli anche per regione quindi vanno messi dentro un for e bisogna fare un ciclo
     for regione in dati_regione['denominazione_regione'].unique():
         per_regioni = dati_regione.loc[dati_regione['denominazione_regione'] == regione]['dimessi_guariti']
+        pos_ma_regioni = per_regioni.diff().rolling(window = 7).mean() # week moving average
         per_regioni = per_regioni.diff()
         fig, ax = plt.subplots()
-        plt.plot(date[-30:], per_regioni[-30:], color = "#006600", alpha = 0.8, linewidth =2)
+        plt.plot(date[-30:], per_regioni[-30:], color = "#006600", alpha = 0.5, linewidth =2)
         x = ax.lines[-1].get_xdata()
         y = ax.lines[-1].get_ydata()
-        ax.fill_between(x, 0, y, color='#006600', alpha=0.3)
+        ax.fill_between(x, 0, y, color='#006600', alpha=0.2)
+        plt.plot(date[-30:], pos_ma_regioni[-30:], color = "#006600", alpha = 1, linewidth =2)
         l1 = plt.scatter(x = max(date), y = per_regioni.tail(1), color = "#006600", alpha = 1)
         ax.xaxis.set_major_locator(mdates.DayLocator(interval = 4))
         ax.xaxis.set_major_formatter(mdates.DateFormatter('%d-%h'))

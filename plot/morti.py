@@ -10,16 +10,18 @@ def morti():
     base = dt.datetime(2020, 2, 24)
     dati_regione = pd.read_csv("data/dati_regioni.csv", sep = ",")
     raggruppati = dati_regione.groupby('data').sum().reset_index()
+    raggruppati['ma'] = raggruppati['deceduti'].diff().rolling(window = 7).mean() # week moving average
     date = np.linspace(0,len(raggruppati['data'].unique()), len(raggruppati))
     date = np.array([base + dt.timedelta(days = i) for i in range(len(date))]) 
 
     fig, ax = plt.subplots()
-    plt.plot(date, raggruppati['deceduti'].diff(), color = "#464646", alpha = 0.8, linewidth =2)
+    plt.plot(date, raggruppati['deceduti'].diff(), color = "#464646", alpha = 0.5, linewidth =2)
     x = ax.lines[-1].get_xdata()
     y = ax.lines[-1].get_ydata()
-    ax.fill_between(x, 0, y, color='#464646', alpha=0.3)
+    ax.fill_between(x, 0, y, color='#464646', alpha=0.2)
+    plt.plot(date, raggruppati['ma'], color = "#464646", alpha = 1, linewidth =2)
     l1 = plt.scatter(x = date[-1], y = raggruppati['deceduti'].diff().tail(1), color = "#464646", alpha = 1)
-    plt.hlines(y = raggruppati['deceduti'].diff().max(), xmin=base, xmax=date[-1], linestyles="--")
+    #plt.hlines(y = raggruppati['deceduti'].diff().max(), xmin=base, xmax=date[-1], linestyles="--")
     ax.xaxis.set_major_locator(mdates.MonthLocator())
     ax.xaxis.set_major_formatter(mdates.DateFormatter('%b'))
     plt.ylim(bottom = 0)
@@ -39,13 +41,15 @@ def morti():
 
     for regione in dati_regione['denominazione_regione'].unique():
         per_regioni = dati_regione.loc[dati_regione['denominazione_regione'] == regione]['deceduti']
+        pos_ma_regioni = per_regioni.diff().rolling(window = 7).mean() # week moving average
         fig, ax = plt.subplots()
-        plt.plot(date, per_regioni.diff(), color = "#464646", alpha = 0.8, linewidth =2)
+        plt.plot(date, per_regioni.diff(), color = "#464646", alpha = 0.5, linewidth =2)
         x = ax.lines[-1].get_xdata()
         y = ax.lines[-1].get_ydata()
-        ax.fill_between(x, 0, y, color='#464646', alpha=0.3)
+        ax.fill_between(x, 0, y, color='#464646', alpha=0.2)
+        plt.plot(date, pos_ma_regioni, color = "#464646", alpha = 1, linewidth =2)
         l1 = plt.scatter(x = date[-1], y = per_regioni.diff().tail(1), color = "#464646", alpha = 1)
-        plt.hlines(y = per_regioni.diff().max(), xmin=base,xmax=date[-1], linestyles="--")
+        #plt.hlines(y = per_regioni.diff().max(), xmin=base,xmax=date[-1], linestyles="--")
         ax.xaxis.set_major_locator(mdates.MonthLocator())
         ax.xaxis.set_major_formatter(mdates.DateFormatter('%b'))
         plt.ylim(bottom = 0)
@@ -64,12 +68,13 @@ def morti():
         plt.close(fig)
 
     fig, ax = plt.subplots()
-    plt.plot(date[-30:], raggruppati['deceduti'].diff()[-30:], color = "#464646", alpha = 0.8, linewidth =2)
+    plt.plot(date[-30:], raggruppati['deceduti'].diff()[-30:], color = "#464646", alpha = 0.5, linewidth =2)
     x = ax.lines[-1].get_xdata()
     y = ax.lines[-1].get_ydata()
-    ax.fill_between(x, 0, y, color='#464646', alpha=0.3)
+    ax.fill_between(x, 0, y, color='#464646', alpha=0.2)
+    plt.plot(date[-30:], raggruppati['ma'][-30:], color = "#464646", alpha = 1, linewidth =2)
     l1 = plt.scatter(x = date[-1], y = raggruppati['deceduti'].diff().tail(1), color = "#464646", alpha = 1)
-    plt.hlines(y = raggruppati['deceduti'].diff().max(), xmin=date[-30], xmax=date[-1], linestyles="--")
+    #plt.hlines(y = raggruppati['deceduti'].diff().max(), xmin=date[-30], xmax=date[-1], linestyles="--")
     ax.xaxis.set_major_locator(mdates.DayLocator(interval = 4))
     ax.xaxis.set_major_formatter(mdates.DateFormatter('%d-%h'))
     plt.ylim(bottom = 0)
@@ -89,13 +94,16 @@ def morti():
 
     for regione in dati_regione['denominazione_regione'].unique():
         per_regioni = dati_regione.loc[dati_regione['denominazione_regione'] == regione]['deceduti']
+        pos_ma_regioni = per_regioni.diff().rolling(window = 7).mean() # week moving average
+        
         fig, ax = plt.subplots()
-        plt.plot(date[-30:], per_regioni.diff()[-30:], color = "#464646", alpha = 0.8, linewidth =2)
+        plt.plot(date[-30:], per_regioni.diff()[-30:], color = "#464646", alpha = 0.5, linewidth =2)
         x = ax.lines[-1].get_xdata()
         y = ax.lines[-1].get_ydata()
-        ax.fill_between(x, 0, y, color='#464646', alpha=0.3)
+        ax.fill_between(x, 0, y, color='#464646', alpha=0.2)
+        plt.plot(date[-30:], pos_ma_regioni[-30:], color = "#464646", alpha = 1, linewidth =2)
         l1 = plt.scatter(x = date[-1], y = per_regioni.diff().tail(1), color = "#464646", alpha = 1)
-        plt.hlines(y = per_regioni.diff().max(), xmin=date[-30],xmax=date[-1], linestyles="--")
+        #plt.hlines(y = per_regioni.diff().max(), xmin=date[-30],xmax=date[-1], linestyles="--")
         ax.xaxis.set_major_locator(mdates.DayLocator(interval = 4))
         ax.xaxis.set_major_formatter(mdates.DateFormatter('%d-%h'))
         plt.ylim(bottom = 0)

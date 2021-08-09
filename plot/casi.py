@@ -8,14 +8,16 @@ def casi():
     base = dt.datetime(2020, 2, 24)
     dati_regione = pd.read_csv("data/dati_regioni.csv", sep = ",")
     raggruppati = dati_regione.groupby('data').sum().reset_index()
+    raggruppati['pos_ma'] = raggruppati[['data', 'nuovi_positivi']].rolling(window = 7).mean() # week moving average
     date = np.linspace(0,len(raggruppati['data'].unique()), len(raggruppati))
     date = np.array([base + dt.timedelta(days = i) for i in range(len(date))]) 
     
     fig, ax = plt.subplots()
-    plt.plot(date, raggruppati['nuovi_positivi'], color = "#c90000", alpha = 0.8, linewidth =2)
+    plt.plot(date, raggruppati['nuovi_positivi'], color = "#c90000", alpha = 0.5, linewidth =2)
     x = ax.lines[-1].get_xdata()
     y = ax.lines[-1].get_ydata()
-    ax.fill_between(x, 0, y, color='#c90000', alpha=0.3)
+    ax.fill_between(x, 0, y, color='#c90000', alpha=0.2)
+    plt.plot(date, raggruppati['pos_ma'], color = "#c90000", alpha = 1, linewidth =2)
     l1 = plt.scatter(x = max(date), y = raggruppati['nuovi_positivi'].tail(1).values[0], color = "#c90000", alpha = 1)
     ax.xaxis.set_major_locator(mdates.MonthLocator())
     ax.xaxis.set_major_formatter(mdates.DateFormatter('%b'))
@@ -38,11 +40,14 @@ def casi():
 
     for regione in dati_regione['denominazione_regione'].unique():
         per_regioni = dati_regione.loc[dati_regione['denominazione_regione'] == regione]['nuovi_positivi']
+        pos_ma_regioni = per_regioni.rolling(window = 7).mean() # week moving average
+        
         fig, ax = plt.subplots()
-        plt.plot(date, per_regioni, color = "#c90000", alpha = 0.8, linewidth =2)
+        plt.plot(date, per_regioni, color = "#c90000", alpha = 0.5, linewidth =2)
         x = ax.lines[-1].get_xdata()
         y = ax.lines[-1].get_ydata()
-        ax.fill_between(x, 0, y, color='#c90000', alpha=0.3)
+        ax.fill_between(x, 0, y, color='#c90000', alpha=0.2)
+        plt.plot(date, pos_ma_regioni, color = "#c90000", alpha = 1, linewidth =2)
         l1 = plt.scatter(x = max(date), y = per_regioni.tail(1), color = "#c90000", alpha = 1)
         ax.xaxis.set_major_locator(mdates.MonthLocator())
         ax.xaxis.set_major_formatter(mdates.DateFormatter('%b'))
@@ -63,10 +68,11 @@ def casi():
 
     
     fig, ax = plt.subplots()
-    plt.plot(date[-30:], raggruppati['nuovi_positivi'][-30:], color = "#c90000", alpha = 0.8, linewidth =2)
+    plt.plot(date[-30:], raggruppati['nuovi_positivi'][-30:], color = "#c90000", alpha = 0.5, linewidth =2)
     x = ax.lines[-1].get_xdata()
     y = ax.lines[-1].get_ydata()
-    ax.fill_between(x, 0, y, color='#c90000', alpha=0.3)
+    ax.fill_between(x, 0, y, color='#c90000', alpha=0.2)
+    plt.plot(date[-30:], raggruppati['pos_ma'][-30:], color = "#c90000", alpha = 1, linewidth =2)
     l1 = plt.scatter(x = max(date), y = raggruppati['nuovi_positivi'].tail(1).values[0], color = "#c90000", alpha = 1)
     ax.xaxis.set_major_locator(mdates.DayLocator(interval = 4))
     ax.xaxis.set_major_formatter(mdates.DateFormatter('%d-%h'))
@@ -89,11 +95,14 @@ def casi():
 
     for regione in dati_regione['denominazione_regione'].unique():
         per_regioni = dati_regione.loc[dati_regione['denominazione_regione'] == regione]['nuovi_positivi']
+        pos_ma_regioni = per_regioni.rolling(window = 7).mean() # week moving average
+        
         fig, ax = plt.subplots()
-        plt.plot(date[-30:], per_regioni[-30:], color = "#c90000", alpha = 0.8, linewidth =2)
+        plt.plot(date[-30:], per_regioni[-30:], color = "#c90000", alpha = 0.5, linewidth =2)
         x = ax.lines[-1].get_xdata()
         y = ax.lines[-1].get_ydata()
-        ax.fill_between(x, 0, y, color='#c90000', alpha=0.3)
+        ax.fill_between(x, 0, y, color='#c90000', alpha=0.2)
+        plt.plot(date[-30:], pos_ma_regioni[-30:], color = "#c90000", alpha = 1, linewidth =2)
         l1 = plt.scatter(x = max(date), y = per_regioni.tail(1), color = "#c90000", alpha = 1)
         ax.xaxis.set_major_locator(mdates.DayLocator(interval = 4))
         ax.xaxis.set_major_formatter(mdates.DateFormatter('%d-%h'))
