@@ -473,10 +473,10 @@ def echo(update, context):
             for photo in os.listdir(f"{dir_pics}/vaccini"):
                 if photo.endswith('.png'):
                    update.message.reply_photo(open(f"{dir_pics}/vaccini/{photo}", "rb"))
-        else:
-            region = check_region(text_token[1:])
-            send_region(update, "vaccini/day", region)
-            send_region(update, "vaccini/cum", region)
+        #else:
+        #    region = check_region(text_token[1:])
+        #    send_region(update, "vaccini/day", region)
+        #    send_region(update, "vaccini/cum", region)
             
 
     # ester eggs
