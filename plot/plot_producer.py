@@ -10,7 +10,6 @@ from pathlib import Path
 
 
 def plot_producer():
-    #print("PRODUCING PLOTS")
     
     Path("pics/rapporto_tamponi").mkdir(parents=True, exist_ok=True)
     Path("pics/rapporto_tamponi_news").mkdir(parents=True, exist_ok=True)
@@ -48,6 +47,6 @@ def plot_producer():
     vaccini_cum()
     vaccini_fasce()
     vaccini_fasce_perc()
-    vaccini_reg()
-    #print("PLOT PRODUCED")
+    #vaccini_reg()
+    
     pass
