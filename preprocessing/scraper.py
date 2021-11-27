@@ -53,7 +53,7 @@ def scrape_vaccini(force = False):
       writer = csv.writer(csv_file, delimiter = ",")
       for line in data:
           l = re.split(',', line)
-          if len(l) != 15:
+          if len(l) != 14:
               raise ValueError("somministrazioni-vaccini-latest - wrong number of columns")
           writer.writerow(l)
    
@@ -61,7 +61,7 @@ def scrape_vaccini(force = False):
       writer = csv.writer(csv_file, delimiter = ",")
       for line in data_reg:
           l = re.split(',', line)
-          if len(l) != 14:
+          if len(l) != 13:
               raise ValueError("somministrazioni-vaccini-summary-latest - wrong number of columns")
           writer.writerow(l)
    

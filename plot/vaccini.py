@@ -8,7 +8,7 @@ from matplotlib.patches import Rectangle
 
 def vaccini_fasce():
    df = pd.read_csv("data/vaccini.csv", sep = ',')
-   df_fasce = df.groupby(['fascia_anagrafica']).sum()[['prima_dose', 'seconda_dose', 'dose_aggiuntiva', 'dose_booster', 'pregressa_infezione']]
+   df_fasce = df.groupby(['fascia_anagrafica']).sum()[['prima_dose', 'seconda_dose', 'dose_addizionale_booster', 'pregressa_infezione']]
    df_fasce.loc['80+'] = df_fasce.loc['80-89'] + df_fasce.loc['90+']
    df_fasce.drop(['80-89', '90+'], inplace = True)
    
@@ -20,7 +20,7 @@ def vaccini_fasce():
    
    ax.bar(df_fasce.index, df_fasce['prima_dose'], label='prima dose', color = 'forestgreen')
    ax.bar(df_fasce.index, df_fasce['seconda_dose']+df_fasce['pregressa_infezione'], label='seconda dose/unica dose', color = 'gray')
-   ax.bar(df_fasce.index, df_fasce['dose_aggiuntiva']+df_fasce['dose_booster'], label='dose aggiuntiva/booster', color = '#0061B6')
+   ax.bar(df_fasce.index, df_fasce['dose_addizionale_booster'], label='dose aggiuntiva/booster', color = '#0061B6')
    plt.scatter(df_fasce.index, df_fasce['massimi'], color = 'black', marker = '_', label = 'traguardo')
    
    plt.title('Popolazione vaccinata per fasce d\'eta\'')
@@ -34,7 +34,7 @@ def vaccini_fasce():
 
 def vaccini_fasce_perc():
    df = pd.read_csv("data/vaccini.csv", sep = ',')
-   df_fasce = df.groupby(['fascia_anagrafica']).sum()[['prima_dose', 'seconda_dose', 'dose_aggiuntiva', 'dose_booster', 'pregressa_infezione']]
+   df_fasce = df.groupby(['fascia_anagrafica']).sum()[['prima_dose', 'seconda_dose', 'dose_addizionale_booster', 'pregressa_infezione']]
    df_fasce.loc['80+'] = df_fasce.loc['80-89'] + df_fasce.loc['90+']
    df_fasce.drop(['80-89', '90+'], inplace = True)
    
@@ -43,11 +43,11 @@ def vaccini_fasce_perc():
    df_fasce['massimi'] = df_platea.groupby('fascia_anagrafica').sum()['totale_popolazione'] # massima popolazione per fascia
    perc_prima = df_fasce['prima_dose'].sum()/df_fasce['massimi'].sum()*100
    perc_seconda = (df_fasce['seconda_dose'].sum() + df_fasce['pregressa_infezione'].sum())/df_fasce['massimi'].sum()*100
-   perc_agg = (df_fasce['dose_aggiuntiva'].sum() + df_fasce['dose_booster'].sum())/df_fasce['massimi'].sum()*100
+   perc_agg = df_fasce['dose_addizionale_booster'].sum()/df_fasce['massimi'].sum()*100
    
    df_fasce['prima_dose'] = df_fasce['prima_dose']/df_fasce['massimi']*100
    df_fasce['seconda_dose'] = (df_fasce['seconda_dose'] + df_fasce['pregressa_infezione'])/df_fasce['massimi']*100
-   df_fasce['dose_aggiuntiva'] = (df_fasce['dose_aggiuntiva'] + df_fasce['dose_booster'])/df_fasce['massimi']*100
+   df_fasce['dose_aggiuntiva'] = df_fasce['dose_addizionale_booster']/df_fasce['massimi']*100
    
    fig, ax = plt.subplots(figsize=(6,7))
    
@@ -71,7 +71,7 @@ def vaccini():
    raggruppati = dati_regione.groupby('data').sum().reset_index()
    raggruppati['prima_dose_ma'] = (raggruppati['prima_dose']).rolling(window = 7).mean()
    raggruppati['seconda_dose_ma'] = (raggruppati['seconda_dose'] + raggruppati['pregressa_infezione']).rolling(window = 7).mean()
-   raggruppati['dose_aggiuntiva_ma'] = (raggruppati['dose_aggiuntiva'] + raggruppati['dose_booster']).rolling(window = 7).mean()
+   raggruppati['dose_aggiuntiva_ma'] = (raggruppati['dose_addizionale_booster']).rolling(window = 7).mean()
    date = np.linspace(0, len(raggruppati['data'].unique()), len(raggruppati))
    date = np.array([base + dt.timedelta(days = i) for i in range(len(date))]) 
    
@@ -80,7 +80,7 @@ def vaccini():
 
    plt.plot(date, raggruppati['prima_dose'], color='forestgreen', alpha = 0.2)
    plt.plot(date, raggruppati['seconda_dose']+raggruppati['pregressa_infezione'], color='gray', alpha = 0.2)
-   plt.plot(date, raggruppati['dose_aggiuntiva']+raggruppati['dose_booster'], color='#0061B6', alpha = 0.2)
+   plt.plot(date, raggruppati['dose_addizionale_booster'], color='#0061B6', alpha = 0.2)
 
    #l1 = plt.scatter(x = date[-1], y = raggruppati['prima_dose'].tail(1), color = "forestgreen", alpha = 1)
    #l2 = plt.scatter(x = date[-1], y = raggruppati['seconda_dose'].tail(1) + raggruppati['pregressa_infezione'].tail(1), color = "gray", alpha = 1)
@@ -124,7 +124,7 @@ def vaccini():
    lg = plt.legend([l1, l2, l3, l4], ["Prima dose",#: {}".format(round(raggruppati['prima_dose'].tail(1).values[0],2)), 
                            "Seconda/unica dose",#: {}".format(round(raggruppati['seconda_dose'].tail(1).values[0]+raggruppati['pregressa_infezione'].tail(1).values[0],2)),
                            "Dose aggiuntiva/booster",#: {}".format(round(raggruppati['dose_aggiuntiva'].tail(1).values[0]+raggruppati['dose_booster'].tail(1).values[0],2)),
-                           "Tot. somministrazioni: {} mln".format(round((raggruppati['prima_dose'].sum() + raggruppati['seconda_dose'].sum() + raggruppati['pregressa_infezione'].sum() + raggruppati['dose_aggiuntiva'].sum() + + raggruppati['dose_booster'].sum())/1e+06,3))])
+                           "Tot. somministrazioni: {} mln".format(round((raggruppati['prima_dose'].sum() + raggruppati['seconda_dose'].sum() + raggruppati['pregressa_infezione'].sum() + raggruppati['dose_addizionale_booster'].sum())/1e+06,3))])
    
    plt.grid(alpha = 0.5)
    fig.savefig("pics/vaccini/italia.png", dpi = 100, bbox_extra_artists=(lg,), bbox_inches='tight')
@@ -142,7 +142,7 @@ def vaccini_cum():
    # somme cumulate
    raggruppati['prima_dose'] = (raggruppati['prima_dose'].cumsum()/pop_ita) * 100
    raggruppati['seconda_dose'] = ((raggruppati['seconda_dose'].cumsum()+ raggruppati['pregressa_infezione'].cumsum())/pop_ita) * 100
-   raggruppati['dose_aggiuntiva'] = ((raggruppati['dose_aggiuntiva'].cumsum()+raggruppati['dose_booster'].cumsum())/pop_ita) * 100
+   raggruppati['dose_aggiuntiva'] = ((raggruppati['dose_addizionale_booster'].cumsum())/pop_ita) * 100
    
    fig, ax = plt.subplots()
 
@@ -184,7 +184,7 @@ def vaccini_cum():
    plt.close(fig)
 
 
-
+'''
 # PLOT REGIONI
 def vaccini_reg():
    base = dt.datetime(2020, 12, 27)
@@ -303,3 +303,4 @@ def vaccini_reg_cum(dati_regione, regione, base):
    fig.savefig(f"pics/vaccini/cum/{regione}.png", dpi = 100, bbox_extra_artists=(lg,), bbox_inches='tight')
    plt.close(fig)
 
+'''
