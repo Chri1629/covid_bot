@@ -6,7 +6,7 @@ def scrape(force = False):
 
     page_prov = requests.get("https://raw.githubusercontent.com/pcm-dpc/COVID-19/master/dati-province/dpc-covid19-ita-province.csv")
     page_reg = requests.get("https://raw.githubusercontent.com/pcm-dpc/COVID-19/master/dati-regioni/dpc-covid19-ita-regioni.csv")
-
+    
     # split the long string into a list of lines
     data_p = page_prov.content.decode('utf-8').splitlines()
     data_r = page_reg.content.decode('utf-8').splitlines()
@@ -35,8 +35,8 @@ def scrape(force = False):
             l = re.split(',', line)
             if len(l) > 21:
                 l = l[:21]
-            
             writer.writerow(l)
+            
             
     return True
 
@@ -44,7 +44,7 @@ def scrape_vaccini(force = False):
    page = requests.get("https://raw.githubusercontent.com/italia/covid19-opendata-vaccini/master/dati/somministrazioni-vaccini-latest.csv")
    page_reg = requests.get("https://raw.githubusercontent.com/italia/covid19-opendata-vaccini/master/dati/somministrazioni-vaccini-summary-latest.csv")
    page_platea = requests.get("https://raw.githubusercontent.com/italia/covid19-opendata-vaccini/master/dati/platea.csv")
-   
+ 
    data = page.content.decode('utf-8').splitlines()
    data_reg = page_reg.content.decode('utf-8').splitlines()
    data_platea = page_platea.content.decode('utf-8').splitlines()
@@ -72,7 +72,7 @@ def scrape_vaccini(force = False):
           if len(l) != 4:
               raise ValueError("platea - wrong number of columns")
           writer.writerow(l)
-          
+                   
    # save raw
    df = pd.read_csv("data/vaccini.csv", sep = ',')
 
