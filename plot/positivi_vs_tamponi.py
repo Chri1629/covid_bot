@@ -30,12 +30,8 @@ def positivi_tamponi():
     plt.yticks(size = 10)
     plt.title("% Tamponi positivi - Italia", size = 15)
     plt.grid(alpha = 0.5)
-    lg = plt.legend([l1], ["{}: {}%\n{}-{}: {:.2}%".format(date[-1].strftime("%d-%h"), raggruppati['rapporto_totale'].tail(1).values[0], 
-    date[-9].strftime("%d-%h"), date[-2].strftime("%d-%h"), np.mean([raggruppati['rapporto_totale'].tail(2).values[0], raggruppati['rapporto_totale'].tail(3).values[0],
-    raggruppati['rapporto_totale'].tail(4).values[0],raggruppati['rapporto_totale'].tail(5).values[0],raggruppati['rapporto_totale'].tail(6).values[0],
-    raggruppati['rapporto_totale'].tail(7).values[0],raggruppati['rapporto_totale'].tail(8).values[0],raggruppati['rapporto_totale'].tail(9).values[0]]))], 
-    bbox_to_anchor=(1.01, 0.6, 1.1, 0.2), loc='upper left')
-    fig.savefig("pics/rapporto_tamponi/italia.png", dpi = 100, bbox_extra_artists=(lg,), bbox_inches='tight')
+    plt.legend([l1], ["{}: {}%".format(date[-1].strftime("%d-%h"), raggruppati['rapporto_totale'].tail(1).values[0])])
+    fig.savefig("pics/rapporto_tamponi/italia.png", dpi = 100, bbox_inches='tight')
     plt.close(fig)
 
     ## Provo a raggruppare per regione e a stamprarli anche per regione quindi vanno messi dentro un for e bisogna fare un ciclo
@@ -63,12 +59,8 @@ def positivi_tamponi():
         plt.yticks(size = 10)
         plt.title("% Tamponi positivi - {}".format(regione), size = 15)
         plt.grid(alpha = 0.5)
-        lg = plt.legend([l1], ["{}: {}%\n{}-{}: {:.2}%".format(date[-1].strftime("%d-%h"), per_regioni['rapporto'].tail(1).values[0], 
-        date[-9].strftime("%d-%h"), date[-2].strftime("%d-%h"), np.mean([per_regioni['rapporto'].tail(2).values[0], per_regioni['rapporto'].tail(3).values[0],
-        per_regioni['rapporto'].tail(4).values[0],per_regioni['rapporto'].tail(5).values[0],per_regioni['rapporto'].tail(6).values[0],
-        per_regioni['rapporto'].tail(7).values[0],per_regioni['rapporto'].tail(8).values[0],per_regioni['rapporto'].tail(9).values[0]]))], 
-        bbox_to_anchor=(1.01, 0.6, 1.1, 0.2), loc='upper left')
-        fig.savefig("pics/rapporto_tamponi/{}.png".format(regione.lower()), dpi = 100, bbox_extra_artists=(lg,), bbox_inches='tight')
+        plt.legend([l1], ["{}: {}%".format(date[-1].strftime("%d-%h"), per_regioni['rapporto'].tail(1).values[0])])
+        fig.savefig("pics/rapporto_tamponi/{}.png".format(regione.lower()), dpi = 100, bbox_inches='tight')
         plt.close(fig)
 
 
@@ -87,12 +79,8 @@ def positivi_tamponi():
     plt.yticks(size = 10)
     plt.title("% Tamponi positivi - Italia", size = 15)
     plt.grid(alpha = 0.5)
-    lg = plt.legend([l1], ["{}: {}%\n{}-{}: {:.2}%".format(date[-1].strftime("%d-%h"), raggruppati['rapporto_totale'].tail(1).values[0], 
-    date[-9].strftime("%d-%h"), date[-2].strftime("%d-%h"), np.mean([raggruppati['rapporto_totale'].tail(2).values[0], raggruppati['rapporto_totale'].tail(3).values[0],
-    raggruppati['rapporto_totale'].tail(4).values[0],raggruppati['rapporto_totale'].tail(5).values[0],raggruppati['rapporto_totale'].tail(6).values[0],
-    raggruppati['rapporto_totale'].tail(7).values[0],raggruppati['rapporto_totale'].tail(8).values[0],raggruppati['rapporto_totale'].tail(9).values[0]]))], 
-    bbox_to_anchor=(1.01, 0.6, 1.1, 0.2), loc='upper left')
-    fig.savefig("pics/rapporto_tamponi_news/italia.png", dpi = 100, bbox_extra_artists=(lg,), bbox_inches='tight')
+    plt.legend([l1], ["{}: {}%".format(date[-1].strftime("%d-%h"), raggruppati['rapporto_totale'].tail(1).values[0])])
+    fig.savefig("pics/rapporto_tamponi_news/italia.png", dpi = 100, bbox_inches='tight')
     plt.close(fig)
 
     ## Provo a raggruppare per regione e a stamprarli anche per regione quindi vanno messi dentro un for e bisogna fare un ciclo
@@ -120,11 +108,7 @@ def positivi_tamponi():
         plt.yticks(size = 10)
         plt.title("% Tamponi positivi - {}".format(regione), size = 15)
         plt.grid(alpha = 0.5)
-        lg = plt.legend([l1], ["{}: {}%\n{}-{}: {:.2}%".format(date[-1].strftime("%d-%h"), per_regioni['rapporto'].tail(1).values[0], 
-        date[-9].strftime("%d-%h"), date[-2].strftime("%d-%h"), np.mean([per_regioni['rapporto'].tail(2).values[0], per_regioni['rapporto'].tail(3).values[0],
-        per_regioni['rapporto'].tail(4).values[0],per_regioni['rapporto'].tail(5).values[0],per_regioni['rapporto'].tail(6).values[0],
-        per_regioni['rapporto'].tail(7).values[0],per_regioni['rapporto'].tail(8).values[0],per_regioni['rapporto'].tail(9).values[0]]))], 
-        bbox_to_anchor=(1.01, 0.6, 1.1, 0.2), loc='upper left')
-        fig.savefig("pics/rapporto_tamponi_news/{}.png".format(regione.lower()), dpi = 100, bbox_extra_artists=(lg,), bbox_inches='tight')
+        plt.legend([l1], ["{}: {}%".format(date[-1].strftime("%d-%h"), per_regioni['rapporto'].tail(1).values[0])])
+        fig.savefig("pics/rapporto_tamponi_news/{}.png".format(regione.lower()), dpi = 100, bbox_inches='tight')
         plt.close(fig)
         

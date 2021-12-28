@@ -28,9 +28,7 @@ def ricoverati():
     plt.xticks(size = 10)
     plt.yticks(size = 10)
     plt.title("Ricoverati - Italia")
-    lg = plt.legend([l1], ["{}: {}\n{}: {}".format(date[-1].strftime("%d-%h"), int(raggruppati['ricoverati_con_sintomi'].tail(1).values[0]), 
-    date[-2].strftime("%d-%h"), int(raggruppati['ricoverati_con_sintomi'].tail(2).values[0]))], 
-    bbox_to_anchor=(1.01, 0.6, 1.1, 0.2), loc='upper left')
+    lg = plt.legend([l1], ["{}: {}".format(date[-1].strftime("%d-%h"), int(raggruppati['ricoverati_con_sintomi'].tail(1).values[0]))])
     plt.grid(alpha = 0.5)
     fig.savefig("pics/ricoverati/italia.png", dpi = 100, bbox_extra_artists=(lg,), bbox_inches='tight')
     plt.close(fig)
@@ -54,9 +52,7 @@ def ricoverati():
         plt.xticks(size = 10)
         plt.yticks(size = 10)
         plt.title("Ricoverati - {}".format(regione), size = 15)
-        lg = plt.legend([l1], ["{}: {}\n{}: {}".format(date[-1].strftime("%d-%h"), int(per_regioni.tail(1).values[0]), 
-        date[-2].strftime("%d-%h"), int(per_regioni.tail(2).values[0]))], 
-        bbox_to_anchor=(1.01, 0.6, 1.1, 0.2), loc='upper left')
+        lg = plt.legend([l1], ["{}: {}".format(date[-1].strftime("%d-%h"), int(per_regioni.tail(1).values[0]))])
         plt.grid(alpha = 0.5)
         fig.savefig("pics/ricoverati/{}.png".format(regione.lower()), dpi = 100, bbox_extra_artists=(lg,), bbox_inches='tight')
         plt.close(fig)
@@ -77,9 +73,7 @@ def ricoverati():
     plt.xticks(size = 10, rotation=0)
     plt.yticks(size = 10)
     plt.title("Ricoverati - Italia")
-    lg = plt.legend([l1], ["{}: {}\n{}: {}".format(date[-1].strftime("%d-%h"), int(raggruppati['ricoverati_con_sintomi'].tail(1).values[0]), 
-    date[-2].strftime("%d-%h"), int(raggruppati['ricoverati_con_sintomi'].tail(2).values[0]))], 
-    bbox_to_anchor=(1.01, 0.6, 1.1, 0.2), loc='upper left')
+    lg = plt.legend([l1], ["{}: {}".format(date[-1].strftime("%d-%h"), int(raggruppati['ricoverati_con_sintomi'].tail(1).values[0]))])
     plt.grid(alpha = 0.5)
     fig.savefig("pics/ricoverati_news/italia.png", dpi = 100, bbox_extra_artists=(lg,), bbox_inches='tight')
     plt.close(fig)
@@ -102,9 +96,7 @@ def ricoverati():
         plt.xticks(size = 10, rotation=0)
         plt.yticks(size = 10)
         plt.title("Ricoverati - {}".format(regione), size = 15)
-        lg = plt.legend([l1], ["{}: {}\n{}: {}".format(date[-1].strftime("%d-%h"), int(per_regioni.tail(1).values[0]), 
-        date[-2].strftime("%d-%h"), int(per_regioni.tail(2).values[0]))], 
-        bbox_to_anchor=(1.01, 0.6, 1.1, 0.2), loc='upper left')
+        lg = plt.legend([l1], ["{}: {}".format(date[-1].strftime("%d-%h"), int(per_regioni.tail(1).values[0]))])
         plt.grid(alpha = 0.5)
         fig.savefig("pics/ricoverati_news/{}.png".format(regione.lower()), dpi = 100, bbox_extra_artists=(lg,), bbox_inches='tight')
         plt.close(fig)

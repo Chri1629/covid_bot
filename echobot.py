@@ -239,6 +239,7 @@ def news_regions(text_token):
     region = untokenize(text_token)
     if region in regions: #if region is correct
         l = [open(f"{dir_pics}/nuovi_positivi/{region}.png", "rb"),
+            open(f"{dir_pics}/att_positivi/{region}.png", "rb"),
             open(f"{dir_pics}/morti/{region}.png", "rb"),
             open(f"{dir_pics}/guariti/{region}.png", "rb"),
             open(f"{dir_pics}/rapporto_tamponi/{region}.png", "rb"),
@@ -254,6 +255,7 @@ def news_regions_recent(text_token):
     region = untokenize(text_token)
     if region in regions: #if region is correct
         l = [open(f"{dir_pics}/nuovi_positivi_news/{region}.png", "rb"),
+            open(f"{dir_pics}/att_positivi_news/{region}.png", "rb"),
             open(f"{dir_pics}/morti_news/{region}.png", "rb"),
             open(f"{dir_pics}/guariti_news/{region}.png", "rb"),
             open(f"{dir_pics}/rapporto_tamponi_news/{region}.png", "rb"),
@@ -271,6 +273,8 @@ def news_auto(context, chat_id):
     context.bot.sendPhoto(chat_id = chat_id, 
                 photo = open(f"{dir_pics}/nuovi_positivi/italia.png", "rb"))
     context.bot.sendPhoto(chat_id = chat_id,
+                photo = open(f"{dir_pics}/att_positivi/italia.png", "rb"))
+    context.bot.sendPhoto(chat_id = chat_id,
                 photo = open(f"{dir_pics}/morti/italia.png", "rb"))  
     context.bot.sendPhoto(chat_id = chat_id,
                 photo = open(f"{dir_pics}/guariti/italia.png", "rb"))
@@ -286,6 +290,7 @@ def news_auto(context, chat_id):
 def news(update):
     update.message.reply_text("Ecco la panoramica sui dati d'Italia del Covid-19 aggiornata al " + s_date) ####         
     update.message.reply_photo(open(f"{dir_pics}/nuovi_positivi/italia.png", "rb"))
+    update.message.reply_photo(open(f"{dir_pics}/att_positivi/italia.png", "rb"))
     update.message.reply_photo(open(f"{dir_pics}/morti/italia.png", "rb"))  
     update.message.reply_photo(open(f"{dir_pics}/guariti/italia.png", "rb"))
     update.message.reply_photo(open(f"{dir_pics}/rapporto_tamponi/italia.png", "rb"))
@@ -295,7 +300,8 @@ def news(update):
 
 def news_recent(update, context):
     update.message.reply_text("Ecco la panoramica sui dati d'Italia del Covid-19 aggiornata al " + s_date) #### 
-    update.message.reply_photo(open(f"{dir_pics}/nuovi_positivi_news/italia.png", "rb"))  
+    update.message.reply_photo(open(f"{dir_pics}/nuovi_positivi_news/italia.png", "rb")) 
+    update.message.reply_photo(open(f"{dir_pics}/att_positivi_news/italia.png", "rb")) 
     update.message.reply_photo(open(f"{dir_pics}/morti_news/italia.png", "rb"))     
     update.message.reply_photo(open(f"{dir_pics}/guariti_news/italia.png", "rb"))
     update.message.reply_photo(open(f"{dir_pics}/rapporto_tamponi_news/italia.png", "rb"))
@@ -382,6 +388,7 @@ def echo(update, context):
         else:
             region = check_region(text_token[2:])
             send_region(update, "terapia", region)
+    
     # deceduti
     elif text_token[0] == "deceduti":
         if len(text_token) == 1: #se non ha aggiunto nulla
@@ -466,6 +473,20 @@ def echo(update, context):
             region = check_region(text_token[1:])
             send_region(update, "guariti", region)
     
+    # att_positivi
+    elif text_token[0] == "attuali positivi":
+        if len(text_token) == 1: #se non ha aggiunto nulla
+            update.message.reply_photo(open(f"{dir_pics}/att_positivi/italia.png", "rb"))
+        elif text_token[1] == "recenti":
+            if len(text_token) == 2: #se non ha aggiunto nulla
+                update.message.reply_photo(open("pics/att_positivi_news/italia.png", "rb"))
+            else:
+                region = check_region(text_token[2:])
+                send_region(update, "att_positivi_news", region)
+        else:
+            region = check_region(text_token[1:])
+            send_region(update, "att_positivi", region)
+            
     # vaccini
     elif text_token[0] == 'vaccini':
         if len(text_token) == 1:

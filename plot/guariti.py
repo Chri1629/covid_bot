@@ -20,8 +20,9 @@ def guariti():
     x = ax.lines[-1].get_xdata()
     y = ax.lines[-1].get_ydata()
     ax.fill_between(x, 0, y, color='#006600', alpha=0.2)
-    plt.plot(date, raggruppati['ma'], color = "#006600", alpha = 1, linewidth =2)
-    l1 = plt.scatter(x = max(date), y = raggruppati['dimessi_guariti'].tail(1), color = "#006600", alpha = 1)
+    plt.plot(date, raggruppati['ma'], color = "#006600", alpha = 1, linewidth =2, label = 'weekly avg.')
+    lbl_scatter = "{}: {}".format(date[-1].strftime("%d-%h"), int(raggruppati['dimessi_guariti'].tail(1).values[0]))
+    plt.scatter(x = max(date), y = raggruppati['dimessi_guariti'].tail(1), color = "#006600", alpha = 1, label = lbl_scatter)
     ax.xaxis.set_major_locator(mdates.MonthLocator())
     ax.xaxis.set_major_formatter(mdates.DateFormatter('%b'))
     plt.ylim(bottom = 0)
@@ -31,12 +32,8 @@ def guariti():
     plt.yticks(size = 10)
     plt.title("Guariti - Italia", size = 15)
     plt.grid(alpha = 0.5)
-    lg = plt.legend([l1], ["{}: {}\n{}-{}: {}".format(date[-1].strftime("%d-%h"), int(raggruppati['dimessi_guariti'].tail(1).values[0]), 
-    date[-9].strftime("%d-%h"), date[-2].strftime("%d-%h"), int(np.mean([raggruppati['dimessi_guariti'].tail(2).values[0], raggruppati['dimessi_guariti'].tail(3).values[0],
-    raggruppati['dimessi_guariti'].tail(4).values[0],raggruppati['dimessi_guariti'].tail(5).values[0],raggruppati['dimessi_guariti'].tail(6).values[0],
-    raggruppati['dimessi_guariti'].tail(7).values[0],raggruppati['dimessi_guariti'].tail(8).values[0],raggruppati['dimessi_guariti'].tail(9).values[0]])))], 
-    bbox_to_anchor=(1.01, 0.6, 1.1, 0.2), loc='upper left')
-    fig.savefig("pics/guariti/italia.png", dpi = 100, bbox_extra_artists=(lg,), bbox_inches='tight')
+    ax.legend()
+    fig.savefig("pics/guariti/italia.png", dpi = 100, bbox_inches='tight')
     plt.close(fig)
 
     ## Provo a raggruppare per regione e a stamprarli anche per regione quindi vanno messi dentro un for e bisogna fare un ciclo
@@ -49,9 +46,9 @@ def guariti():
         x = ax.lines[-1].get_xdata()
         y = ax.lines[-1].get_ydata()
         ax.fill_between(x, 0, y, color='#006600', alpha=0.2)
-        plt.plot(date, pos_ma_regioni, color = "#006600", alpha = 1, linewidth =2)
-        plt.scatter(x = max(date), y = per_regioni.tail(1), color = "#006600", alpha = 1,
-        label = "{}: {}".format(date[-1].strftime("%d-%h"),int(per_regioni.tail(1).values[0])))
+        plt.plot(date, pos_ma_regioni, color = "#006600", alpha = 1, linewidth =2, label = 'weekly avg.')
+        lbl_scatter = "{}: {}".format(date[-1].strftime("%d-%h"), int(per_regioni.tail(1).values[0]))
+        plt.scatter(x = max(date), y = per_regioni.tail(1), color = "#006600", alpha = 1, label = lbl_scatter)
         ax.xaxis.set_major_locator(mdates.MonthLocator())
         ax.xaxis.set_major_formatter(mdates.DateFormatter('%b'))
         plt.ylim(bottom = 0)
@@ -61,12 +58,8 @@ def guariti():
         plt.yticks(size = 10)
         plt.title("Guariti - {}".format(regione), size = 15)
         plt.grid(alpha = 0.5)
-        lg = plt.legend([l1], ["{}: {}\n{}-{}: {}".format(date[-1].strftime("%d-%h"), int(per_regioni.tail(1).values[0]), 
-        date[-9].strftime("%d-%h"), date[-2].strftime("%d-%h"), int(np.mean([per_regioni.tail(2).values[0], per_regioni.tail(3).values[0],
-        per_regioni.tail(4).values[0],per_regioni.tail(5).values[0],per_regioni.tail(6).values[0],
-        per_regioni.tail(7).values[0],per_regioni.tail(8).values[0],per_regioni.tail(9).values[0]])))], 
-        bbox_to_anchor=(1.01, 0.6, 1.1, 0.2), loc='upper left')
-        fig.savefig("pics/guariti/{}.png".format(regione.lower()), dpi = 100, bbox_extra_artists=(lg,), bbox_inches='tight')
+        ax.legend()
+        fig.savefig("pics/guariti/{}.png".format(regione.lower()), dpi = 100, bbox_inches='tight')
         plt.close(fig)
 
     fig, ax = plt.subplots()
@@ -74,8 +67,9 @@ def guariti():
     x = ax.lines[-1].get_xdata()
     y = ax.lines[-1].get_ydata()
     ax.fill_between(x, 0, y, color='#006600', alpha=0.2)
-    plt.plot(date[-30:], raggruppati['ma'][-30:], color = "#006600", alpha = 1, linewidth =2)
-    l1 = plt.scatter(x = max(date), y = raggruppati['dimessi_guariti'].tail(1), color = "#006600", alpha = 1)
+    plt.plot(date[-30:], raggruppati['ma'][-30:], color = "#006600", alpha = 1, linewidth =2, label = 'weekly avg.')
+    lbl_scatter = "{}: {}".format(date[-1].strftime("%d-%h"), int(raggruppati['dimessi_guariti'].tail(1).values[0]))
+    plt.scatter(x = max(date), y = raggruppati['dimessi_guariti'].tail(1), color = "#006600", alpha = 1, label = lbl_scatter)
     ax.xaxis.set_major_locator(mdates.DayLocator(interval = 4))
     ax.xaxis.set_major_formatter(mdates.DateFormatter('%d-%h'))
     plt.ylim(bottom = 0)
@@ -85,12 +79,8 @@ def guariti():
     plt.yticks(size = 10)
     plt.title("Guariti - Italia", size = 15)
     plt.grid(alpha = 0.5)
-    lg = plt.legend([l1], ["{}: {}\n{}-{}: {}".format(date[-1].strftime("%d-%h"), int(raggruppati['dimessi_guariti'].tail(1).values[0]), 
-    date[-9].strftime("%d-%h"), date[-2].strftime("%d-%h"), int(np.mean([raggruppati['dimessi_guariti'].tail(2).values[0], raggruppati['dimessi_guariti'].tail(3).values[0],
-    raggruppati['dimessi_guariti'].tail(4).values[0],raggruppati['dimessi_guariti'].tail(5).values[0],raggruppati['dimessi_guariti'].tail(6).values[0],
-    raggruppati['dimessi_guariti'].tail(7).values[0],raggruppati['dimessi_guariti'].tail(8).values[0],raggruppati['dimessi_guariti'].tail(9).values[0]])))], 
-    bbox_to_anchor=(1.01, 0.6, 1.1, 0.2), loc='upper left')
-    fig.savefig("pics/guariti_news/italia.png", dpi = 100, bbox_extra_artists=(lg,), bbox_inches='tight')
+    ax.legend()
+    fig.savefig("pics/guariti_news/italia.png", dpi = 100, bbox_inches='tight')
     plt.close(fig)
 
     ## Provo a raggruppare per regione e a stamprarli anche per regione quindi vanno messi dentro un for e bisogna fare un ciclo
@@ -103,8 +93,9 @@ def guariti():
         x = ax.lines[-1].get_xdata()
         y = ax.lines[-1].get_ydata()
         ax.fill_between(x, 0, y, color='#006600', alpha=0.2)
-        plt.plot(date[-30:], pos_ma_regioni[-30:], color = "#006600", alpha = 1, linewidth =2)
-        l1 = plt.scatter(x = max(date), y = per_regioni.tail(1), color = "#006600", alpha = 1)
+        plt.plot(date[-30:], pos_ma_regioni[-30:], color = "#006600", alpha = 1, linewidth =2, label = 'weekly avg.')
+        lbl_scatter = "{}: {}".format(date[-1].strftime("%d-%h"), int(per_regioni.tail(1).values[0]))
+        plt.scatter(x = max(date), y = per_regioni.tail(1), color = "#006600", alpha = 1, label = lbl_scatter)
         ax.xaxis.set_major_locator(mdates.DayLocator(interval = 4))
         ax.xaxis.set_major_formatter(mdates.DateFormatter('%d-%h'))
         plt.ylim(bottom = 0)
@@ -114,10 +105,6 @@ def guariti():
         plt.yticks(size = 10)
         plt.title("Guariti - {}".format(regione), size = 15)
         plt.grid(alpha = 0.5)
-        lg = plt.legend([l1], ["{}: {}\n{}-{}: {}".format(date[-1].strftime("%d-%h"), int(per_regioni.tail(1).values[0]), 
-        date[-9].strftime("%d-%h"), date[-2].strftime("%d-%h"), int(np.mean([per_regioni.tail(2).values[0], per_regioni.tail(3).values[0],
-        per_regioni.tail(4).values[0],per_regioni.tail(5).values[0],per_regioni.tail(6).values[0],
-        per_regioni.tail(7).values[0],per_regioni.tail(8).values[0],per_regioni.tail(9).values[0]])))], 
-        bbox_to_anchor=(1.01, 0.6, 1.1, 0.2), loc='upper left')
-        fig.savefig("pics/guariti_news/{}.png".format(regione.lower()), dpi = 100, bbox_extra_artists=(lg,), bbox_inches='tight')
+        ax.legend()
+        fig.savefig("pics/guariti_news/{}.png".format(regione.lower()), dpi = 100, bbox_inches='tight')
         plt.close(fig)

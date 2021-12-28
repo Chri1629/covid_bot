@@ -5,7 +5,8 @@ from plot.casi import casi
 from plot.morti import morti
 from plot.ricoverati import ricoverati
 from plot.guariti import guariti
-from plot.vaccini import vaccini, vaccini_cum, vaccini_fasce, vaccini_fasce_perc#, vaccini_reg
+from plot.att_positivi import att_positivi
+from plot.vaccini import vaccini, vaccini_cum, vaccini_fasce, vaccini_fasce_perc
 from pathlib import Path
 
 
@@ -38,6 +39,10 @@ def plot_producer():
     Path("pics/ricoverati").mkdir(parents=True, exist_ok=True)
     Path("pics/ricoverati_news").mkdir(parents=True, exist_ok=True)
     ricoverati()
+    
+    Path("pics/att_positivi").mkdir(parents=True, exist_ok=True)
+    Path("pics/att_positivi_news").mkdir(parents=True, exist_ok=True)
+    att_positivi()
     
     # plot vaccini
     Path("pics/vaccini").mkdir(parents=True, exist_ok=True)

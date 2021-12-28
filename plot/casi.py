@@ -17,8 +17,9 @@ def casi():
     x = ax.lines[-1].get_xdata()
     y = ax.lines[-1].get_ydata()
     ax.fill_between(x, 0, y, color='#c90000', alpha=0.2)
-    plt.plot(date, raggruppati['pos_ma'], color = "#c90000", alpha = 1, linewidth =2)
-    l1 = plt.scatter(x = max(date), y = raggruppati['nuovi_positivi'].tail(1).values[0], color = "#c90000", alpha = 1)
+    lbl_scatter = "{}: {}".format(date[-1].strftime("%d-%h"), raggruppati['nuovi_positivi'].tail(1).values[0])
+    plt.scatter(x = max(date), y = raggruppati['nuovi_positivi'].tail(1).values[0], color = "#c90000", alpha = 1, label = lbl_scatter)
+    plt.plot(date, raggruppati['pos_ma'], color = "#c90000", alpha = 1, linewidth =2, label = 'weekly avg.')
     ax.xaxis.set_major_locator(mdates.MonthLocator())
     ax.xaxis.set_major_formatter(mdates.DateFormatter('%b'))
     plt.ylim(bottom = 0)
@@ -27,13 +28,9 @@ def casi():
     plt.xticks(size = 10)
     plt.yticks(size = 10)
     plt.title("Nuovi casi - Italia", size = 15)
-    lg = plt.legend([l1], ["{}: {}\n{}-{}: {}".format(date[-1].strftime("%d-%h"), raggruppati['nuovi_positivi'].tail(1).values[0], 
-    date[-9].strftime("%d-%h"), date[-2].strftime("%d-%h"), int(np.mean([raggruppati['nuovi_positivi'].tail(2).values[0], raggruppati['nuovi_positivi'].tail(3).values[0],
-    raggruppati['nuovi_positivi'].tail(4).values[0],raggruppati['nuovi_positivi'].tail(5).values[0],raggruppati['nuovi_positivi'].tail(6).values[0],
-    raggruppati['nuovi_positivi'].tail(7).values[0],raggruppati['nuovi_positivi'].tail(8).values[0],raggruppati['nuovi_positivi'].tail(9).values[0]])))], 
-    bbox_to_anchor=(1.01, 0.6, 1.1, 0.2), loc='upper left')
+    ax.legend()
     plt.grid(alpha = 0.5)
-    fig.savefig("pics/nuovi_positivi/italia.png", dpi = 100, bbox_extra_artists=(lg,), bbox_inches='tight')
+    fig.savefig("pics/nuovi_positivi/italia.png", dpi = 100, bbox_inches='tight')#bbox_extra_artists=(lg,), 
     plt.close(fig)
 
     ## Provo a raggruppare per regione e a stamprarli anche per regione quindi vanno messi dentro un for e bisogna fare un ciclo
@@ -47,8 +44,9 @@ def casi():
         x = ax.lines[-1].get_xdata()
         y = ax.lines[-1].get_ydata()
         ax.fill_between(x, 0, y, color='#c90000', alpha=0.2)
-        plt.plot(date, pos_ma_regioni, color = "#c90000", alpha = 1, linewidth =2)
-        l1 = plt.scatter(x = max(date), y = per_regioni.tail(1), color = "#c90000", alpha = 1)
+        plt.plot(date, pos_ma_regioni, color = "#c90000", alpha = 1, linewidth =2, label = 'weekly avg.')
+        lbl_scatter = "{}: {}".format(date[-1].strftime("%d-%h"), per_regioni.tail(1).values[0])
+        plt.scatter(x = max(date), y = per_regioni.tail(1), color = "#c90000", alpha = 1, label = lbl_scatter)
         ax.xaxis.set_major_locator(mdates.MonthLocator())
         ax.xaxis.set_major_formatter(mdates.DateFormatter('%b'))
         plt.ylim(bottom = 0)
@@ -58,12 +56,8 @@ def casi():
         plt.yticks(size = 10)
         plt.title("Nuovi casi - {}".format(regione), size = 15)
         plt.grid(alpha = 0.5)
-        lg = plt.legend([l1], ["{}: {}\n{}-{}: {}".format(date[-1].strftime("%d-%h"), per_regioni.tail(1).values[0], 
-        date[-9].strftime("%d-%h"), date[-2].strftime("%d-%h"), int(np.mean([per_regioni.tail(2).values[0], per_regioni.tail(3).values[0],
-        per_regioni.tail(4).values[0],per_regioni.tail(5).values[0],per_regioni.tail(6).values[0],
-        per_regioni.tail(7).values[0],per_regioni.tail(8).values[0],per_regioni.tail(9).values[0]])))], 
-        bbox_to_anchor=(1.01, 0.6, 1.1, 0.2), loc='upper left')
-        fig.savefig("pics/nuovi_positivi/{}.png".format(regione.lower()), dpi = 100, bbox_extra_artists=(lg,), bbox_inches='tight')
+        ax.legend()
+        fig.savefig("pics/nuovi_positivi/{}.png".format(regione.lower()), dpi = 100, bbox_inches='tight')
         plt.close(fig)
 
     
@@ -72,8 +66,9 @@ def casi():
     x = ax.lines[-1].get_xdata()
     y = ax.lines[-1].get_ydata()
     ax.fill_between(x, 0, y, color='#c90000', alpha=0.2)
-    plt.plot(date[-30:], raggruppati['pos_ma'][-30:], color = "#c90000", alpha = 1, linewidth =2)
-    l1 = plt.scatter(x = max(date), y = raggruppati['nuovi_positivi'].tail(1).values[0], color = "#c90000", alpha = 1)
+    plt.plot(date[-30:], raggruppati['pos_ma'][-30:], color = "#c90000", alpha = 1, linewidth =2, label = "weekly avg.")
+    lbl_scatter = "{}: {}".format(date[-1].strftime("%d-%h"), raggruppati['nuovi_positivi'].tail(1).values[0])
+    plt.scatter(x = max(date), y = raggruppati['nuovi_positivi'].tail(1).values[0], color = "#c90000", alpha = 1, label = lbl_scatter)
     ax.xaxis.set_major_locator(mdates.DayLocator(interval = 4))
     ax.xaxis.set_major_formatter(mdates.DateFormatter('%d-%h'))
     plt.ylim(bottom = 0)
@@ -82,13 +77,9 @@ def casi():
     plt.xticks(size = 10, rotation = 0)
     plt.yticks(size = 10)
     plt.title("Nuovi casi - Italia", size = 15)
-    lg = plt.legend([l1], ["{}: {}\n{}-{}: {}".format(date[-1].strftime("%d-%h"), raggruppati['nuovi_positivi'].tail(1).values[0], 
-    date[-9].strftime("%d-%h"), date[-2].strftime("%d-%h"), int(np.mean([raggruppati['nuovi_positivi'].tail(2).values[0], raggruppati['nuovi_positivi'].tail(3).values[0],
-    raggruppati['nuovi_positivi'].tail(4).values[0],raggruppati['nuovi_positivi'].tail(5).values[0],raggruppati['nuovi_positivi'].tail(6).values[0],
-    raggruppati['nuovi_positivi'].tail(7).values[0],raggruppati['nuovi_positivi'].tail(8).values[0],raggruppati['nuovi_positivi'].tail(9).values[0]])))], 
-    bbox_to_anchor=(1.01, 0.6, 1.1, 0.2), loc='upper left')
+    ax.legend()
     plt.grid(alpha = 0.5)
-    fig.savefig("pics/nuovi_positivi_news/italia.png", dpi = 100, bbox_extra_artists=(lg,), bbox_inches='tight')
+    fig.savefig("pics/nuovi_positivi_news/italia.png", dpi = 100, bbox_inches='tight')
     plt.close(fig)
 
     ## Provo a raggruppare per regione e a stamprarli anche per regione quindi vanno messi dentro un for e bisogna fare un ciclo
@@ -102,8 +93,9 @@ def casi():
         x = ax.lines[-1].get_xdata()
         y = ax.lines[-1].get_ydata()
         ax.fill_between(x, 0, y, color='#c90000', alpha=0.2)
-        plt.plot(date[-30:], pos_ma_regioni[-30:], color = "#c90000", alpha = 1, linewidth =2)
-        l1 = plt.scatter(x = max(date), y = per_regioni.tail(1), color = "#c90000", alpha = 1)
+        plt.plot(date[-30:], pos_ma_regioni[-30:], color = "#c90000", alpha = 1, linewidth =2, label = 'weekly avg.')
+        lbl_scatter = "{}: {}".format(date[-1].strftime("%d-%h"), per_regioni.tail(1).values[0])
+        l1 = plt.scatter(x = max(date), y = per_regioni.tail(1), color = "#c90000", alpha = 1, label = lbl_scatter)
         ax.xaxis.set_major_locator(mdates.DayLocator(interval = 4))
         ax.xaxis.set_major_formatter(mdates.DateFormatter('%d-%h'))
         plt.ylim(bottom = 0)
@@ -112,11 +104,7 @@ def casi():
         plt.xticks(size = 10, rotation = 0)
         plt.yticks(size = 10)
         plt.title("Nuovi casi - {}".format(regione), size = 15)
+        ax.legend()
         plt.grid(alpha = 0.5)
-        lg = plt.legend([l1], ["{}: {}\n{}-{}: {}".format(date[-1].strftime("%d-%h"), per_regioni.tail(1).values[0], 
-        date[-9].strftime("%d-%h"), date[-2].strftime("%d-%h"), int(np.mean([per_regioni.tail(2).values[0], per_regioni.tail(3).values[0],
-        per_regioni.tail(4).values[0],per_regioni.tail(5).values[0],per_regioni.tail(6).values[0],
-        per_regioni.tail(7).values[0],per_regioni.tail(8).values[0],per_regioni.tail(9).values[0]])))], 
-        bbox_to_anchor=(1.01, 0.6, 1.1, 0.2), loc='upper left')
-        fig.savefig("pics/nuovi_positivi_news/{}.png".format(regione.lower()), dpi = 100, bbox_extra_artists=(lg,), bbox_inches='tight')
+        fig.savefig("pics/nuovi_positivi_news/{}.png".format(regione.lower()), dpi = 100, bbox_inches='tight')
         plt.close(fig)
