@@ -184,8 +184,8 @@ def start(update, context):
     """Send a message when the command /start is issued."""
     update.message.reply_text('Ciao! Sono CovidItaliaNews_bot, spero di darti buone notizie oggi!' +
     '\nSono un grande esperto dei dati della pandemia che stiamo vivendo.\n' +
-    'Chiedimi pure quello che vuoi :)\n\n' +
-    'Per ricevere la notifica giornaliera digita \"iscrivimi\"')
+    'Chiedimi pure quello che vuoi :)')
+    #'Per ricevere la notifica giornaliera digita \"iscrivimi\"')
     help_command(update, context)
     update.message.reply_text("Ricordati che in ogni momento puoi vedere ciò che puoi chiedermi tramite /help")
 

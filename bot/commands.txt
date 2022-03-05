@@ -23,9 +23,6 @@ positivi recenti piemonte
 terapia intensiva recenti sardegna
 vaccini
 
-Se vuoi ricevere le notifiche giornaliere fammelo sapere con "iscrivimi" (indicativamente tra le 16.30 e le 18.00) sara' un solo messaggio, [NO SPAM]
-Se, invece, non vuoi (ahime') piu' ricevere le mie notifiche fammelo sapere con "disiscrivimi" 
-
 Se infine vuoi dare un feedback ai miei padroni scrivimi "feedback" prima del tuo commento, esempio:
 
 feedback Ma quanto e' simpatico questo bot!
