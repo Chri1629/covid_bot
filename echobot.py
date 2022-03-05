@@ -100,7 +100,7 @@ def update_data(force = False):
 # schedule function
 def shedule_update():
     update_data(force = False)
-    personal_updates()
+    #personal_updates() # NO UPDATES
 
 # send a message to chat_id
 def send_message(chat_id, message):
