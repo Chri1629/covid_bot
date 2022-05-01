@@ -4,6 +4,11 @@ import numpy as np
 import datetime as dt
 import matplotlib.dates as mdates
 
+# y axis formatter
+def millions(x, pos):
+    """The two arguments are the value and tick position."""
+    return '{:1.1f} mln'.format(x*1e-6)
+
 def att_positivi():
     base = dt.datetime(2020, 2, 24)
     dati_regione = pd.read_csv("data/dati_regioni.csv", sep = ",")
@@ -20,6 +25,7 @@ def att_positivi():
     l1 = plt.scatter(x = max(date), y = raggruppati['totale_positivi'].tail(1).values[0], color = "#8A2BE2", alpha = 1)
     ax.xaxis.set_major_locator(mdates.MonthLocator())
     ax.xaxis.set_major_formatter(mdates.DateFormatter('%b'))
+    ax.yaxis.set_major_formatter(millions)
     plt.ylim(bottom = 0)
     plt.xlabel("Data", size = 12)
     plt.ylabel("Attuali positivi", size = 12)
@@ -64,6 +70,7 @@ def att_positivi():
     l1 = plt.scatter(x = max(date), y = raggruppati['totale_positivi'].tail(1).values[0], color = "#8A2BE2", alpha = 1)
     ax.xaxis.set_major_locator(mdates.DayLocator(interval = 4))
     ax.xaxis.set_major_formatter(mdates.DateFormatter('%d-%h'))
+    ax.yaxis.set_major_formatter(millions)
     plt.ylim(bottom = 0)
     plt.xlabel("Data", size = 12)
     plt.ylabel("Attuali positivi", size = 12)

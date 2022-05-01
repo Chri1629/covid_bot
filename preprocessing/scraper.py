@@ -53,16 +53,17 @@ def scrape_vaccini(force = False):
       writer = csv.writer(csv_file, delimiter = ",")
       for line in data:
           l = re.split(',', line)
-          if len(l) != 15:
-              raise ValueError("somministrazioni-vaccini-latest - wrong number of columns")
+          #if len(l) != 15:
+          #    raise ValueError("somministrazioni-vaccini-latest - wrong number of columns")
           writer.writerow(l)
    
    with open("data/vaccini_reg.csv", "w", encoding = "utf-8") as csv_file:
       writer = csv.writer(csv_file, delimiter = ",")
       for line in data_reg:
           l = re.split(',', line)
-          if len(l) != 14:
-              raise ValueError("somministrazioni-vaccini-summary-latest - wrong number of columns")
+          
+          #if len(l) != 14:
+          #    raise ValueError("somministrazioni-vaccini-summary-latest - wrong number of columns")
           writer.writerow(l)
    
    with open("data/vaccini_platea.csv", "w", encoding = "utf-8") as csv_file:
