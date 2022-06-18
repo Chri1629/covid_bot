@@ -78,12 +78,12 @@ def scrape_vaccini(force = False):
    df = pd.read_csv("data/vaccini.csv", sep = ',')
 
    # formato data
-   df['data_somministrazione']= pd.to_datetime(df['data_somministrazione'])
+   df['data']= pd.to_datetime(df['data'])
    
    # NO Na
-   df['regione'] = df['nome_area'] # rename
-   df['data'] = df['data_somministrazione'] # rename
-   df = df.drop(['data_somministrazione', 'area', 'codice_NUTS1', 'nome_area', 'codice_NUTS2', 'codice_regione_ISTAT'], axis = 1)
+   df['regione'] = df['reg'] # rename
+   #df['data'] = df['data'] # rename
+   #df = df.drop(['data', 'area', 'codice_NUTS1', 'nome_area', 'codice_NUTS2', 'codice_regione_ISTAT'], axis = 1)
    
    # save fixed
    df.to_csv("data/vaccini_fixed.csv", index = False)

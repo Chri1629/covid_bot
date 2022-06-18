@@ -5,7 +5,7 @@ def preprocess_data(force = False):
     #print("SCRAPING THE DATA")
     flag = scrape(force)
     if (flag):
-       scrape_vaccini()
+       #scrape_vaccini()
        #print("DATA DOWNLOADED")
        fix_datasets()
        #print("DATA FIXED")

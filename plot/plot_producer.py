@@ -45,13 +45,13 @@ def plot_producer():
     att_positivi()
     
     # plot vaccini
-    Path("pics/vaccini").mkdir(parents=True, exist_ok=True)
-    Path("pics/vaccini/day").mkdir(parents=True, exist_ok=True)
-    Path("pics/vaccini/cum").mkdir(parents=True, exist_ok=True)
-    vaccini()
-    vaccini_cum()
-    vaccini_fasce()
-    vaccini_fasce_perc()
+    #Path("pics/vaccini").mkdir(parents=True, exist_ok=True)
+    #Path("pics/vaccini/day").mkdir(parents=True, exist_ok=True)
+    #Path("pics/vaccini/cum").mkdir(parents=True, exist_ok=True)
+    #vaccini()
+    #vaccini_cum()
+    #vaccini_fasce()
+    #vaccini_fasce_perc()
     #vaccini_reg()
     
     pass

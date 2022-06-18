@@ -488,12 +488,13 @@ def echo(update, context):
             send_region(update, "att_positivi", region)
             
     # vaccini
-    elif text_token[0] == 'vaccini':
-        if len(text_token) == 1:
-            update.message.reply_text(f'Ecco i dati relativi alle somministrazioni di vaccini in italia aggiornati al {s_date}')
-            for photo in os.listdir(f"{dir_pics}/vaccini"):
-                if photo.endswith('.png'):
-                   update.message.reply_photo(open(f"{dir_pics}/vaccini/{photo}", "rb"))
+    
+    #elif text_token[0] == 'vaccini':
+    #    if len(text_token) == 1:
+    #        update.message.reply_text(f'Ecco i dati relativi alle somministrazioni di vaccini in italia aggiornati al {s_date}')
+    #        for photo in os.listdir(f"{dir_pics}/vaccini"):
+    #            if photo.endswith('.png'):
+    #               update.message.reply_photo(open(f"{dir_pics}/vaccini/{photo}", "rb"))
         #else:
         #    region = check_region(text_token[1:])
         #    send_region(update, "vaccini/day", region)
